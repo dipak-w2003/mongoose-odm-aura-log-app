@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+* {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.sidebar-lv1 > .active,
+.side-bar2-active-link {
+  background-color: #293829;
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "title": "Getting Started with Node.js",
+    "slug": "getting-started-nodejs",
+    "content": "# Node.js Basics\nLearn how Node.js works and why it’s powerful for backend apps.",
+    "tags": ["nodejs", "backend", "javascript"],
+    "coverImage": "/images/node1.png",
+    "isPublished": true
+  },
+  {
+    "title": "Mastering Express Middleware",
+    "slug": "express-middleware-guide",
+    "content": "## Middleware in Express\nMiddleware helps intercept requests and responses in Express apps.",
+    "tags": ["express", "nodejs", "backend"],
+    "coverImage": "/images/express1.png",
+    "isPublished": true
+  },
+  {
+    "title": "Understanding MongoDB Aggregations",
+    "slug": "mongodb-aggregation",
+    "content": "### Aggregations\nMongoDB aggregations allow advanced data processing using pipelines.",
+    "tags": ["mongodb", "database", "nosql"],
+    "coverImage": "/images/mongo1.png",
+    "isPublished": true
+  },
+  {
+    "title": "React Hooks Deep Dive",
+    "slug": "react-hooks-deep-dive",
+    "content": "#### useState & useEffect\nReact hooks simplify state management and side effects.",
+    "tags": ["react", "frontend", "hooks"],
+    "coverImage": "/images/react1.png",
+    "isPublished": true
+  },
+  {
+    "title": "Building REST APIs with TypeScript",
+    "slug": "typescript-rest-api",
+    "content": "Learn how to build a REST API with Express and TypeScript for strong typing.",
+    "tags": ["typescript", "api", "backend"],
+    "coverImage": "/images/ts1.png",
+    "isPublished": true
+  },
+  {
+    "title": "GraphQL vs REST: When to Use What",
+    "slug": "graphql-vs-rest",
+    "content": "GraphQL offers flexibility, while REST is simple. Let’s compare.",
+    "tags": ["graphql", "rest", "api"],
+    "coverImage": "/images/graphql1.png",
+    "isPublished": true
+  },
+  {
+    "title": "Authentication with JWT",
+    "slug": "jwt-authentication",
+    "content": "JWT provides a stateless way to handle authentication in web apps.",
+    "tags": ["auth", "jwt", "security"],
+    "coverImage": "/images/jwt.png",
+    "isPublished": true
+  },
+  {
+    "title": "Optimizing React Performance",
+    "slug": "react-performance",
+    "content": "React provides memoization and lazy loading to optimize rendering.",
+    "tags": ["react", "performance", "frontend"],
+    "coverImage": "/images/react2.png",
+    "isPublished": true
+  },
+  {
+    "title": "Next.js for Beginners",
+    "slug": "nextjs-beginners",
+    "content": "Next.js makes server-side rendering easy and scalable.",
+    "tags": ["nextjs", "react", "frontend"],
+    "coverImage": "/images/next1.png",
+    "isPublished": true
+  },
+  {
+    "title": "Dockerizing Your Node.js App",
+    "slug": "docker-nodejs-app",
+    "content": "Docker allows containerization of Node.js apps for consistent deployment.",
+    "tags": ["docker", "nodejs", "devops"],
+    "coverImage": "/images/docker.png",
+    "isPublished": true
+  },
+  {
+    "title": "CI/CD with GitHub Actions",
+    "slug": "cicd-github-actions",
+    "content": "Automate build and deployment pipelines using GitHub Actions.",
+    "tags": ["cicd", "github", "devops"],
+    "coverImage": "/images/github.png",
+    "isPublished": true
+  },
+  {
+    "title": "Handling File Uploads in Express",
+    "slug": "express-file-uploads",
+    "content": "Use multer or busboy to handle file uploads in Node.js Express apps.",
+    "tags": ["express", "fileupload", "backend"],
+    "coverImage": "/images/upload.png",
+    "isPublished": true
+  },
+  {
+    "title": "State Management with Redux Toolkit",
+    "slug": "redux-toolkit",
+    "content": "Redux Toolkit simplifies state management with less boilerplate.",
+    "tags": ["redux", "react", "frontend"],
+    "coverImage": "/images/redux.png",
+    "isPublished": true
+  },
+  {
+    "title": "Testing APIs with Jest & Supertest",
+    "slug": "jest-supertest-api",
+    "content": "Learn to test REST APIs effectively using Jest and Supertest.",
+    "tags": ["testing", "jest", "api"],
+    "coverImage": "/images/jest.png",
+    "isPublished": true
+  },
+  {
+    "title": "Deploying Apps on Vercel",
+    "slug": "vercel-deployment",
+    "content": "Vercel offers fast and easy frontend deployment for React & Next.js.",
+    "tags": ["vercel", "deployment", "frontend"],
+    "coverImage": "/images/vercel.png",
+    "isPublished": true
+  },
+  {
+    "title": "Server-Side Rendering with React",
+    "slug": "react-ssr",
+    "content": "SSR improves SEO and initial load performance for React apps.",
+    "tags": ["react", "ssr", "frontend"],
+    "coverImage": "/images/ssr.png",
+    "isPublished": true
+  },
+  {
+    "title": "Securing APIs with Rate Limiting",
+    "slug": "api-rate-limiting",
+    "content": "Protect your APIs from abuse using rate limiting middleware.",
+    "tags": ["security", "api", "backend"],
+    "coverImage": "/images/security.png",
+    "isPublished": true
+  },
+  {
+    "title": "Introduction to WebSockets",
+    "slug": "websockets-intro",
+    "content": "WebSockets allow real-time bidirectional communication between client & server.",
+    "tags": ["websocket", "realtime", "backend"],
+    "coverImage": "/images/ws.png",
+    "isPublished": true
+  },
+  {
+    "title": "Microservices Architecture Explained",
+    "slug": "microservices-architecture",
+    "content": "Microservices split apps into smaller services for scalability.",
+    "tags": ["microservices", "architecture", "backend"],
+    "coverImage": "/images/micro.png",
+    "isPublished": true
+  },
+  {
+    "title": "Caching with Redis",
+    "slug": "redis-caching",
+    "content": "Redis provides fast in-memory caching for improving performance.",
+    "tags": ["redis", "cache", "performance"],
+    "coverImage": "/images/redis.png",
+    "isPublished": true
+  }
+]

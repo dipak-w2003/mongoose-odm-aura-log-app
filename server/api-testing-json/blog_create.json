@@ -1,0 +1,8 @@
+{
+  "title": "updated 2.0",
+  "slug": "getting-started-mdx-2.0",
+  "content": "# Hello World\nThis is my **first blog** using MDX!\n\n<Button>Click Me</Button>",
+  "tags": ["mdx", "nextjs", "mongodb"],
+  "coverImage": "https://example.com/cover.png",
+  "isPublished": true
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <image id="image_1" width="81" height="81" p3:href="data:image/png;base64,UklGRpgEAABXRUJQVlA4TIsEAAAvUAAUEOcgFkzmL90bwvzPP0G2Lf4JVoJJmmo7BmsACL+PALFtJEdSrTu/5vz/3+Sf517X9FTPfgAR/YcgSXLbBkWa8AGgjhf2whMAAAAAAAAAAAAAAAAAoOn7vu/7vm8AAAAAAAAAAAAAAKiztzvdHimllFJKKaX0uJ06ca2SQA63v5RSSiklf+lv2W0zG5aMohKG6rPDj8f15/kcx3Ecx+fTF/qh6mzvzJ7j0BTEP4zvnKdXvQ1trv77UdXp8ZlvaOvcl0zAYxP61vHDP3eqR/09N2HTWydMbMLvZJNad1Sx5pmJQX84sgV01Sz6Tdcx9A6m1jRDJgauhYxgdZW6hv0JXaPx9O6qgwxf4gm6mw1g602XJDS+N8GuN/2OYPd/7l1/0a4yyw972xdiN7xu0huCUFjBbc4FGtl9EAqCWrgaqfVp5peBvYcbO/ft0Ogv+E0pXYtv7OTZ4oeISyN7f0lVPxHayQ1AjBgyyRDP0aXhpPrJSx4xnk7cmVTSxx7507MNxYhNKXvmdc+ERQUMe2RyN9NvRBAjrx0KQGkfrT5M/yx2XpdQgKil4PgkR9GXZ+LN1O1HOc9GzIgFxPC1XvAhMxXabXHV97uSjSgi1WHSPtG0fNcZexlDktb1Dz9nTmX/i6Kzp671Rmb0B+jM28UPNeWKWtdF+WtGsPJrp0WDNjMSdWqcBr5wXZH5ZYZEvAiYNzFkBq15EzGkApCqnPyd5p4QxwZ/YBtbQuAAOSJRfSPLbYtjAWFmctPNWWAoc5gmPAKC20vvMuRbORUNMh9ySmSPAoYwhoWSKGfI4G8oLmC9IYGeBOZDD/MUF8qxiBUQIVvgDoR5rghcA1mRj2xOHeycNiL5F4fDLvPAb6h02Aw4tcCZEGnsxx7T8vgWTW4sEg3ZhgWMWLLtVoMVEnWzE9rexlK6rA7MqMyinLZYDKFPP0azxPlbBVIgPwfzTIb01SbNXGrUYcPgl3+yg5IlOzBXu0sghnt+J8W66reKYgYuOQrWHjKC2I8YTlvJ/U/+56SK/y0W3Bv1MiyIsc/Y4Y2Hl+txkKTyJugB3C4qWL9QYFGul2VXISzeTYYdTnvjcdk18tPKhVzqVIxIApleXm/H3XrJeCwURJSvOnBnxUj5/CmjiAQubMoFkVuM2EsKH3rhqoMbH2vDiNtFv24VQoVNkXNX8Jaxuzsuzt7rsStI/3z9dSY+uppsfUF80qd1+08ZZe5U1PvN4H7wAM7qjYJoz61DvWUl0T5SpX5bUFzZNM41drqt//BMLIn9woatgirxYIOH37OvUkt/uLkT749RfG4q9SS+QJ4jZLTB41AriNErOoMNng2aO6EEQQL5cDx0IFIsKll0NTs7awpDPZKQMrKWaTUo/2FVR5XBxKZKLLyxZbOqQ1lUhjliI9SHmayd29TQb9aFncT4luV/ay+c+7nHSnH9nveKT63I1xeh8wSwXuB8Ogg+HdrCew+L1wqnDljtSZ6VPpbLZXlQVPNm9ROa66ccetym/+wkEJX7sGtUKFFyvB82TbyO8xrB/Kg27qPnAQA=" xmlns:p3="http://www.w3.org/1999/xlink" />
+    <pattern id="pattern_2" patternTransform="scale(0.407 0.407)" width="3.455" height="3.455">
+      <use p4:href="#image_1" xmlns:p4="http://www.w3.org/1999/xlink" />
+    </pattern>
+  </defs>
+  <rect width="33" height="33" fill="url(#pattern_2)" fill-rule="evenodd" />
+</svg>

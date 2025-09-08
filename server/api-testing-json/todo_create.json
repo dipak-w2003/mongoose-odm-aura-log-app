@@ -1,0 +1,13 @@
+{
+  "title": "Updated Title",
+  "description": "Complete the Todo API controllers and schema",
+  "status": "archived",
+  "priority": "high",
+  "tags": ["work", "backend"],
+  "dueDate": "2025-09-01T18:00:00.000Z",
+  "reminders": ["2025-08-31T18:00:00.000Z", "2025-09-01T09:00:00.000Z"],
+  "subtasks": [
+    { "title": "Write schema", "status": "completed" },
+    { "title": "Write controllers", "status": "pending" }
+  ]
+}
