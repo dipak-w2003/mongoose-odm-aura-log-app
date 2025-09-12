@@ -1,12 +1,23 @@
+import { Status } from "@/lib/global";
+import { registerUser } from "@/lib/store/global/auth/register/user-register-slice";
 import type { IUserRegister } from "@/lib/store/global/auth/register/user-register-slice.type";
+import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useState, type ChangeEvent, type FormEvent, type FC } from "react";
-import type { IRegisterPageChildProps } from "./register-page"; // import prop type
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const RegisterFormPage: FC<IRegisterPageChildProps> = ({ setNextPage }) => {
+const RegisterFormPage: FC = () => {
+  const { status: registerStatus } = useSelector(
+    (state: RootState) => state.userRegister
+  );
+  console.log(registerStatus);
+
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
   const [userFormData, setUserFormData] = useState<IUserRegister>({
     email: "",
     password: "",
-    username: "",
+    name: "",
     confirmPassword: "",
   });
 
@@ -21,22 +32,23 @@ const RegisterFormPage: FC<IRegisterPageChildProps> = ({ setNextPage }) => {
   const handleFormSubmission = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (userFormData.password !== userFormData.confirmPassword) {
-      console.log("Password & confirmation password should be same");
+      alert("Form Data Invalid");
       return;
     }
-
-    console.log("Form submitted:", userFormData);
-
-    // Reset form
-    setUserFormData({
-      email: "",
-      password: "",
-      username: "",
-      confirmPassword: "",
-    });
-
-    // Move to next page in parent
-    return setNextPage("register-email-verification-token-page");
+    await dispatch(registerUser(userFormData));
+    if (registerStatus === Status.SUCCESS) {
+      console.log("Form submitted:", userFormData);
+      // Reset form
+      setUserFormData({
+        email: "",
+        password: "",
+        name: "",
+        confirmPassword: "",
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 200);
+    }
   };
 
   return (
@@ -49,19 +61,19 @@ const RegisterFormPage: FC<IRegisterPageChildProps> = ({ setNextPage }) => {
         className="w-[90%] mt-8 flex flex-col gap-4"
       >
         <div className="flex flex-col w-[350px] gap-1">
-          <label className="text-md" htmlFor="username">
+          <label className="text-md" htmlFor="name">
             Username
           </label>
           <input
             required
-            id="username"
+            id="name"
             onChange={handleUserInputForm}
-            name="username"
+            name="name"
             type="text"
             className="bg-[#1D271D] w-full px-3 py-3 outline-[#293829] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
             placeholder="joe@123"
             autoComplete="off"
-            value={userFormData.username}
+            value={userFormData.name}
           />
         </div>
         <div className="flex flex-col w-[350px] gap-1">

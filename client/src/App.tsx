@@ -46,7 +46,7 @@ const AllBlogsMainPage = lazy(
 const RegisterFormPage = lazy(
   () => import("./pages/global/auth/register/register-form-page")
 );
-const LoginPage  = lazy(()=>import  ( "./pages/global/auth/login/login-page"));
+const LoginPage = lazy(() => import("./pages/global/auth/login/login-page"));
 const Layout = () => (
   <main
     className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
@@ -106,7 +106,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <RegisterFormPage />,
+        element: <PublicRoute children={<RegisterFormPage />} />,
       },
       {
         path: "profile",
