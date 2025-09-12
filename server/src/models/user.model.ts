@@ -9,6 +9,7 @@ export interface IUser extends Document {
   mobile_no?: string; // optional, not everyone adds mobile
   // is_logged: true | false,
   is_blocked: true | false,
+  is_verified: true | false,
   createdAt: Date;
   updatedAt: Date;
 }
@@ -44,6 +45,7 @@ const userSchema: Schema<IUser> = new Schema(
       default: "user",
     },
 
+
     mobile_no: {
       type: String,
       match: [/^\d{10,15}$/, "Invalid mobile number"],
@@ -51,6 +53,10 @@ const userSchema: Schema<IUser> = new Schema(
     }
 
     , is_blocked: {
+      type: Boolean,
+      default: false,
+    },
+    is_verified: {
       type: Boolean,
       default: false,
     },

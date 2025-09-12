@@ -7,24 +7,46 @@ import {
 } from "react-router-dom";
 import { SidebarLayout } from "./components/other/sidebar/sidebar-layout";
 import { activeTheme } from "./lib/store/global/theme/theme-changer-slice.type";
-import LoginPage from "./pages/global/auth/login/login-page";
 import PageNotFound404 from "./pages/error/page-not-found-page";
 import { lazy, type JSX } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./lib/store/store";
-import AllTaskMainPage from "./pages/todos/all-task/all-task-main-page";
-import ProgressTaskMainPage from "./pages/todos/progress-task/progress-task-main-page";
-import CrucialsTaskMainPage from "./pages/todos/crucials-task/crucials-task-main-page";
-import ArchivedTaskMainPage from "./pages/todos/archived-task/archived-task-main-page";
-import AddTaskMainPage from "./pages/todos/add-task/add-task-main-page";
-import AllNotesMainPage from "./pages/notes/all-notes/all-notes-main-page";
-import AllBlogsMainPage from "./pages/blogs/all-blogs/all-blogs-main-page";
-import RegisterPage from "./pages/global/auth/register/register-page";
 
+/**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
-const NoteMainPage = lazy(() => import("./pages/notes/note-main-page"));
-const BlogMainPage = lazy(() => import("./pages/blogs/blog-main-page"));
+const AddTaskMainPage = lazy(
+  () => import("./pages/todos/add-task/add-task-main-page")
+);
+const AllTaskMainPage = lazy(
+  () => import("./pages/todos/all-task/all-task-main-page")
+);
+const ProgressTaskMainPage = lazy(
+  () => import("./pages/todos/progress-task/progress-task-main-page")
+);
+const ArchivedTaskMainPage = lazy(
+  () => import("./pages/todos/archived-task/archived-task-main-page")
+);
+const CrucialsTaskMainPage = lazy(
+  () => import("./pages/todos/crucials-task/crucials-task-main-page")
+);
 
+/**@Notes_IMPORT */
+const NoteMainPage = lazy(() => import("./pages/notes/note-main-page"));
+const AllNotesMainPage = lazy(
+  () => import("./pages/notes/all-notes/all-notes-main-page")
+);
+
+/**@Blogs_IMPORT */
+const BlogMainPage = lazy(() => import("./pages/blogs/blog-main-page"));
+const AllBlogsMainPage = lazy(
+  () => import("./pages/blogs/all-blogs/all-blogs-main-page")
+);
+
+/**@Else_IMPORT */
+const RegisterFormPage = lazy(
+  () => import("./pages/global/auth/register/register-form-page")
+);
+const LoginPage  = lazy(()=>import  ( "./pages/global/auth/login/login-page"));
 const Layout = () => (
   <main
     className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
@@ -84,7 +106,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <RegisterPage />,
+        element: <RegisterFormPage />,
       },
       {
         path: "profile",

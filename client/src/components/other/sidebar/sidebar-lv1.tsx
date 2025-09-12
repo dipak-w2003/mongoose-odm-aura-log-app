@@ -18,26 +18,25 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
   const { user } = useSelector((state: RootState) => state.userLogin);
   const { isOpen, toggle } = useToggle();
   return (
-    <section
+    <main
       className={`h-full ${
         isOpen ? "w-[140px]" : "w-[45px]"
-      }  flex justify-between items-center  flex-col overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
+      }  relative   flex justify-between items-center  flex-col overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
           `}
     >
       {/* Top NavLinks */}
-      <div className=" mt-3 w-full rounded flex items-center justify-center  gap-1 *:w-[98%] flex-wrap ">
+      <section className=" mt-3 w-full rounded flex items-center justify-center  gap-1 *:w-[98%] flex-wrap ">
         {/* Before Log */}
-
-        <div className="rounded-full overflow-hidden flex justify-center items-center relative">
+        <div className="rounded-full overflow-hidden flex justify-center items-center">
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5taINn-ULi-Gw1l5g7VkiDfkzm6btlLN_zpw-RyeFwsuiQBxrU45vQuc8ySnQes48TZ4&usqp=CAU"
             className={`rounded-full object-center ${
               isOpen ? "h-14 w-14" : "h-8 w-8"
             }`}
-            alt=""
+            alt="_target"
           />
-          {isLoggedIn && (
-            <div className="active-circle absolute h-1 w-1 rounded-full left-6 top-1 bg-green-400" />
+          {isLoggedIn && !isOpen && (
+            <div className="active-circle absolute h-1 w-1 rounded-full left-0 top-3 bg-green-400 transition-all duration-300  " />
           )}
         </div>
         {isOpen && (
@@ -48,39 +47,41 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
 
         {/* After Login NavLinks */}
         <div className=" sidebar-lv1 mt-1 w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
-          {/* Before Log */}
-          <NavLink
-            to={"/user/todos"}
-            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
-          >
-            <img src={taskSVG} alt="" className="h-6 " />
-            {isOpen && <label className="text-md text-left">Todos</label>}
-          </NavLink>{" "}
-          <NavLink
-            to={"/user/notes"}
-            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
-          >
-            <img src={editSVG} alt="" className="h-5 " />
-            {isOpen && <label className="text-md text-left">Notes</label>}
-          </NavLink>{" "}
-          <NavLink
-            to={"/user/blogs"}
-            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
-          >
-            <img src={globeSVG} alt="" className="h-6 " />
-            {isOpen && <label className="text-md text-left">Blogs</label>}
-          </NavLink>
+          {isLoggedIn && (
+            <>
+              <NavLink
+                to={"/user/todos"}
+                className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+              >
+                <img src={taskSVG} alt="" className="h-6 " />
+                {isOpen && <label className="text-md text-left">Todos</label>}
+              </NavLink>{" "}
+              <NavLink
+                to={"/user/notes"}
+                className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+              >
+                <img src={editSVG} alt="" className="h-5 " />
+                {isOpen && <label className="text-md text-left">Notes</label>}
+              </NavLink>{" "}
+              <NavLink
+                to={"/user/blogs"}
+                className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+              >
+                <img src={globeSVG} alt="" className="h-5 " />
+                {isOpen && <label className="text-md text-left">Blogs</label>}
+              </NavLink>
+            </>
+          )}
         </div>
-      </div>
+      </section>
 
       {/* Bottom NavLinks */}
-      <div className=" sidebar-lv1 mb-1 w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
+      <section className=" sidebar-lv1 mb-1 w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
         {/* Before Log */}
-
-        {isLoggedIn == "undefined" ? (
+        {!isLoggedIn ? (
           <NavLink
             to={"/login"}
-            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
           >
             <img src={userSVG} alt="" className="h-6" />
             {isOpen && <label className="text-md">Login</label>}
@@ -88,7 +89,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
         ) : (
           <NavLink
             to={"/profile"}
-            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+            className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
           >
             <img src={gearSVG} alt="" className="h-6" />
             {isOpen && <label className="text-md">Profile</label>}
@@ -97,27 +98,26 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
 
         <NavLink
           to={"/"}
-          className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
+          className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
         >
           <img src={homeSVG} alt="" className="h-6 " />
           {isOpen && <label className="text-md text-left">Home</label>}
         </NavLink>
 
-        {/* After Log */}
-
         {/* Default */}
         <button
+          title="back"
           onClick={toggle}
-          className="link flex h-[40px] w-full items-center justify-center gap-4 rounded cursor-pointer"
+          className="link flex h-[40px] w-full items-center justify-center-safe gap-4 rounded cursor-pointer"
         >
           <img
             src={leftArrowSVG}
             alt=""
-            className={`h-6 ml-1  ${isOpen ? "rotate-0" : "-rotate-180"}`}
+            className={`h-5 ml-1  ${isOpen ? "rotate-0" : "-rotate-180"}`}
           />
         </button>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 };
 

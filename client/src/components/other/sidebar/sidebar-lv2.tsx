@@ -10,7 +10,6 @@ import {
   setSidebar2LinkActive,
   setSidebarParentName,
 } from "@/lib/store/additionals/sidebar/sidebar-slice";
-import { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
   const sideBar2LinksArray = useSelector(
@@ -48,9 +47,9 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
       className={`h-full ${
         isOpen ? "w-[160px]" : "w-[45px]"
       }  flex justify-between items-center  flex-col overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
-         mt-3 `}
+        -mt-[3.5px] `}
     >
-      <div className=" sidebar-lv1 mb-1 w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
+      <div className=" sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
         {/* Before Log */}
         <span className="link  cursor-pointer flex h-[40px] *:transition-all *:duration-200 overflow-hidden   w-full items-center justify-center gap-4 rounded">
           {
@@ -71,7 +70,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
                   ${setDefaultClassActiveLink(_)}
                 `}
               >
-                <img src={_.img ?? ""} alt="" className="h-6 cursor-pointer " />
+                <img src={_.img ?? ""} alt="" className="h-5 cursor-pointer " />
                 {isOpen && (
                   <label className="text-md line-clamp-5 cursor-pointer font-[400] ">
                     {_.name ?? "LINK"}

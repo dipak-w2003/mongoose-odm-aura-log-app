@@ -4,7 +4,7 @@ import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Status } from "@/lib/global";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { status } = useSelector((state: RootState) => state.userLogin);
@@ -82,12 +82,12 @@ const LoginPage = () => {
             Login
           </button>
 
-          <NavLink
+          <Link
             to={"/register"}
             className="cursor-pointer mt-48  px-3 py-2 w-full rounded text-center text-sm "
           >
             Don't have an account?
-          </NavLink>
+          </Link>
         </section>
       </form>
     </main>

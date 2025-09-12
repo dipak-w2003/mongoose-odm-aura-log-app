@@ -3,25 +3,26 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db-connection";
 import cors from "cors";
 
-// ROUTES
+/**@Import_Routes */
 import userRoute from './routes/user.route';
 import userTodoRoute from './routes/user-todo.route';
 import userTodoSubTask from './routes/user-todo-subtask.route';
 import userNoteRoute from './routes/user-note.route';
 import userBlogRoute from './routes/user-blog.route';
 
+/** @dotEnv */
 dotenv.config();
 
-// express calling
+/**@express_calling */
 const app = express();
 
 /** @Database_Calling */
 connectDB();
 
-/** @Receive Req.*values as json format */
+/** @ReceiveReq_JSON : Req.*values as json format */
 app.use(express.json());
 
-/** @CORS: Allow Backend API calling from other URLs */
+/** @CORS : Allow Backend API calling from other URLs */
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -29,7 +30,7 @@ app.use(
   })
 );
 
-// Routes
+/**@App_Routes */
 app.use('/api/auth/user', userRoute);
 app.use('/api/user/todo', userTodoRoute);
 app.use('/api/user/note', userNoteRoute);

@@ -10,6 +10,10 @@ export const envConfigs = {
     username: process.env.MONGO_DB_USERNAME,
     password: process.env.MONGO_DB_PASSWORD,
     cs: process.env.MONGO_DB_CS,
+  },
+  nodeMailer: {
+    gmail: process.env.NODEMAILER_GMAIL,
+    appPassword: process.env.NODEMAILER_GMAIL_APP_PASSWORD
   }
 }
 console.log(process.env.MONGO_DB_CS);
