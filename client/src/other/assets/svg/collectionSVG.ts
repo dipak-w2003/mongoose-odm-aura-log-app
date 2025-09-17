@@ -14,6 +14,8 @@ import positiveDynamic from "./positive-dynamic.svg"
 import conflictSVG from "./conflict.svg"
 import favoritesSVG from "./favorites.svg"
 import searchSVG from "./search.svg"
+import clockSVG from "./clock.svg"
+import multiplySVG from "./multiply.svg"
 export {
   userSVG, homeSVG, leftArrowSVG, plusSVG,
   listSVG,
@@ -27,5 +29,7 @@ export {
   positiveDynamic,
   conflictSVG,
   favoritesSVG,
-  searchSVG
+  searchSVG,
+  clockSVG,
+  multiplySVG
 }

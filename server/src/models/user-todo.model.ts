@@ -17,10 +17,7 @@ export interface ITodo extends Document {
   dueDate?: Date;
   completedAt?: Date;
   reminders?: Date[];
-  subtasks?: {
-    title: string;
-    status: "pending" | "completed";
-  }[];
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -90,17 +87,7 @@ const TodoSchema = new Schema<ITodo>(
       type: [Date], // multiple reminder times
     },
 
-    // Subtasks for this todo
-    subtasks: [
-      {
-        title: { type: String, required: true },
-        status: {
-          type: String,
-          enum: ["pending", "completed"],
-          default: "pending",
-        },
-      },
-    ],
+
   },
 
   // Automatically adds createdAt and updatedAt fields
