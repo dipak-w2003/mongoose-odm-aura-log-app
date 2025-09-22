@@ -1,11 +1,16 @@
+import type { Status } from "@/lib/global";
+
 export type todoStatus = "pending" | "in-progress" | "completed" | "archived"
 export type todoPriority = "low" | "medium" | "high" | "urgent";
 export interface ITodo {
   title: string;
   description?: string;
-  status: todoStatus;
+  status?: todoStatus;
   priority: todoPriority
   tags?: string[];
-  dueDate?: Date;
-  completedAt?: Date;
+  dueDate: Date;
+}
+export interface ITodoInitialState {
+  todo: ITodo[],
+  status: Status
 }

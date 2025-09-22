@@ -17,7 +17,6 @@ export interface ITodo extends Document {
   dueDate?: Date;
   completedAt?: Date;
   reminders?: Date[];
-
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,10 +31,14 @@ const TodoSchema = new Schema<ITodo>(
   {
     // User who owns this todo
     user: {
-      type: Schema.Types.ObjectId, // store ObjectId value
-      ref: "User",                 // reference to "User" collection
-      required: true,              // todo must always belong to a user
-      index: true                  // improve query speed when filtering by user
+      // store ObjectId value
+      type: Schema.Types.ObjectId,
+      // reference to "User" collection
+      ref: "User",
+      // todo must always belong to a user
+      required: true,
+      // improve query speed when filtering by user
+      index: true
     },
 
     // Main title of the todo
