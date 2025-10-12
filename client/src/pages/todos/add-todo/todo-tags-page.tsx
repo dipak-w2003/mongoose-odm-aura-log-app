@@ -8,7 +8,7 @@ import type { Action } from "@reduxjs/toolkit";
 import { useState, type ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const TaskTagsPage = () => {
+const TodoTagsPage = () => {
   const { todo } = useSelector((state: RootState) => state.tempTodoCollector);
   const dispatch: AppDispatch = useDispatch();
   const [tags, setTags] = useState<string>("");
@@ -80,4 +80,4 @@ const TaskTagsPage = () => {
   );
 };
 
-export default TaskTagsPage;
+export default TodoTagsPage;

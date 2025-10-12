@@ -24,28 +24,28 @@ export interface ISideBar {
 /**@Todos Links */
 export const sidebarLv2Todos: ISideBar[] = [
   {
-    id: 1, name: "All task", img: circlePlayButtonSVG, isActive: true, parentName: "todos", uniqueName: "1-all-task",
-    url: "/user/todos/all-task"
+    id: 1, name: "All todos", img: circlePlayButtonSVG, isActive: true, parentName: "todos", uniqueName: "1-all-todos",
+    url: "/user/todos/all-todos"
   },
   {
     id: 2, name: "Progress", img: positiveDynamic, isActive: false, parentName: "todos",
-    uniqueName: "2-progress-task",
-    url: "/user/todos/progress-task"
+    uniqueName: "2-progress-todos",
+    url: "/user/todos/progress-todos"
   },
   {
     id: 3, name: "Crucials", img: conflictSVG, isActive: false, parentName: "todos",
-    uniqueName: "3-crucial-task",
-    url: "/user/todos/crucial-task"
+    uniqueName: "3-crucial-todos",
+    url: "/user/todos/crucial-todos"
   },
   {
     id: 4, name: "Archived", img: favoritesSVG, isActive: false, parentName: "todos",
-    uniqueName: "4-archived-task",
-    url: "/user/todos/archived-task"
+    uniqueName: "4-archived-todos",
+    url: "/user/todos/archived-todos"
   },
   {
-    id: 5, name: "Add Task", img: plusSVG, isActive: false, parentName: "todos",
-    uniqueName: "5-add-task",
-    url: "/user/todos/add-task"
+    id: 5, name: "Add Todo", img: plusSVG, isActive: false, parentName: "todos",
+    uniqueName: "5-add-todo",
+    url: "/user/todos/add-todo"
   }
 ]
 
@@ -82,11 +82,11 @@ export const sidebarLv2: ISideBar[] = [
  * Manually add list of side
    */
 export const sidebarLv2UniqueNamesArray = [
-  "1-all-task",
-  "2-progress-task",
-  "3-crucial-task",
-  "4-archived-task",
-  "5-add-task",
+  "1-all-todos",
+  "2-progress-todos",
+  "3-crucial-todos",
+  "4-archived-todos",
+  "5-add-todo",
   "1-all-notes",
   "1-all-blogs"
 ] as const;
@@ -106,7 +106,7 @@ export type ISidebarLv2ChildrenUniqueNamesType = typeof sidebarLv2UniqueNamesArr
 const parentCollection: { name: string, sname: string, sparent: ISidebarParentNames }[] = [
 
   {
-    name: "Task Manager",
+    name: "Todo Manager",
     sname: "TM",
     sparent: "todos"
   },

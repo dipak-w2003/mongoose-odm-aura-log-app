@@ -2,7 +2,6 @@ import type { todoPriority } from "@/lib/store/todos/todos-slice-type";
 import { clockSVG } from "@/other/assets/svg/collectionSVG";
 import { useEffect, type ChangeEvent, type FormEvent } from "react";
 import SubTaskPage from "./subtask-page";
-import TaskTagsPage from "./task-tags-page";
 import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,8 +14,9 @@ import {
   resetTempTodoCollector,
 } from "@/lib/store/todos/temp-todos-collector-slice";
 import { addTodo, addTodos } from "@/lib/store/todos/todos-slice";
+import TodoTagsPage from "./todo-tags-page";
 
-const AddTaskMainPage = () => {
+const AddTodoMainPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { _isNullificationExists, todo } = useSelector(
     (state: RootState) => state.tempTodoCollector
@@ -146,7 +146,7 @@ const AddTaskMainPage = () => {
         {/* Middle Section : Todos Sub Task */}
         <SubTaskPage />
         {/* Bottom Section : Todos Task Tags */}
-        <TaskTagsPage />
+        <TodoTagsPage />
         {/*Submission Button  */}
         <button
           type="submit"
@@ -159,4 +159,4 @@ const AddTaskMainPage = () => {
   );
 };
 
-export default AddTaskMainPage;
+export default AddTodoMainPage;

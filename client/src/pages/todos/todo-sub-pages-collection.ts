@@ -2,11 +2,11 @@
 import type { ISidebarLv2ChildrenUniqueNamesType, ISidebarParentNames } from "@/components/other/sidebar/sidebar.type";
 import type React from "react";
 
-import AllTaskMainPage from "./all-task/all-task-main-page";
-import ProgressTaskMainPage from "./progress-task/progress-task-main-page";
-import CrucialsTaskMainPage from "./crucials-task/crucials-task-main-page";
-import ArchivedTaskMainPage from "./archived-task/archived-task-main-page";
-import AddTaskMainPage from "./add-task/add-task-main-page";
+import AllTodosMainPage from "./all-todos/all-todos-main-page";
+import ProgressTodosMainPage from "./progress-todos/progress-todos-main-page";
+import CrucialsTodosMainPage from "./crucials-todos/crucials-todos-main-page";
+import ArchivedTodosMainPage from "./archived-todos/archived-todos-main-page";
+import AddTodosMainPage from "./add-todo/add-todo-main-page";
 
 // ---------------- Page Collection Types ----------------
 export interface ISubPagesCollection {
@@ -19,32 +19,32 @@ export interface ISubPagesCollection {
 // ---------------- Todo Pages ----------------
 export const todoPagesCollectionNode: ISubPagesCollection[] = [
   {
-    id: "1-all-task",
-    childNode: AllTaskMainPage,
+    id: "1-all-todos",
+    childNode: AllTodosMainPage,
     isActive: false,
     parentName: "todos"
   },
   {
-    id: "2-progress-task",
-    childNode: ProgressTaskMainPage,
+    id: "2-progress-todos",
+    childNode: ProgressTodosMainPage,
     isActive: false,
     parentName: "todos"
   },
   {
-    id: "3-crucial-task",
-    childNode: CrucialsTaskMainPage,
+    id: "3-crucial-todos",
+    childNode: CrucialsTodosMainPage,
     isActive: false,
     parentName: "todos"
   },
   {
-    id: "4-archived-task",
-    childNode: ArchivedTaskMainPage,
+    id: "4-archived-todos",
+    childNode: ArchivedTodosMainPage,
     isActive: false,
     parentName: "todos"
   },
   {
-    id: "5-add-task",
-    childNode: AddTaskMainPage,
+    id: "5-add-todo",
+    childNode: AddTodosMainPage,
     isActive: false,
     parentName: "todos"
   }

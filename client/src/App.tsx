@@ -14,20 +14,20 @@ import type { RootState } from "./lib/store/store";
 
 /**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
-const AddTaskMainPage = lazy(
-  () => import("./pages/todos/add-task/add-task-main-page")
+const AddTodoMainPage = lazy(
+  () => import("./pages/todos/add-todo/add-todo-main-page")
 );
-const AllTaskMainPage = lazy(
-  () => import("./pages/todos/all-task/all-task-main-page")
+const AllTodosMainPage = lazy(
+  () => import("./pages/todos/all-todos/all-todos-main-page")
 );
-const ProgressTaskMainPage = lazy(
-  () => import("./pages/todos/progress-task/progress-task-main-page")
+const ProgressTodosMainPage = lazy(
+  () => import("./pages/todos/progress-todos/progress-todos-main-page")
 );
-const ArchivedTaskMainPage = lazy(
-  () => import("./pages/todos/archived-task/archived-task-main-page")
+const ArchivedTodosMainPage = lazy(
+  () => import("./pages/todos/archived-todos/archived-todos-main-page")
 );
-const CrucialsTaskMainPage = lazy(
-  () => import("./pages/todos/crucials-task/crucials-task-main-page")
+const CrucialsTodosMainPage = lazy(
+  () => import("./pages/todos/crucials-todos/crucials-todos-main-page")
 );
 
 /**@Notes_IMPORT */
@@ -122,27 +122,27 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 // 👈 default route
-                element: <AllTaskMainPage />,
+                element: <AllTodosMainPage />,
               },
               {
-                path: "all-task",
-                element: <AllTaskMainPage />,
+                path: "all-todos",
+                element: <AllTodosMainPage />,
               },
               {
-                path: "progress-task",
-                element: <ProgressTaskMainPage />,
+                path: "progress-todos",
+                element: <ProgressTodosMainPage />,
               },
               {
-                path: "crucial-task",
-                element: <CrucialsTaskMainPage />,
+                path: "crucial-todos",
+                element: <CrucialsTodosMainPage />,
               },
               {
-                path: "archived-task",
-                element: <ArchivedTaskMainPage />,
+                path: "archived-todos",
+                element: <ArchivedTodosMainPage />,
               },
               {
-                path: "add-task",
-                element: <AddTaskMainPage />,
+                path: "add-todo",
+                element: <AddTodoMainPage />,
               },
             ],
           },
