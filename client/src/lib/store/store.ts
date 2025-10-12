@@ -3,12 +3,16 @@ import themeChoose from "./global/theme/theme-changer-slice"
 import userLoginSlice from "./global/auth/login/user-login-slice"
 import userRegisterlice from "./global/auth/register/user-register-slice"
 import sidebarLv2Slice from "./additionals/sidebar/sidebar-slice"
+import tempTodoCollectorSlice from "./todos/temp-todos-collector-slice"
+import todoSlice from "./todos/todos-slice"
 export const store = configureStore({
   reducer: {
     sidebar2LinkManage: sidebarLv2Slice,
     themeChoose: themeChoose,
     userLogin: userLoginSlice,
-    userRegister: userRegisterlice
+    userRegister: userRegisterlice,
+    tempTodoCollector: tempTodoCollectorSlice,
+    todos: todoSlice
   },
 })
 

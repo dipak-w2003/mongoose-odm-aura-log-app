@@ -7,7 +7,7 @@ import { ITodo, TodoModel } from "../models/user-todo.model";
 // Create User Todo
 export const createTodo = async (req: IExtendedRequest, res: Response) => {
   try {
-    const { title, description, status, priority, tags, dueDate, reminders, subtasks } = req.body as ITodo
+    const { title, description, status, priority, tags, dueDate, reminders } = req.body as ITodo
     const userId = req.user?.id
     const newTodo = await TodoModel.create({
       user: userId,
@@ -18,7 +18,6 @@ export const createTodo = async (req: IExtendedRequest, res: Response) => {
       tags,
       dueDate,
       reminders,
-      subtasks
     })
     res.status(201).json({
       message: "Todo creation successful",

@@ -8,9 +8,11 @@ export interface ITodo {
   status?: todoStatus;
   priority: todoPriority
   tags?: string[];
-  dueDate: Date;
+  dueDate: string;
+  time: string
 }
 export interface ITodoInitialState {
+  activeTodoIndex: number;
   todo: ITodo[],
   status: Status
 }
