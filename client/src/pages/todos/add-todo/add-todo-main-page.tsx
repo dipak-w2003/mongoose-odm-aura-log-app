@@ -13,7 +13,7 @@ import {
   setValidateTodoTempCollectionNullifification,
   resetTempTodoCollector,
 } from "@/lib/store/todos/temp-todos-collector-slice";
-import { addTodo, addTodos } from "@/lib/store/todos/todos-slice";
+import { addTodos } from "@/lib/store/todos/todos-slice";
 import TodoTagsPage from "./todo-tags-page";
 
 const AddTodoMainPage = () => {
@@ -21,7 +21,9 @@ const AddTodoMainPage = () => {
   const { _isNullificationExists, todo } = useSelector(
     (state: RootState) => state.tempTodoCollector
   );
-  const { todo: todos } = useSelector((state: RootState) => state.todos);
+  const { todo: todos, status: todoStatus } = useSelector(
+    (state: RootState) => state.todos
+  );
   console.log(todo);
 
   const handleUserFormDataSubmission = async (
@@ -30,14 +32,14 @@ const AddTodoMainPage = () => {
     event.preventDefault();
     console.log("Page ; ", _isNullificationExists);
 
-    if (_isNullificationExists) {
-      console.log("Data InComplete");
+    if (_isNullificationExists && todoStatus !== "success") {
+      console.log("Todo Insertion Failure !");
     } else {
-      console.log("Data Complete");
+      console.log("Todo Insertion Success !");
       dispatch(addTodos(todo));
-      console.log("todos : ", todos);
+      // console.log("todos : ", todos);
       dispatch(resetTempTodoCollector());
-      console.log("Reset Form Success !");
+      // console.log("Reset Form Success !");
     }
   };
   useEffect(() => {

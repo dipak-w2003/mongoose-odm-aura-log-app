@@ -3,6 +3,7 @@ import type { ITodo, ITodoInitialState } from "./todos-slice-type";
 import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { ITempTodoCollector } from "./temp-todos-collector-slice";
 
 //  For Update and Delete Todos and Subtask 
 /**
@@ -50,15 +51,38 @@ export default TodoSlice.reducer
 
 
 
-export function addTodos(data: ITodo) {
+export function addTodos(data: ITempTodoCollector) {
   return async function (dispatch: AppDispatch) {
-    // const reponse = await APIWITHTOKEN.post("/user/todo", data)
-    // if (reponse.status !== 201) {
-    //   dispatch(setTodoStatus(Status.ERROR))
-    //   return;
-    // }
+
+    /**@FIRST_Response */
+    const [yyyy, mm, dd] = data.dueDate.split("-")
+    console.log([yyyy, mm, dd]);
+
+    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { ...data, dueDate: new Date() })
+    if (todo_reponse.status !== 201) {
+      dispatch(setTodoStatus(Status.ERROR))
+      return;
+    }
+
     dispatch(addTodo({ todo: data }))
-    console.log("THUNK DATA : ", data);
+    // console.log("THUNK DATA : ", data);
+
+    /**@SECOND_Response */
+    const _justCreatedTodoId = todo_reponse.data._justCreatedTodoId || null
+    console.log("Todo.id : ", _justCreatedTodoId);
+
+    //  Map new Subtask =>  { todoId: xyz, title:abc }
+    const tempSubtask = data.subtask?.map((_) => {
+      return { todoId: _justCreatedTodoId, title: _ }
+    })
+    console.log(tempSubtask);
+
+    const todosubtask_reponse = await APIWITHTOKEN.post("/user/todo/subtask", tempSubtask)
+
+    if (todosubtask_reponse.status !== 201) {
+      dispatch(setTodoStatus(Status.ERROR))
+      return;
+    }
 
     dispatch(setTodoStatus(Status.SUCCESS))
   }

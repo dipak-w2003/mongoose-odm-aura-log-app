@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { todoPriority } from "./todos-slice-type";
-interface ITempTodoCollector {
+export interface ITempTodoCollector {
   title: string,
   description: string,
   priority: todoPriority,

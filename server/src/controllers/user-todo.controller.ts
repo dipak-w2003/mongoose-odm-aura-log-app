@@ -21,7 +21,7 @@ export const createTodo = async (req: IExtendedRequest, res: Response) => {
     })
     res.status(201).json({
       message: "Todo creation successful",
-      data: newTodo
+      _justCreatedTodoId: newTodo.id
     })
   } catch (error: any) {
     console.log("Todo creation internal error :: ");
