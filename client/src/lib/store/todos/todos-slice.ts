@@ -45,12 +45,30 @@ const TodoSlice = createSlice({
      */
   }
 })
-export const { addTodo, setTodoStatus } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo } = TodoSlice.actions
 export default TodoSlice.reducer
 
 
+// Fetch Todos
+export function fetchTodos() {
+  return async function (dispatch: AppDispatch) {
+    const response = await APIWITHTOKEN.get("/user/todo")
+    if (response.status !== 200) {
+      dispatch(setTodoStatus(Status.ERROR))
+      return;
+    }
+    console.log("STATUS : ", response.status);
 
+    let data: ITodo[] | null = null;
+    data = response.data?.data
+    if (data && data.length !== 0) {
+      dispatch(setTodoStatus(Status.SUCCESS))
+      dispatch(fetchTodo({ todos: data }))
+    }
+  }
+}
 
+// Add Todo
 export function addTodos(data: ITempTodoCollector) {
   return async function (dispatch: AppDispatch) {
 
