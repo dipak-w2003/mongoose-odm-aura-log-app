@@ -14,7 +14,7 @@ const TodoTagsPage = () => {
   const [tags, setTags] = useState<string>("");
   const addTaskTags = () => {
     const TAGS_LIST_LIMIT = 6;
-    const tempArray = todo.tasktags;
+    const tempArray = todo.tags;
 
     const conditions = tempArray && tags.length !== 0 && tags.length! >= 6;
     if (conditions && tempArray.length < TAGS_LIST_LIMIT) {
@@ -33,8 +33,8 @@ const TodoTagsPage = () => {
       </header>
       {/* Sub Task List */}
       <div className="lower-section-subtask-list w-[90%] flex  gap-3  items-start min-h-[fit] overflow-y-scroll flex-wrap whitespace-nowrap ">
-        {todo.tasktags &&
-          todo.tasktags.map((_, __) => {
+        {todo.tags &&
+          todo.tags.map((_, __) => {
             return (
               <span className="pr-3  gap-1  w-fit  bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex   border-2 items-center  border-[#293829] ">
                 <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-3  border-[#293829] text-sm">
@@ -55,7 +55,7 @@ const TodoTagsPage = () => {
             );
           })}
       </div>
-      {todo.tasktags?.length !== 6 && (
+      {todo.tags?.length !== 6 && (
         <div className="lower-section-subtask-add-list flex gap-3 w-[90%] transition-all duration-150 ">
           <input
             id="tag"

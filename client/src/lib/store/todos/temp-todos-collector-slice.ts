@@ -7,7 +7,7 @@ export interface ITempTodoCollector {
   dueDate: string,
   time: string,
   subtask?: string[],
-  tasktags?: string[]
+  tags?: string[]
 }
 const initialState: { todo: ITempTodoCollector, _isNullificationExists: boolean } = {
   todo: {
@@ -16,7 +16,7 @@ const initialState: { todo: ITempTodoCollector, _isNullificationExists: boolean 
     dueDate: "",
     priority: "medium",
     subtask: [],
-    tasktags: [],
+    tags: [],
     time: "10:00"
   },
   _isNullificationExists: true
@@ -51,10 +51,10 @@ const tempTodoCollectorSlice = createSlice({
       state.todo.subtask?.splice(action.payload._idx, 1)
     },
     setTodoTaskTagsTemp(state, action: PayloadAction<string>) {
-      state.todo.tasktags?.push(action.payload)
+      state.todo.tags?.push(action.payload)
     },
     deleteTodoTaskTagsTemp(state, action: PayloadAction<{ _idx: number }>) {
-      state.todo.tasktags?.splice(action.payload._idx, 1)
+      state.todo.tags?.splice(action.payload._idx, 1)
     },
     setTodoTimeTemp(state, action: PayloadAction<string>) {
       state.todo.time = action.payload

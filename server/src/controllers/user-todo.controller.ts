@@ -19,8 +19,11 @@ export const createTodo = async (req: IExtendedRequest, res: Response) => {
       dueDate,
       reminders,
     })
+    console.log(tags, "Backend");
+
     res.status(201).json({
       message: "Todo creation successful",
+      data: newTodo,
       _justCreatedTodoId: newTodo.id
     })
   } catch (error: any) {
