@@ -1,5 +1,5 @@
-import { Status } from "@/lib/global";
 import type { AppDispatch, RootState } from "@/lib/store/store";
+import { fetchTodoSubtasks } from "@/lib/store/todos/todo-subtasks-slice";
 import { fetchTodos } from "@/lib/store/todos/todos-slice";
 import type { ITodo } from "@/lib/store/todos/todos-slice-type";
 import { useEffect, useState } from "react";
@@ -13,12 +13,14 @@ const AllTodosMainPage = () => {
   const dispatch: AppDispatch = useDispatch();
   function fetchings() {
     dispatch(fetchTodos());
+    dispatch(fetchTodoSubtasks());
     setAllTodosList(todosListState);
   }
   useEffect(() => {
     fetchings();
     console.log(allTodosList);
   }, [todoStatus]);
+  // Get Idea how to merge and show specific todos
   return <div>AllTodosMainPage</div>;
 };
 

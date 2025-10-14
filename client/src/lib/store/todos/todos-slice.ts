@@ -94,7 +94,6 @@ export function addTodos(data: ITempTodoCollector) {
     const tempSubtask = data.subtask?.map((_, __) => {
       return { todoId: _justCreatedTodoId, title: _, position: __ + 1 }
     })
-    console.log(tempSubtask);
 
     const todosubtask_reponse = await APIWITHTOKEN.post("/user/todo/subtask", tempSubtask)
 

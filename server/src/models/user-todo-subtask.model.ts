@@ -60,6 +60,7 @@ const TodoSubtaskSchema = new Schema<ITodoSubtask>(
       transform(doc, ret) {
         delete (ret as any)._id;
         delete (ret as any).user;
+        // delete (ret as any).todoId;
         return ret;
       }
     }
