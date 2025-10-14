@@ -58,19 +58,14 @@ const TodoSubtaskSchema = new Schema<ITodoSubtask>(
 
     toJSON: {
       transform(doc, ret) {
-        delete (ret as any).user; // never expose password
+        delete (ret as any)._id;
+        delete (ret as any).user;
         return ret;
       }
     }
   }
 );
 
-// Plugin
-TodoSubtaskSchema.plugin(AutoIncrement, {
-  id: "subtask_counter",
-  inc_field: "position",
-  reference_fields: ["user"],
-});
 
 export const TodoSubtaskModel = mongoose.model<ITodoSubtask>(
   "Todo-Subtask",

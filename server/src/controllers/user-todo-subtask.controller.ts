@@ -14,15 +14,16 @@ export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
   try {
     const createDatas: Partial<ITodoSubtask>[] | Partial<ITodoSubtask> = req.body.ids || req.body;
     const userId = req.user?.id;
-    const userTodoSubTaskList: ITodoSubtask[] = await TodoSubtaskModel.find({ user: userId })
+
+    let createdDatas: ITodoSubtask | null = null;
     if (Array.isArray(createDatas)) {
       const subTasks = createDatas.map((data) => ({ user: userId, ...data }));
       // Use create() for each to trigger mongoose-sequence plugin
       await Promise.all(subTasks.map((task) => TodoSubtaskModel.create(task)));
     } else {
-      await TodoSubtaskModel.create({ user: userId, ...createDatas });
+      createdDatas = await TodoSubtaskModel.create({ user: userId, ...createDatas });
     }
-    res.status(201).json({ message: "Subtasks created successfully!" });
+    res.status(201).json({ message: "Subtasks created successfully!", data: createDatas });
   } catch (error) {
     res.status(500).json({ message: "Failed to create subtasks", error });
   }

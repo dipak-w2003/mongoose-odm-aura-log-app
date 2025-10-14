@@ -52,15 +52,16 @@ export default TodoSlice.reducer
 // Fetch Todos
 export function fetchTodos() {
   return async function (dispatch: AppDispatch) {
-    const response = await APIWITHTOKEN.get("/user/todo")
-    if (response.status !== 200) {
+    const todos_response = await APIWITHTOKEN.get("/user/todo")
+    const subtask_response = await APIWITHTOKEN.get("/user/todo/subtask")
+    if (todos_response.status !== 200) {
       dispatch(setTodoStatus(Status.ERROR))
       return;
     }
-    console.log("STATUS : ", response.status);
+    console.log("SUBTASKS : ", subtask_response.data.data);
 
     let data: ITodo[] | null = null;
-    data = response.data?.data
+    data = todos_response.data?.data
     if (data && data.length !== 0) {
       dispatch(setTodoStatus(Status.SUCCESS))
       dispatch(fetchTodo({ todos: data }))
@@ -89,9 +90,9 @@ export function addTodos(data: ITempTodoCollector) {
     const _justCreatedTodoId = todo_reponse.data._justCreatedTodoId || null
     console.log("Todo.id : ", _justCreatedTodoId);
 
-    //  Map new Subtask =>  { todoId: xyz, title:abc }
-    const tempSubtask = data.subtask?.map((_) => {
-      return { todoId: _justCreatedTodoId, title: _ }
+    //  Map new Subtask =>  { todoId: xyz, title:abc, position: index + 1 }
+    const tempSubtask = data.subtask?.map((_, __) => {
+      return { todoId: _justCreatedTodoId, title: _, position: __ + 1 }
     })
     console.log(tempSubtask);
 
