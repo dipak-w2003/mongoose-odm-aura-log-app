@@ -61,15 +61,16 @@ const tempTodoCollectorSlice = createSlice({
     },
 
     setValidateTodoTempCollectionNullifification(state) {
-      let _checkNullification: boolean = Object.values(state.todo).some((_) => {
-        if (typeof (_) === "string") {
-          return _.length < 0
-        }
-      })
-      console.log("_checkNullification : ", _checkNullification);
+      let _checkNullificationStatus: boolean
+      const { description, dueDate, priority, time, title } = state.todo
 
-      if (_checkNullification) state._isNullificationExists = true;
-      else state._isNullificationExists = false;
+      if ((description && dueDate && priority && time && title).length > 2) {
+        _checkNullificationStatus = false;
+      } else {
+        _checkNullificationStatus = true;
+      }
+      state._isNullificationExists = _checkNullificationStatus
+
     },
     resetTempTodoCollector(state) {
       state.todo = initialState.todo

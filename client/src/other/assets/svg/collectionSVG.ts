@@ -16,6 +16,7 @@ import favoritesSVG from "./favorites.svg"
 import searchSVG from "./search.svg"
 import clockSVG from "./clock.svg"
 import multiplySVG from "./multiply.svg"
+import infoSVG from "./info-circle.svg"
 export {
   userSVG, homeSVG, leftArrowSVG, plusSVG,
   listSVG,
@@ -31,5 +32,6 @@ export {
   favoritesSVG,
   searchSVG,
   clockSVG,
-  multiplySVG
+  multiplySVG,
+  infoSVG
 }

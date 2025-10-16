@@ -22,8 +22,30 @@ const TodoTagsPage = () => {
       setTags("");
     }
   };
+
+  // Tags Mofifiers
+  function generateTodoTag(text: string): string {
+    return (
+      text
+        // remove leading/trailing spaces
+        // .trim()
+        // split on one or more spaces
+        .split(/\s+/)
+        // join words with underscore
+        .join("_")
+        // replace digits with %
+        // .replace(/[0-9]/g, "%")
+        // remove any special chars except letters, _ and %
+        // .replace(/[^a-zA-Z_%]/g, "_")
+        // make lowercase
+        .toLowerCase()
+    );
+  }
+
   const handleTaskTagsInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setTags(e.target.value);
+    const _text = e.target.value;
+    if (_text.length > 10) return;
+    setTags(generateTodoTag(_text));
   };
 
   return (
@@ -36,11 +58,14 @@ const TodoTagsPage = () => {
         {todo.tags &&
           todo.tags.map((_, __) => {
             return (
-              <span className="pr-3  gap-1  w-fit  bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex   border-2 items-center  border-[#293829] ">
+              <span
+                key={`todo-tags:${__}:${_}`}
+                className="pr-3  gap-1  w-fit  bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex   border-2 items-center  border-[#293829] "
+              >
                 <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-3  border-[#293829] text-sm">
                   {__ + 1}
                 </p>
-                <h3 className="text-sm ml-3">{_}</h3>
+                <h3 className="text-sm ml-3">#{_}</h3>
 
                 <img
                   src={multiplySVG}

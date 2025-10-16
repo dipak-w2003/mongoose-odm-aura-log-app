@@ -18,13 +18,11 @@ import TodoTagsPage from "./todo-tags-page";
 
 const AddTodoMainPage = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { _isNullificationExists, todo } = useSelector(
+  const { _isNullificationExists, todo: tempTodos } = useSelector(
     (state: RootState) => state.tempTodoCollector
   );
-  const { todo: todos, status: todoStatus } = useSelector(
-    (state: RootState) => state.todos
-  );
-  console.log(todo);
+  const { status: todoStatus } = useSelector((state: RootState) => state.todos);
+  console.log(tempTodos);
 
   const handleUserFormDataSubmission = async (
     event: FormEvent<HTMLFormElement>
@@ -36,7 +34,7 @@ const AddTodoMainPage = () => {
       console.log("Todo Insertion Failure !");
     } else {
       console.log("Todo Insertion Success !");
-      dispatch(addTodos(todo));
+      dispatch(addTodos(tempTodos));
       // console.log("todos : ", todos);
       dispatch(resetTempTodoCollector());
       // console.log("Reset Form Success !");
@@ -44,7 +42,7 @@ const AddTodoMainPage = () => {
   };
   useEffect(() => {
     dispatch(setValidateTodoTempCollectionNullifification());
-  }, [_isNullificationExists]);
+  }, [_isNullificationExists, tempTodos]);
   return (
     <main className="p-3 overflow-hidden">
       <header className="text-3xl font-extrabold">Create Task,</header>
@@ -58,7 +56,7 @@ const AddTodoMainPage = () => {
             onChange={(_: ChangeEvent<HTMLInputElement>) =>
               dispatch(setTodoTitleTemp(_.target.value))
             }
-            value={todo?.title}
+            value={tempTodos?.title}
             required
             id="title"
             name="title"
@@ -69,7 +67,7 @@ const AddTodoMainPage = () => {
           />
 
           <textarea
-            value={todo?.description}
+            value={tempTodos?.description}
             name="description"
             id="description"
             cols={3}
@@ -90,7 +88,7 @@ const AddTodoMainPage = () => {
               onChange={(_: ChangeEvent<HTMLSelectElement>) =>
                 dispatch(setTodoPriorityTemp(_.target.value as todoPriority))
               }
-              value={todo?.priority}
+              value={tempTodos?.priority}
               defaultValue={"medium"}
               name="priority"
               id="priority"
@@ -110,7 +108,7 @@ const AddTodoMainPage = () => {
               })}
             </select>
             <input
-              value={todo.dueDate}
+              value={tempTodos.dueDate}
               required
               id="dueDate"
               name="dueDate"
@@ -150,12 +148,14 @@ const AddTodoMainPage = () => {
         {/* Bottom Section : Todos Task Tags */}
         <TodoTagsPage />
         {/*Submission Button  */}
-        <button
-          type="submit"
-          className="cursor-pointer self-end mt-3  px-4 py-2 w-[90%] rounded  text-black bg-[rgba(41,224,41,0.59)]"
-        >
-          Add Task
-        </button>
+        {!_isNullificationExists && (
+          <button
+            type="submit"
+            className="cursor-pointer self-end mt-3  px-4 py-2 w-[90%] rounded  text-black bg-[rgba(41,224,41,0.59)]"
+          >
+            Add Task
+          </button>
+        )}
       </form>
     </main>
   );

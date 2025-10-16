@@ -3,7 +3,7 @@ import {
   deleteTodoSubTaskTemp,
   setTodoSubTaskTemp,
 } from "@/lib/store/todos/temp-todos-collector-slice";
-import { multiplySVG } from "@/other/assets/svg/collectionSVG";
+import { multiplySVG, infoSVG } from "@/other/assets/svg/collectionSVG";
 import { useState, useRef, type ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,10 +12,6 @@ const SubTaskPage = () => {
   const { todo } = useSelector((state: RootState) => state.tempTodoCollector);
   const dispatch: AppDispatch = useDispatch();
   const [subtask, setSubtask] = useState<string>("");
-
-  // Drag tracking refs
-  const dragItem = useRef<number | null>(null);
-  const dragOverItem = useRef<number | null>(null);
 
   const addSubtasks = () => {
     const SUBTASK_LIST_LIMIT = 6;
@@ -32,19 +28,63 @@ const SubTaskPage = () => {
     }
   };
 
+  // ================== DRAG & SUBTASK FUNCTIONALITY ==================
+
+  /**
+   * @comments
+   * Ref to store index of item being dragged
+   *  - dragItem.current = index of the subtask being dragged
+   *  - Initialized as null when nothing is being dragged
+   */
+
+  /**
+   *  @comments
+   * Ref to store index of item currently hovered over during drag
+   *  - dragOverItem.current = index of subtask currently under the cursor
+   *  - Used to determine where the dragged item should be dropped
+   */
+
+  /** @comments Function to handle adding a new subtask to the list
+   *  - Validates length of subtask (> 4 characters)
+   *  - Ensures total subtasks do not exceed SUBTASK_LIST_LIMIT
+   *  - Dispatches action to Redux to add subtask
+   *  - Resets input field after addition
+   */
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
+
+  /**
+   * @comments
+   * Function to handle the drop of a dragged subtask
+   *  - Retrieves the source index (dragItem.current) and target index (dragOverItem.current)
+   *  - Exits if indices are null or equal (no move)
+   *  - Copies current subtask array to avoid mutating Redux state directly
+   *  - Removes the dragged item from its original position using splice
+   *  - Inserts it at the target position using splice again
+   *  - Clears all subtasks in Redux and re-adds them in the new order
+   *  - Resets drag refs
+   */
   const handleDrop = () => {
     const from = dragItem.current;
     const to = dragOverItem.current;
     if (from === null || to === null || from === to) return;
 
+    /** @comments Create a shallow copy of current subtasks */
     const updated = [...(todo.subtask || [])];
+
+    /** @comments Remove the dragged subtask */
     const [moved] = updated.splice(from, 1);
+
+    /** @comments Insert the dragged subtask at the target index */
     updated.splice(to, 0, moved);
 
-    // Clear and re-add subtasks in new order
+    /** @comments Reset the Redux list by deleting all subtasks first */
     updated.forEach(() => dispatch(deleteTodoSubTaskTemp({ _idx: 0 })));
+
+    /** @comments Re-add subtasks in the new order to Redux */
     updated.forEach((t) => dispatch(setTodoSubTaskTemp(t)));
 
+    /** @comments Reset drag refs for next drag operation */
     dragItem.current = null;
     dragOverItem.current = null;
   };
@@ -73,9 +113,7 @@ const SubTaskPage = () => {
                 onDragEnd={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
                 whileDrag={{ scale: 1.05 }}
-                className="pr-3 gap-1 w-fit bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex 
-                  border-2 items-center border-[#293829] cursor-grab select-none transition-transform duration-150
-                  hover:scale-[1.01]"
+                className="pr-3 gap-1 w-fit bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex border-2 items-center border-[#293829] cursor-grab select-none transition-transform duration-150 hover:scale-[1.01]"
               >
                 <p className="ml-3 h-[30px] w-[30px] rounded-full flex justify-center items-center border-3 border-[#293829] text-sm">
                   {idx + 1}
@@ -114,7 +152,13 @@ const SubTaskPage = () => {
               autoComplete="off"
               value={subtask}
             />
-            <button className="absolute right-2">info</button>
+            <button
+              type="button"
+              className="absolute right-2 h-full cursor-pointer "
+              title="info"
+            >
+              <img src={infoSVG} className="h-5  hover:scale-[1.04]" alt="" />
+            </button>
           </span>
           <button
             onClick={addSubtasks}
