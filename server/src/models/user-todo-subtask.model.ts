@@ -36,6 +36,8 @@ export interface ITodoSubtask extends Document {
   todoId: mongoose.Types.ObjectId;
   title: string;
   status: "pending" | "in-progress" | "completed" | "archived";
+  completionMessage?: string;
+  completionStatus?: boolean;
   position: number;
   createdAt: Date;
   updatedAt: Date;
@@ -52,6 +54,16 @@ const TodoSubtaskSchema = new Schema<ITodoSubtask>(
       default: "pending",
     },
     position: { type: Number, index: true },
+
+    // Just Added
+    completionStatus: {
+      type: Boolean,
+      default: false
+    },
+    completionMessage: {
+      type: String,
+      default: "N/A"
+    }
   },
   {
     timestamps: true,

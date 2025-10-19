@@ -47,7 +47,7 @@ const TodoTagsPage = () => {
     if (_text.length > 10) return;
     setTags(generateTodoTag(_text));
   };
-
+  // Include transitions for items via framer-motion
   return (
     <section className="flex flex-col  gap-3  items-end w-full mt-6 mr-2">
       <header className="text-xl ml-3 font-extrabold self-start">

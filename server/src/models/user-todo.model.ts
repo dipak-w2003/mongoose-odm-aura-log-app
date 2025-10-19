@@ -17,6 +17,8 @@ export interface ITodo extends Document {
   dueDate?: Date;
   completedAt?: Date;
   reminders?: Date[];
+  isArchived?: boolean;
+  isTrashed?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -89,6 +91,16 @@ const TodoSchema = new Schema<ITodo>(
     reminders: {
       type: [Date], // multiple reminder times
     },
+
+    // Recently added
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
+    isTrashed: {
+      type: Boolean,
+      default: false,
+    }
 
 
   },

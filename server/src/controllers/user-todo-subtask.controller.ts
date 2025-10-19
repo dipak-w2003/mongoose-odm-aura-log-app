@@ -107,3 +107,81 @@ export const updateEntireSubTasks = async (req: IExtendedRequest, res: Response)
   }
 };
 
+
+// set false subtask completion status
+export const unsetSubtaskCompletionStatus = async (req: IExtendedRequest, res: Response) => {
+  try {
+    const userId = req.user?.id
+    const todoId: string = req.params.id
+    if (!userId) return res.status(401).json({
+      message: "Unathourized"
+    })
+    if (!todoId) return res.status(404).json({
+      message: "Todo not found or not yours !"
+    })
+
+    const _todoSetSubtaskCompletionStatus = await TodoSubtaskModel.findOneAndUpdate(
+      {
+        _id: todoId, user: userId
+      },
+      {
+        completionStatus: false,
+      },
+      {
+        new: true
+      })
+
+    if (!_todoSetSubtaskCompletionStatus) return res.status(404).json({
+      message: "Todo not found or not yours !"
+    })
+
+    res.status(200).json({
+      message: "subtask completion status updated to false successfully"
+    })
+  } catch (error: any) {
+    res.status(501).json({
+      message: error.message || "internal server error"
+    })
+  }
+}
+// set subtask completionMessage
+export const setSubtaskCompletionMessage = async (req: IExtendedRequest, res: Response) => {
+  try {
+    const userId = req.user?.id
+    const todoId: string = req.params.id
+    const todoSubtaskCompletionMessage: string = req.body.todoSubtaskCompletionMessage
+    if (!userId) return res.status(401).json({
+      message: "Unathourized"
+    })
+    if (!todoId) return res.status(404).json({
+      message: "Todo not found or not yours !"
+    })
+
+    if (!todoSubtaskCompletionMessage && todoSubtaskCompletionMessage.length < 0) return res.status(405).json({
+      message: "sub task completioon message required !"
+    })
+    const _todoSetSubtaskCompletionStatusAndMessage = await TodoSubtaskModel.findOneAndUpdate(
+      {
+        _id: todoId, user: userId
+      },
+      {
+        completionStatus: true,
+        completionMessage: todoSubtaskCompletionMessage
+      },
+      {
+        new: true
+      })
+
+    if (!_todoSetSubtaskCompletionStatusAndMessage) return res.status(404).json({
+      message: "Todo not found or not yours !"
+    })
+
+    res.status(200).json({
+      message: "subtask completion message updated successfully"
+    })
+  } catch (error: any) {
+    res.status(501).json({
+      message: error.message || "internal server error"
+    })
+  }
+}
