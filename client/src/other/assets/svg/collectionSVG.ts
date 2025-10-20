@@ -17,8 +17,19 @@ import searchSVG from "./search.svg"
 import clockSVG from "./clock.svg"
 import multiplySVG from "./multiply.svg"
 import infoSVG from "./info-circle.svg"
+import curvedStarSlashedSVG from "./curved-star-slashed.svg"
+import doubleRoundedTickSVG from "./double-rounded-tick.svg"
+import filterThreeLinedSVG from "./filter-three-lined.svg"
+import greenDoubledRoundedTickSVG from "./green-double-rounded-tikc.svg"
+import iconCarrierSVG from "./icon-carrier.svg"
+import redExclamationSVG from "./red-exclamation.svg"
+import tripleRoundedDotsSVG from "./triple-rounded-dots.svg"
+import yellowTripleRoundedDotsSVG from "./yellow-triple-rounded-dots.svg"
 export {
-  userSVG, homeSVG, leftArrowSVG, plusSVG,
+  userSVG,
+  homeSVG,
+  leftArrowSVG,
+  plusSVG,
   listSVG,
   boxSVG,
   comboChartSVG,
@@ -33,5 +44,13 @@ export {
   searchSVG,
   clockSVG,
   multiplySVG,
-  infoSVG
+  infoSVG,
+  curvedStarSlashedSVG,
+  doubleRoundedTickSVG,
+  filterThreeLinedSVG,
+  greenDoubledRoundedTickSVG,
+  iconCarrierSVG,
+  redExclamationSVG,
+  tripleRoundedDotsSVG,
+  yellowTripleRoundedDotsSVG,
 }
