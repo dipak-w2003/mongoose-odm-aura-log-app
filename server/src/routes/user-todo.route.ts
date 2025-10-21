@@ -9,12 +9,12 @@ router.route("/:id").patch(isLoggedIn, asyncErrorHandler(updateTodo)).delete(isL
 
 // Extra Routes
 
-router.route("set-archived/:id").post(isLoggedIn, asyncErrorHandler(setTodoArchive))
+router.route("/set-archived/:id").post(isLoggedIn, asyncErrorHandler(setTodoArchive))
 
-router.route("unset-archived/:id").post(isLoggedIn, asyncErrorHandler(unsetTodoArchive))
+router.route("/unset-archived/:id").post(isLoggedIn, asyncErrorHandler(unsetTodoArchive))
 
-router.route("set-trash/:id").post(isLoggedIn, asyncErrorHandler(setTodoTrashed))
+router.route("/set-trash/:id").post(isLoggedIn, asyncErrorHandler(setTodoTrashed))
 
-router.route("unset-trash/:id").post(isLoggedIn, asyncErrorHandler(unsetTodoArchive))
+router.route("/unset-trash/:id").post(isLoggedIn, asyncErrorHandler(unsetTodoArchive))
 
 export default router

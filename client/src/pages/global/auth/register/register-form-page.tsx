@@ -2,7 +2,13 @@ import { Status } from "@/lib/global";
 import { registerUser } from "@/lib/store/global/auth/register/user-register-slice";
 import type { IUserRegister } from "@/lib/store/global/auth/register/user-register-slice.type";
 import type { AppDispatch, RootState } from "@/lib/store/store";
-import { useState, type ChangeEvent, type FormEvent, type FC } from "react";
+import {
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+  type FC,
+  useEffect,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -50,7 +56,7 @@ const RegisterFormPage: FC = () => {
       }, 200);
     }
   };
-
+  useEffect(() => {}, [registerStatus]);
   return (
     <main className="flex flex-col justify-center items-center">
       <header className="text-3xl font-[400] w-3/4 text-right mt-6">
