@@ -1,7 +1,3 @@
-import type { AppDispatch, RootState } from "@/lib/store/store";
-import { fetchTodoSubtasks } from "@/lib/store/todos/todo-subtasks-slice";
-import { fetchTodos } from "@/lib/store/todos/todos-slice";
-import type { ITodo } from "@/lib/store/todos/todos-slice-type";
 import {
   filterThreeLinedSVG,
   greenDoubledRoundedTickSVG,
@@ -9,25 +5,9 @@ import {
   searchSVG,
   yellowTripleRoundedDotsSVG,
 } from "@/other/assets/svg/collectionSVG";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import type React from "react";
 
-const AllTodosMainPage = () => {
-  const [allTodosList, setAllTodosList] = useState<ITodo[]>([]);
-  const { status: todoStatus, todo: todosListState } = useSelector(
-    (state: RootState) => state.todos
-  );
-  const dispatch: AppDispatch = useDispatch();
-  function fetchings() {
-    dispatch(fetchTodos());
-    dispatch(fetchTodoSubtasks());
-    setAllTodosList(todosListState);
-  }
-  useEffect(() => {
-    fetchings();
-    console.log(allTodosList);
-  }, [todoStatus]);
-  // Get Idea how to merge and show specific todos
+const TodoFilterPanel = ({ child }: { child: React.ReactNode }) => {
   return (
     <main className="min-h-[100vh]  w-full  pr-5 relative">
       {/* section : filtered-labels, todos-status and search bars */}
@@ -89,14 +69,9 @@ const AllTodosMainPage = () => {
       </section>
 
       {/* section : filtered-labels, todos-status and search bars */}
-      <section className="lower-section relative top-28 mt-1">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum quisquam
-        ullam totam iure quia! Fuga ullam et possimus obcaecati quam
-        necessitatibus molestias ducimus quasi, quisquam dolor deserunt porro
-        placeat perspiciatis?
-      </section>
+      <section className="lower-section relative top-28 mt-1">{child}</section>
     </main>
   );
 };
 
-export default AllTodosMainPage;
+export default TodoFilterPanel;

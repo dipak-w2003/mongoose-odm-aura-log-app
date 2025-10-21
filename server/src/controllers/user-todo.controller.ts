@@ -14,7 +14,7 @@ export const createTodo = async (req: IExtendedRequest, res: Response) => {
       ..._gotTodoDetails
     })
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Todo creation successful",
       data: newTodo,
       _justCreatedTodoId: newTodo.id

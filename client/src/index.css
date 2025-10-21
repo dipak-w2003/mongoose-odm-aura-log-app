@@ -9,6 +9,9 @@ body {
   font-weight: 300;
   font-style: normal;
 }
+*::selection {
+  background: transparent;
+}
 
 .sidebar-lv1 > .active,
 .side-bar2-active-link {
@@ -19,6 +22,9 @@ body {
 .scrollbar-none {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 .scrollbar-none::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
