@@ -1,11 +1,11 @@
 import TodoFilterPanel from "../todo-filter-panel";
 
-const ArchivedTodosMainPage = () => {
+const TrashedTodosMainPage = () => {
   return (
     <TodoFilterPanel>
-      <main>Archived Todos Hai ta</main>
+      <main>Trashed Todo Hai ta !</main>
     </TodoFilterPanel>
   );
 };
 
-export default ArchivedTodosMainPage;
+export default TrashedTodosMainPage;

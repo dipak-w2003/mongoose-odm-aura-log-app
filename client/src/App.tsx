@@ -11,6 +11,9 @@ import PageNotFound404 from "./pages/error/page-not-found-page";
 import { lazy, type JSX } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./lib/store/store";
+import CompletedTodosMainPage from "./pages/todos/completed-todos/completed-todos-main-page";
+import PendingTodosMainPage from "./pages/todos/pending-todos/pending-todos-main-page";
+import TrashedTodosMainPage from "./pages/todos/trashed-todos/trashed-todos-main-page";
 
 /**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
@@ -129,16 +132,29 @@ export const router = createBrowserRouter([
                 element: <AllTodosMainPage />,
               },
               {
-                path: "progress-todos",
-                element: <ProgressTodosMainPage />,
-              },
-              {
                 path: "crucial-todos",
                 element: <CrucialsTodosMainPage />,
               },
               {
+                path: "completed-todos",
+                element: <CompletedTodosMainPage />,
+              },
+              {
+                path: "pending-todos",
+                element: <PendingTodosMainPage />,
+              },
+              {
+                path: "progress-todos",
+                element: <ProgressTodosMainPage />,
+              },
+
+              {
                 path: "archived-todos",
                 element: <ArchivedTodosMainPage />,
+              },
+              {
+                path: "trashed-todos",
+                element: <TrashedTodosMainPage />,
               },
               {
                 path: "add-todo",

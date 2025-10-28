@@ -25,6 +25,7 @@ import iconCarrierSVG from "./icon-carrier.svg"
 import redExclamationSVG from "./red-exclamation.svg"
 import tripleRoundedDotsSVG from "./triple-rounded-dots.svg"
 import yellowTripleRoundedDotsSVG from "./yellow-triple-rounded-dots.svg"
+import trashSVG from "./trash.svg"
 export {
   userSVG,
   homeSVG,
@@ -53,4 +54,5 @@ export {
   redExclamationSVG,
   tripleRoundedDotsSVG,
   yellowTripleRoundedDotsSVG,
+  trashSVG
 }

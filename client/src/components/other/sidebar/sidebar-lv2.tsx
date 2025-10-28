@@ -45,11 +45,11 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
   return (
     <section
       className={`h-full ${
-        isOpen ? "w-[160px]" : "w-[45px]"
+        isOpen ? "w-[180px]" : "w-[45px]"
       }  flex justify-between items-center  flex-col overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
-        -mt-[3.5px] `}
+         `}
     >
-      <div className=" sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
+      <div className="mt-3 sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
         {/* Before Log */}
         <span className="link  cursor-pointer flex h-[40px] *:transition-all *:duration-200 overflow-hidden   w-full items-center justify-center gap-4 rounded">
           {
@@ -66,15 +66,17 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
                 title={_.name}
                 key={`${_.id}-${_.name}-${_.isActive}`}
                 onClick={() => handleSideBar2ActiveLink(_)}
-                className={`link cursor-pointer  flex h-[40px]  w-full items-center justify-center gap-4 rounded
+                className={`link cursor-pointer  flex h-[40px]  w-full items-center ${
+                  isOpen ? "justify-start" : "justify-center"
+                } gap-3 px-3 rounded
                   ${setDefaultClassActiveLink(_)}
                 `}
               >
                 <img src={_.img ?? ""} alt="" className="h-5 cursor-pointer " />
                 {isOpen && (
-                  <label className="text-md line-clamp-5 cursor-pointer font-[400] ">
+                  <li className="text-sm transition-all duration-75  line-clamp-5 cursor-pointer font-[400] ">
                     {_.name ?? "LINK"}
-                  </label>
+                  </li>
                 )}
               </NavLink>
             );
@@ -87,7 +89,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
           <img
             src={leftArrowSVG}
             alt=""
-            className={`h-6 ml-1  ${isOpen ? "rotate-0" : "-rotate-180"}`}
+            className={`h-5 ml-1  ${isOpen ? "rotate-0" : "-rotate-180"}`}
           />
         </button>
       </div>

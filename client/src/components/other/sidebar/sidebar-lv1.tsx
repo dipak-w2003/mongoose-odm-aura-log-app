@@ -54,21 +54,21 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
                 className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
               >
                 <img src={taskSVG} alt="" className="h-6 " />
-                {isOpen && <label className="text-md text-left">Todos</label>}
+                {isOpen && <label className="text-sm text-left">Todos</label>}
               </NavLink>{" "}
               <NavLink
                 to={"/user/notes"}
                 className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
               >
                 <img src={editSVG} alt="" className="h-5 " />
-                {isOpen && <label className="text-md text-left">Notes</label>}
+                {isOpen && <label className="text-sm text-left">Notes</label>}
               </NavLink>{" "}
               <NavLink
                 to={"/user/blogs"}
                 className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center gap-4 rounded"
               >
                 <img src={globeSVG} alt="" className="h-5 " />
-                {isOpen && <label className="text-md text-left">Blogs</label>}
+                {isOpen && <label className="text-sm text-left">Blogs</label>}
               </NavLink>
             </>
           )}
@@ -84,7 +84,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
             className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
           >
             <img src={userSVG} alt="" className="h-6" />
-            {isOpen && <label className="text-md">Login</label>}
+            {isOpen && <label className="text-sm">Login</label>}
           </NavLink>
         ) : (
           <NavLink
@@ -92,7 +92,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
             className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
           >
             <img src={gearSVG} alt="" className="h-6" />
-            {isOpen && <label className="text-md">Profile</label>}
+            {isOpen && <label className="text-sm">Profile</label>}
           </NavLink>
         )}
 
@@ -101,7 +101,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
           className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
         >
           <img src={homeSVG} alt="" className="h-6 " />
-          {isOpen && <label className="text-md text-left">Home</label>}
+          {isOpen && <label className="text-sm text-left">Home</label>}
         </NavLink>
 
         {/* Default */}

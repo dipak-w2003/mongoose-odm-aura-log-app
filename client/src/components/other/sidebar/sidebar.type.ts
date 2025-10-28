@@ -1,10 +1,14 @@
 import {
   circlePlayButtonSVG,
   conflictSVG,
+  doubleRoundedTickSVG,
   favoritesSVG,
   globeSVG,
+  iconCarrierSVG,
   plusSVG,
-  positiveDynamic
+  positiveDynamic,
+  trashSVG,
+  tripleRoundedDotsSVG
 } from "@/other/assets/svg/collectionSVG"
 
 /**@SidebarParent Name Collection */
@@ -28,9 +32,9 @@ export const sidebarLv2Todos: ISideBar[] = [
     url: "/user/todos/all-todos"
   },
   {
-    id: 2, name: "Progress", img: positiveDynamic, isActive: false, parentName: "todos",
-    uniqueName: "2-progress-todos",
-    url: "/user/todos/progress-todos"
+    id: 2, name: "Archived", img: favoritesSVG, isActive: false, parentName: "todos",
+    uniqueName: "4-archived-todos",
+    url: "/user/todos/archived-todos"
   },
   {
     id: 3, name: "Crucials", img: conflictSVG, isActive: false, parentName: "todos",
@@ -38,13 +42,29 @@ export const sidebarLv2Todos: ISideBar[] = [
     url: "/user/todos/crucial-todos"
   },
   {
-    id: 4, name: "Archived", img: favoritesSVG, isActive: false, parentName: "todos",
-    uniqueName: "4-archived-todos",
-    url: "/user/todos/archived-todos"
+    id: 4, name: "Completed", img: doubleRoundedTickSVG, isActive: false, parentName: "todos",
+    uniqueName: "4-completed-todos",
+    url: "/user/todos/completed-todos"
   },
   {
-    id: 5, name: "Add Todo", img: plusSVG, isActive: false, parentName: "todos",
-    uniqueName: "5-add-todo",
+    id: 5, name: "Pending", img: tripleRoundedDotsSVG, isActive: false, parentName: "todos",
+    uniqueName: "5-pending-todos",
+    url: "/user/todos/pending-todos"
+  },
+  {
+    id: 6, name: "Progress", img: positiveDynamic, isActive: false, parentName: "todos",
+    uniqueName: "6-progress-todos",
+    url: "/user/todos/progress-todos"
+  },
+  {
+    id: 7, name: "Trash", img: trashSVG, isActive: false, parentName: "todos",
+    uniqueName: "7-trash-todo",
+    url: "/user/todos/trashed-todos"
+  },
+
+  {
+    id: 8, name: "Add Todo", img: iconCarrierSVG, isActive: false, parentName: "todos",
+    uniqueName: "8-add-todo",
     url: "/user/todos/add-todo"
   }
 ]
