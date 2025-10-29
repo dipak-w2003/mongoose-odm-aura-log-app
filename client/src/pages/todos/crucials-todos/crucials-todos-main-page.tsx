@@ -1,10 +1,10 @@
-import TodoFilterPanel from "../todo-filter-panel";
+import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
 
 const CrucialsTodosMainPage = () => {
   return (
-    <TodoFilterPanel>
+    <TodoPagesWrapperWithFilterPanel>
       <main>Crucials Todos Hai ta !</main>
-    </TodoFilterPanel>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 

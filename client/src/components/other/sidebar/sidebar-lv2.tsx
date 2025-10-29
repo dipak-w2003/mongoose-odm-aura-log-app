@@ -44,12 +44,12 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
   );
   return (
     <section
-      className={`h-full ${
+      className={`h-full  ${
         isOpen ? "w-[180px]" : "w-[45px]"
-      }  flex justify-between items-center  flex-col overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
+      }  flex justify-between items-center  flex-col ml-1  overflow-hidden transition-all *:transition-all *:*:transition-all duration-300 
          `}
     >
-      <div className="mt-3 sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
+      <div className="mt-2 sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
         {/* Before Log */}
         <span className="link  cursor-pointer flex h-[40px] *:transition-all *:duration-200 overflow-hidden   w-full items-center justify-center gap-4 rounded">
           {
@@ -84,7 +84,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
         {/* Default */}
         <button
           onClick={toggle}
-          className="link flex h-[40px] w-full items-center justify-center gap-4 rounded cursor-pointer"
+          className="link flex h-[40px] asbolute top-[90%] w-full items-center justify-center gap-4 rounded cursor-pointer "
         >
           <img
             src={leftArrowSVG}

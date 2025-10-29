@@ -9,10 +9,16 @@ body {
   font-weight: 300;
   font-style: normal;
 }
-*::selection {
-  background: transparent;
+
+*:has(p, i, article, h1, h2, h3, h4, h5, h6)::selection {
+  background: rgba(144, 238, 144, 0.814);
+  color: black;
 }
 
+img::selection,
+.icon {
+  background: transparent;
+}
 .sidebar-lv1 > .active,
 .side-bar2-active-link {
   background-color: #293829;

@@ -1,10 +1,10 @@
-import TodoFilterPanel from "../todo-filter-panel";
+import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
 
 const TrashedTodosMainPage = () => {
   return (
-    <TodoFilterPanel>
+    <TodoPagesWrapperWithFilterPanel>
       <main>Trashed Todo Hai ta !</main>
-    </TodoFilterPanel>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 

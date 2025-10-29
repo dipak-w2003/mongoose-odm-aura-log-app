@@ -61,7 +61,7 @@ const Layout = () => (
       <SidebarLayout />
     </div>
     {/* Second child: Main content with independent scroll */}
-    <div className="p-1 w-full *:w-full h-full overflow-y-scroll">
+    <div className=" w-full *:w-full h-full overflow-y-scroll">
       <Outlet />
     </div>
   </main>

@@ -1,10 +1,10 @@
-import TodoFilterPanel from "../todo-filter-panel";
+import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
 
 const ArchivedTodosMainPage = () => {
   return (
-    <TodoFilterPanel>
+    <TodoPagesWrapperWithFilterPanel>
       <main>Archived Todos Hai ta</main>
-    </TodoFilterPanel>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 

@@ -91,7 +91,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
             to={"/profile"}
             className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
           >
-            <img src={gearSVG} alt="" className="h-6" />
+            <img src={gearSVG} alt="" className="h-5" />
             {isOpen && <label className="text-sm">Profile</label>}
           </NavLink>
         )}
@@ -100,12 +100,13 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
           to={"/"}
           className="link  cursor-pointer flex h-[40px]  w-full items-center justify-center-safe gap-4 rounded"
         >
-          <img src={homeSVG} alt="" className="h-6 " />
+          <img src={homeSVG} alt="" className="h-5 " />
           {isOpen && <label className="text-sm text-left">Home</label>}
         </NavLink>
 
         {/* Default */}
         <button
+          disabled={!isOpen ? true : false}
           title="back"
           onClick={toggle}
           className="link flex h-[40px] w-full items-center justify-center-safe gap-4 rounded cursor-pointer"
@@ -113,7 +114,7 @@ const SidebarLv1: React.FC<ISidebarLayoutProps> = ({ isLoggedIn }) => {
           <img
             src={leftArrowSVG}
             alt=""
-            className={`h-5 ml-1  ${isOpen ? "rotate-0" : "-rotate-180"}`}
+            className={`h-5   ${isOpen ? "rotate-0" : "-rotate-180"}`}
           />
         </button>
       </section>

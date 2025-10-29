@@ -1,10 +1,10 @@
-import TodoFilterPanel from "../todo-filter-panel";
+import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
 
 const ProgressTodosMainPage = () => {
   return (
-    <TodoFilterPanel>
+    <TodoPagesWrapperWithFilterPanel>
       <main>Progress Todos Hai ta !</main>
-    </TodoFilterPanel>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 

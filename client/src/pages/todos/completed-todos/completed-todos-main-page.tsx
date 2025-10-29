@@ -1,10 +1,10 @@
-import TodoFilterPanel from "../todo-filter-panel";
+import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
 
 const CompletedTodosMainPage = () => {
   return (
-    <TodoFilterPanel>
+    <TodoPagesWrapperWithFilterPanel>
       <main>Completed Todos Hai ta</main>
-    </TodoFilterPanel>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 

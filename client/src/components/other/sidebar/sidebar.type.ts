@@ -5,7 +5,6 @@ import {
   favoritesSVG,
   globeSVG,
   iconCarrierSVG,
-  plusSVG,
   positiveDynamic,
   trashSVG,
   tripleRoundedDotsSVG
