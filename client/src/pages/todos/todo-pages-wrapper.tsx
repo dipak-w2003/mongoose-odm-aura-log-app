@@ -11,7 +11,7 @@ const TodoPagesWrapperWithFilterPanel: React.FC<
       {/* Todo Filter Panel Component */}
       <TodoFilterPanel />
       {/* section : filtered-labels, todos-status and search bars */}
-      <section className="lower-section relative top-26 mb-6     ">
+      <section className="lower-section relative top-26 mb-6  *:min-h-[100vh]   ">
         {children}
       </section>
     </main>

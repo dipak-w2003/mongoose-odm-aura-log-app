@@ -1,5 +1,8 @@
 import type { AppDispatch, RootState } from "@/lib/store/store";
-import { fetchTodoSubtasks } from "@/lib/store/todos/todo-subtasks-slice";
+import {
+  fetchTodoSubtasks,
+  type ITodoSubtasks,
+} from "@/lib/store/todos/todo-subtasks-slice";
 import { fetchTodos } from "@/lib/store/todos/todos-slice";
 import type { ITodo, todoPriority } from "@/lib/store/todos/todos-slice-type";
 import { useEffect, useState } from "react";
@@ -16,7 +19,9 @@ const AllTodosMainPage = () => {
   const { status: todoStatus, todo: todosListState } = useSelector(
     (state: RootState) => state.todos
   );
-
+  const { subtasks: todoSubtasksListState } = useSelector(
+    (state: RootState) => state.todoSubtask
+  );
   const dispatch: AppDispatch = useDispatch();
   function fetchings() {
     dispatch(fetchTodos());
@@ -25,14 +30,14 @@ const AllTodosMainPage = () => {
   }
 
   // Functions
-  function handleMultiSelectedTodos(_item_id: string) {
+  function handleMultiSelectedTodos(_itemid: string) {
     setSelectedTodos((prev) => {
       const _temp = [...prev];
-      const _idx = _temp.findIndex((id) => id === _item_id);
-      if (_idx !== -1) {
-        _temp.splice(_idx, 1);
+      const idx = _temp.findIndex((id) => id === _itemid);
+      if (idx !== -1) {
+        _temp.splice(idx, 1);
       } else {
-        _temp.push(_item_id);
+        _temp.push(_itemid);
       }
       return _temp;
     });
@@ -53,47 +58,53 @@ const AllTodosMainPage = () => {
   }, [selectedTodos]);
   return (
     <TodoPagesWrapperWithFilterPanel>
-      <section className="  overflow-hidden flex flex-col  gap-6 mb-24 relative items-start justify-start">
-        {["1", "2", "3", "4", "5", "6", "7", "8"].map((_, __) => {
-          return (
-            <div className="wrapper group  ">
-              <div className=" rounded todo-card-wrapper-content w-full h-fit min-h-[30vh]  border-[#293829] border-3 flex flex-col p-2 relative cursor-pointer hover:bg-[#293829]  transition-all duration-150 group ">
-                <article className="upper-contents h-1/3 w-full  flex justify-between relative ">
-                  {/* Upper content Left & Right Contents */}
-                  <TodoUpperLeftContentVisualization
-                    date={new Date()}
-                    priority="urgent"
-                    // tags={["tag1", "tag2", "tag3", "tag4", "tag5", "tag6"]}
-                    key={__}
-                    title={`User Research & Visualization`}
-                  />
-                  <div className="line border-[#293829] h-2 w-[200%] absolute -bottom-1   border-b-3 group-hover:border-b-[#111711] -left-6" />
-                  <TodoUpperRightContentVisualization />
-                </article>
-                <button
-                  type="button"
-                  onClick={() => handleMultiSelectedTodos(_)}
-                  className="absolute h-[25px] -bottom-3 left-[48.999%] w-[25px]  text-center bg-[#111711] rounded-full flex justify-center items-center  cursor-pointer "
-                >
-                  <img
-                    src={triangleCircledSVG}
-                    className={`${
-                      selectedTodos.includes(_) ? "rotate-0" : "rotate-180"
-                    }`}
-                    alt=""
-                  />
-                </button>
-                {/* middle content */}
-                <TodoMiddleContentVisualization />
+      <section className="  overflow-hidden flex flex-col w-full  gap-6 mb-24 relative items-start justify-start">
+        {todosListState.length > 0 &&
+          todosListState.map((_, __) => {
+            return (
+              <div className="wrapper group  w-full ">
+                <div className=" rounded todo-card-wrapper-content w-full h-fit min-h-[30vh]  border-[#293829] border-3 flex flex-col p-2 relative cursor-pointer hover:bg-[#293829]  transition-all duration-150 group ">
+                  <article className="upper-contents h-1/3 w-full  flex justify-between relative ">
+                    {/* Upper content Left & Right Contents */}
+                    <TodoUpperLeftContentVisualization
+                      date={new Date()}
+                      priority={_?.priority}
+                      tags={_.tags}
+                      key={__}
+                      title={_.title}
+                    />
+                    <div className="line border-[#293829] h-2 w-[200%] absolute -bottom-1   border-b-3 group-hover:border-b-[#111711] -left-6" />
+                    <TodoUpperRightContentVisualization />
+                  </article>
+                  <button
+                    type="button"
+                    onClick={() => handleMultiSelectedTodos(_._id)}
+                    className="absolute h-[25px] -bottom-3 left-[48.999%] w-[25px]  text-center bg-[#111711] rounded-full flex justify-center items-center  cursor-pointer "
+                  >
+                    <img
+                      src={triangleCircledSVG}
+                      className={`${
+                        selectedTodos.includes(_._id)
+                          ? "rotate-0"
+                          : "rotate-180"
+                      }`}
+                      alt=""
+                    />
+                  </button>
+                  {/* middle content */}
+                  <TodoMiddleContentVisualization desc={_.description} />
 
-                {/* bottom content */}
-                {selectedTodos.includes(_) && (
-                  <TodoBottomContentsVisualization />
-                )}
+                  {/* bottom content */}
+                  {selectedTodos.includes(_._id) && (
+                    <TodoBottomContentsVisualization
+                      bucketSubtasks={todoSubtasksListState}
+                      specifiedTodoId={_._id}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </section>
     </TodoPagesWrapperWithFilterPanel>
   );
@@ -101,20 +112,12 @@ const AllTodosMainPage = () => {
 
 export default AllTodosMainPage;
 
-function TodoMiddleContentVisualization() {
+function TodoMiddleContentVisualization({ desc }: { desc: string }) {
   return (
     <article className="py-2 pl-1 text transition-all duration-150 ease-linear group-hover:underline group-hover:underline-offset-4 group-hover:transition-all">
       <h2 className="text-lg underline">Descriptions !</h2>
       <p className="text-sm text-[#f0f8ffb6] p-4 transition-all duration-150 ease-linear">
-        Cupiditate neque dolorum repellat iure, corporis tempore illum, nisi
-        fugit incidunt ab quibusdam repellendus? illum, nisi fugit incidunt ab
-        quibusdam repellendus? illum, nisi fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, fugit incidunt ab quibusdam
-        repellendus? Cupiditate in modi, sunt suscipit saepe non odit.
+        {desc ?? "N/A"}
       </p>
     </article>
   );
@@ -189,7 +192,19 @@ function TodoUpperRightContentVisualization() {
   );
 }
 
-function TodoBottomContentsVisualization() {
+function TodoBottomContentsVisualization({
+  bucketSubtasks,
+  specifiedTodoId,
+}: {
+  bucketSubtasks: ITodoSubtasks[];
+  specifiedTodoId: string;
+}) {
+  const finalizedSubtasks = bucketSubtasks.filter(
+    (_) => _.todoId === specifiedTodoId
+  );
+  console.log(finalizedSubtasks);
+  console.log(specifiedTodoId);
+  const [__, _a_] = useState<ITodoSubtasks[]>(finalizedSubtasks);
   return (
     <article
       className={`py-2 pl-1 text transition-all duration-150 ease-linear`}
@@ -197,6 +212,18 @@ function TodoBottomContentsVisualization() {
       <h2 className="text-lg group-hover:underline-offset-4 group-hover:underline">
         Subtasks !
       </h2>
+      <section className="flex flex-col">
+        {__.length > 0 &&
+          __.filter((_) => _.todoId === specifiedTodoId).map((_) => {
+            return (
+              <div className="subtask_wrapper *:m-2 ">
+                <i>{_.position.toString().padStart(2, "0")})</i>
+                <span>{_.title}</span>
+                <input type="radio" name="todo-subtaks" />
+              </div>
+            );
+          })}
+      </section>
     </article>
   );
 }

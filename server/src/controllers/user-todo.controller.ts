@@ -41,6 +41,7 @@ export const getTodos = async (req: IExtendedRequest, res: Response) => {
     .sort({ field: 1 | -1 })
     1 → ascending order (oldest → newest)
    -1 → descending order (newest → oldest) */
+
     res.status(200).json({
       message: "User todos fetched!",
       data: userTodos

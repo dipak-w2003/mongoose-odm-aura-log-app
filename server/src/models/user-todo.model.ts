@@ -110,7 +110,7 @@ const TodoSchema = new Schema<ITodo>(
     timestamps: true,
     toJSON: {
       transform(doc, ret) {
-        delete (ret as any).user; // never expose password
+        delete (ret as any).user;
         return ret;
       }
     }

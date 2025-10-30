@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { todoPriority } from "./todos-slice-type";
 export interface ITempTodoCollector {
+  _id: string,
   title: string,
   description: string,
   priority: todoPriority,
@@ -11,6 +12,7 @@ export interface ITempTodoCollector {
 }
 const initialState: { todo: ITempTodoCollector, _isNullificationExists: boolean } = {
   todo: {
+    _id: "",
     title: "",
     description: "",
     dueDate: "",

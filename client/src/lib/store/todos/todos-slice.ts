@@ -64,6 +64,11 @@ export function fetchTodos() {
     data = todos_response.data?.data
     if (data && data.length !== 0) {
       dispatch(setTodoStatus(Status.SUCCESS))
+      const _idTOid = data.map((_) => {
+        return { ..._, id: _._id }
+      })
+      console.log(_idTOid);
+
       dispatch(fetchTodo({ todos: data }))
     }
   }
@@ -76,8 +81,8 @@ export function addTodos(data: ITempTodoCollector) {
     /**@FIRST_Response */
     const [yyyy, mm, dd] = data.dueDate.split("-")
     console.log([yyyy, mm, dd]);
-
-    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { ...data, dueDate: new Date() })
+    const { description, priority, time, title, subtask, tags } = data
+    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, subtask, tags, dueDate: new Date() })
     if (todo_reponse.status !== 201) {
       dispatch(setTodoStatus(Status.ERROR))
       return;
