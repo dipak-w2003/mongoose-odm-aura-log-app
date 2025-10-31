@@ -4,7 +4,7 @@ import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 
 /**@Interface_Types */
-export type ITodoSubtasksStatus = "pending" | "in-progress" | "completed" | "archived";
+export type ITodoSubtasksStatus = "pending" | "in-progress";
 export interface ITodoSubtasks {
   todoId: string;
   title: string;
@@ -12,15 +12,18 @@ export interface ITodoSubtasks {
   position: number;
   createdAt: string;
   updatedAt: string;
+  completionMessage?: string;
+  completionStatus?: boolean;
+
 }
 interface InitialStateTodoSubtask {
-  subtasks: ITodoSubtasks[],
-  status: Status
+  subtasks: ITodoSubtasks[];
+  status: Status;
 }
 const initialState: InitialStateTodoSubtask = {
   subtasks: [],
   status: Status.LOADING,
-}
+};
 
 /**@Slices */
 const todoSubtasksSlice = createSlice({
@@ -28,18 +31,18 @@ const todoSubtasksSlice = createSlice({
   initialState: initialState,
   reducers: {
     setTodoSubtaskStatus(state, action: PayloadAction<Status>) {
-      state.status = action.payload
+      state.status = action.payload;
     },
     setTodoSubtasks(state, action: PayloadAction<ITodoSubtasks[]>) {
-      const _list = action.payload
+      const _list = action.payload;
       if (_list.length < 0) return;
-      state.subtasks = _list
-    }
-  }
-})
-export const { setTodoSubtasks, setTodoSubtaskStatus } = todoSubtasksSlice.actions
-export default todoSubtasksSlice.reducer
-
+      state.subtasks = _list;
+    },
+  },
+});
+export const { setTodoSubtasks, setTodoSubtaskStatus } =
+  todoSubtasksSlice.actions;
+export default todoSubtasksSlice.reducer;
 
 /**@Custom_Thunks */
 // Fetch Todo Subtasks
@@ -47,17 +50,16 @@ export function fetchTodoSubtasks() {
   return async function fetchTodoSubtasksThunk(dispatch: AppDispatch) {
     const response = await APIWITHTOKEN.get("/user/todo/subtask");
     if (response.status !== 200) {
-      dispatch(setTodoSubtaskStatus(Status.ERROR))
+      dispatch(setTodoSubtaskStatus(Status.ERROR));
       return;
     }
-    const _list: ITodoSubtasks[] = response.data.data
+    const _list: ITodoSubtasks[] = response.data.data;
     console.log("SUBTASK LIST : ", _list);
 
     // if (_list.length < 0 && !_list) return;
-    dispatch(setTodoSubtasks(_list))
-  }
+    dispatch(setTodoSubtasks(_list));
+  };
 }
-
 
 // // Add Todo Subtask
 // export function addTodoSubtasks(data:ITodoSubtasks[]){

@@ -46,7 +46,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
     <section
       className={`h-full  ${
         isOpen ? "w-[180px]" : "w-[45px]"
-      }  flex justify-between items-center  flex-col ml-1  overflow-hidden transition-all *:transition-all *:*:transition-all duration-300 
+      }  flex justify-between items-center  flex-col ml-1  overflow-hidden transition-all *:transition-all *:*:transition-all duration-300
          `}
     >
       <div className="mt-2 sidebar-lv1  w-full rounded flex-col items-center justify-center flex gap-1 *:w-[98%] ">
@@ -66,9 +66,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
                 title={_.name}
                 key={`${_.id}-${_.name}-${_.isActive}`}
                 onClick={() => handleSideBar2ActiveLink(_)}
-                className={`link cursor-pointer  flex h-[40px]  w-full items-center ${
-                  isOpen ? "justify-start" : "justify-center"
-                } gap-3 px-3 rounded
+                className={`link cursor-pointer  flex h-[40px]  w-full items-center gap-3 px-3 rounded
                   ${setDefaultClassActiveLink(_)}
                 `}
               >
