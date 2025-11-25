@@ -8,6 +8,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-style: normal;
+  color: white;
 }
 
 *:has(p, i, article, h1, h2, h3, h4, h5, h6)::selection {
@@ -21,7 +22,8 @@ img::selection,
 }
 .sidebar-lv1 > .active,
 .side-bar2-active-link {
-  background-color: #293829;
+  background-color: #fe802c;
+  box-shadow: 2px 6px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* Hide scrollbar for all browsers */

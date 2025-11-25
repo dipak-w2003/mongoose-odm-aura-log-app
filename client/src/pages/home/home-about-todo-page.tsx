@@ -42,8 +42,8 @@ const HomeAboutTodoPage = () => {
       <div
         className="card h-[50vh] w-[98%] rounded  text-center flex flex-col items-center justify-around  p-7 "
         style={{
-          background:
-            "linear-gradient(180deg, #111711 0%, rgba(41,56,41,0.7) 100%)",
+          boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
+          background: "linear-gradient(180deg, #022a2a 0%, #034c38 100%)",
         }}
       >
         <header className="text-3xl font-semibold underline">
@@ -53,7 +53,7 @@ const HomeAboutTodoPage = () => {
           Manage your tasks, jot down notes, and create blog posts all in one
           place. Our AuraLog helps you stay organized and focused.
         </p>
-        <button className="bg-[#111711] px-10 cursor-pointer py-4 rounded font-[500] ">
+        <button className="bg-[#FE802C] font-bold px-10 cursor-pointer py-4 rounded  ">
           <Link to={"/login"}>Get Started</Link>
         </button>
       </div>
@@ -72,7 +72,8 @@ const HomeAboutTodoPage = () => {
                 className="feature-box h-[200px] w-[23.95%] p-2 flex flex-col gap-3 rounded "
                 style={{
                   background:
-                    " linear-gradient(180deg, #111711 0%, rgba(41,56,41,0.7) 100%)",
+                    "linear-gradient(180deg, #022a2a 0%, #034535 100%)",
+                  boxShadow: "0px 4px 4px rgba(0,0,0,0.25)",
                 }}
               >
                 <span className="h-8 w-8 ">

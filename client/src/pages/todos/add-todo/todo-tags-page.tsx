@@ -60,10 +60,10 @@ const TodoTagsPage = () => {
             return (
               <span
                 key={`todo-tags:${__}:${_}`}
-                className="pr-3  gap-1  w-fit  bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex   border-2 items-center  border-[#293829] "
+                className="pr-3  gap-1  w-fit  bg-[#034A37] min-h-[50px] h-[50px] rounded inline-flex   border-0 items-center  "
               >
-                <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-3  border-[#293829] text-sm">
-                  {__ + 1}
+                <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-0   text-lg ">
+                  {__ + 1})
                 </p>
                 <h3 className="text-sm ml-3">#{_}</h3>
 
@@ -87,7 +87,7 @@ const TodoTagsPage = () => {
             name="tag"
             type="text"
             onChange={handleTaskTagsInput}
-            className="bg-[#1D271D]   w-[90%] px-3 py-3 outline-[#293829] focus:outline-3 border-0 rounded placeholder:text-sm text-sm"
+            className="bg-[#034A37]   w-[90%] px-3 py-3 utline-[#BCCBCE] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
             placeholder="Task Tags"
             autoComplete="off"
             value={tags}
@@ -95,7 +95,7 @@ const TodoTagsPage = () => {
           <button
             onClick={addTaskTags}
             type="button"
-            className="cursor-pointer px-4 py-2 w-[200px] rounded  text-black bg-[rgba(41,224,41,0.59)]"
+            className="cursor-pointer px-4 py-2 w-[200px] rounded  text-black bg-[#FE802C]"
           >
             Add Tag
           </button>

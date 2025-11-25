@@ -14,7 +14,6 @@ export interface ITodoSubtasks {
   updatedAt: string;
   completionMessage?: string;
   completionStatus?: boolean;
-
 }
 interface InitialStateTodoSubtask {
   subtasks: ITodoSubtasks[];
@@ -44,8 +43,7 @@ export const { setTodoSubtasks, setTodoSubtaskStatus } =
   todoSubtasksSlice.actions;
 export default todoSubtasksSlice.reducer;
 
-/**@Custom_Thunks */
-// Fetch Todo Subtasks
+/**@Custom_Thunks */ // Fetch Todo Subtasks
 export function fetchTodoSubtasks() {
   return async function fetchTodoSubtasksThunk(dispatch: AppDispatch) {
     const response = await APIWITHTOKEN.get("/user/todo/subtask");

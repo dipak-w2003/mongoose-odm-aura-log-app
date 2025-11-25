@@ -53,7 +53,7 @@ const LoginPage = lazy(() => import("./pages/global/auth/login/login-page"));
 const Layout = () => (
   <main
     className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
-      ${activeTheme.twc}
+      bg-[#022A2A]
 `}
   >
     {/* First child: Sidebar */}
@@ -71,7 +71,6 @@ const User = () => {
   return (
     <main
       className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
-      ${activeTheme.twc}
 `}
     >
       User Geda

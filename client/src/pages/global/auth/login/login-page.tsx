@@ -51,7 +51,7 @@ const LoginPage = () => {
             onChange={handleUserInputForm}
             name="email"
             type="email"
-            className="bg-[#1D271D] w-full px-3 py-3 outline-[#293829] focus:outline-2 border-0  rounded  placeholder:text-sm text-sm"
+            className="bg-[#034A37] w-full px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0  rounded  placeholder:text-sm text-sm"
             placeholder="email or phone number"
             autoComplete="off"
             value={userFormData.email}
@@ -67,7 +67,7 @@ const LoginPage = () => {
             id="password"
             name="password"
             type="password"
-            className="bg-[#1D271D] w-full px-3 py-3 outline-[#293829] focus:outline-2 border-0  rounded  placeholder:text-sm text-sm"
+            className="bg-[#034A37] w-full px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0  rounded  placeholder:text-sm text-sm"
             placeholder="password"
             autoComplete="off"
             value={userFormData.password}
@@ -78,7 +78,7 @@ const LoginPage = () => {
           <button className="cursor-pointer self-baseline text-left text-sm   py-2 w-[200px] rounded">
             forgot-password?
           </button>
-          <button className="cursor-pointer  px-4 py-2 w-[250px] rounded-3xl text-black bg-[rgba(41,224,41,0.59)]">
+          <button className="cursor-pointer  px-4 py-2 w-[250px] rounded-3xl text-black bg-[#FE802C]">
             Login
           </button>
 

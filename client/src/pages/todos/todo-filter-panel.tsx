@@ -9,7 +9,7 @@ import {
 const TodoFilterPanel = () => {
   // bg-[#111711]
   return (
-    <section className="upper-section  bg-[#111711] w-full flex flex-col gap-2    fixed z-50 pb-2 ">
+    <section className="upper-section   w-full flex flex-col gap-2    fixed z-50 pb-2 ">
       {/* // section : filtered-labels, todos-status and search bars */}
       {/* top div */}
       <div className="top-div w-full h-full mt-[19px] ">
@@ -34,7 +34,7 @@ const TodoFilterPanel = () => {
             id="search-todos"
             name="search-todos"
             type="text"
-            className="bg-[#1D271D] w-[100%] h-[40px] px-5 pl-11 py-2 outline-[#293829] focus:outline-1 border-0 rounded text-sm placeholder:text-sm"
+            className="bg-[#034A37] w-[100%] h-[40px] px-5 pl-11 py-2 outline-[#293829] focus:outline-1 border-0 rounded text-sm placeholder:text-sm"
             placeholder="search: titles, tags, date, descriptions, todoID"
             autoComplete="off"
           />

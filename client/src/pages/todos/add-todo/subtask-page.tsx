@@ -113,10 +113,10 @@ const SubTaskPage = () => {
                 onDragEnd={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
                 whileDrag={{ scale: 1.05 }}
-                className="pr-3 gap-1 w-fit bg-[#1D271D] min-h-[50px] h-[50px] rounded inline-flex border-2 items-center border-[#293829] cursor-grab select-none transition-transform duration-150 hover:scale-[1.01]"
+                className="pr-3 gap-1 w-fit bg-[#034A37] min-h-[50px] h-[50px] rounded inline-flex  items-center  cursor-grab select-none transition-transform duration-150 hover:scale-[1.01]"
               >
-                <p className="ml-3 h-[30px] w-[30px] rounded-full flex justify-center items-center border-3 border-[#293829] text-sm">
-                  {idx + 1}
+                <p className="ml-3 h-[30px] w-[30px] rounded-full flex justify-center items-center  text-lg font-extrabold">
+                  {idx + 1})
                 </p>
                 <h3 className="text-sm ml-3">{item}</h3>
 
@@ -147,7 +147,7 @@ const SubTaskPage = () => {
               onChange={(_: ChangeEvent<HTMLInputElement>) =>
                 setSubtask(_.target.value)
               }
-              className="bg-[#1D271D] w-full px-3 py-3 outline-[#293829] focus:outline-3 border-0 rounded placeholder:text-sm text-sm"
+              className="bg-[#034A37] w-full px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
               placeholder="Sub Task"
               autoComplete="off"
               value={subtask}
@@ -163,7 +163,7 @@ const SubTaskPage = () => {
           <button
             onClick={addSubtasks}
             type="button"
-            className="cursor-pointer px-4 py-2 w-[200px] rounded text-black bg-[rgba(41,224,41,0.59)] hover:bg-[rgba(41,224,41,0.8)] transition-all"
+            className="cursor-pointer px-4 py-2 w-[200px] rounded text-black bg-[#FE802C] hover:bg-[#da6110] transition-all"
           >
             Add Subtask
           </button>
