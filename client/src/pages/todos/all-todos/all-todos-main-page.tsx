@@ -5,9 +5,11 @@ import {
 } from "@/lib/store/todos/todo-subtasks-slice";
 import { fetchTodos } from "@/lib/store/todos/todos-slice";
 import type { ITodo, todoPriority } from "@/lib/store/todos/todos-slice-type";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TodoPagesWrapperWithFilterPanel from "../todo-pages-wrapper";
+const TodoPagesWrapperWithFilterPanel = lazy(
+  () => import("../todo-pages-wrapper")
+);
 import {
   curvedStarSlashedSVG,
   triangleCircledSVG,
@@ -56,15 +58,23 @@ const AllTodosMainPage = () => {
   useEffect(() => {
     console.log("Selected Todos changed:", selectedTodos);
   }, [selectedTodos]);
+  const checkSelected = (id: string): boolean => selectedTodos.includes(id);
   return (
     <TodoPagesWrapperWithFilterPanel>
-      <section className="  overflow-hidden flex flex-col w-full  gap-6 mb-24 relative items-start justify-start">
+      <section className="   flex flex-col w-full  gap-6 mb-24 relative items-start justify-start">
         {todosListState.length > 0 &&
           todosListState.map((_, __) => {
             return (
               <div className="wrapper group  w-full ">
-                <div className=" rounded todo-card-wrapper-content w-full h-fit min-h-[30vh]  border-[#293829] border-3 flex flex-col p-2 relative cursor-pointer hover:bg-[#293829]  transition-all duration-150 group ">
-                  <article className="upper-contents h-1/3 w-full  flex justify-between relative ">
+                <div
+                  className={` rounded todo-card-wrapper-content w-full h-fit min-h-[30vh]  border-[#022A2A]  flex flex-col p-2 relative cursor-pointer bg-[#034C38] hover:bg-[#104234]  transition-all duration-150 group ${
+                    checkSelected(_._id)
+                      ? "shadow-[4px_4px_9px_-2px_#fe802c]"
+                      : "shadow-[4px_4px_9px_-2px_#ffffff]"
+                  }
+ `}
+                >
+                  <article className="upper-contents h-1/3 w-full  flex justify-between relative border-b-3 border-[#022A2A]   ">
                     {/* Upper content Left & Right Contents */}
                     <TodoUpperLeftContentVisualization
                       date={new Date()}
@@ -73,7 +83,7 @@ const AllTodosMainPage = () => {
                       key={__}
                       title={_.title}
                     />
-                    <div className="line border-[#293829] h-2 w-[200%] absolute -bottom-1   border-b-3 group-hover:border-b-[#111711] -left-6" />
+                    {/* <div className="line border-[#022A2A] h-2 w-[103%] absolute -bottom-1   border-b-3 group-hover:border-b-[#111711] -left-6" /> */}
                     <TodoUpperRightContentVisualization />
                   </article>
                   <button
@@ -84,10 +94,8 @@ const AllTodosMainPage = () => {
                     <img
                       src={triangleCircledSVG}
                       className={`${
-                        selectedTodos.includes(_._id)
-                          ? "rotate-0"
-                          : "rotate-180"
-                      }`}
+                        checkSelected(_._id) ? "rotate-0" : "rotate-180"
+                      } border-2 border-[#FE802C] rounded-full`}
                       alt=""
                     />
                   </button>
@@ -144,14 +152,14 @@ function TodoUpperLeftContentVisualization({
         </header>
 
         {/* Priorities start visualizer */}
-        <div className="priorities-stars flex items-center gap-3">
+        <div className="priorities-stars flex items-center gap-1">
           {priority &&
             Array.from({ length: PRIORITIES_STARS_LEN_HASH[priority] }).map(
               () => {
                 return (
                   <img
                     src={curvedStarSlashedSVG}
-                    className="h-5 rotate-90"
+                    className="h-7"
                     key={`${priority}-${title}-len:[${PRIORITIES_STARS_LEN_HASH[priority]}]`}
                     alt={`${priority}-${title}`}
                   />
@@ -162,15 +170,19 @@ function TodoUpperLeftContentVisualization({
 
         {/* date */}
 
-        <h3 className="todo-date text-[#E4AD08] border-[#E4AD08] bg-[#96740e9e] border-3 px-4 py-1 rounded  font-extrabold">
+        <h3 className="todo-date text-[#ffff] border-[#BCCBCE] border-2 px-4 py-1 rounded-md  font-extrabold">
           {date.toLocaleDateString()}
         </h3>
       </span>
       {/* u-c-l-c-bottom-contents */}
-      <span className="u-c-l-c-bottom-contents rounded h-1/2 w-full  flex items-center gap-3 text-[#8A8A8A] text-sm">
+      <span className="u-c-l-c-bottom-contents rounded h-1/2 w-full  flex items-center gap-3 ">
         {tags && tags.length > 0 ? (
           tags.map((_, __) => {
-            return <div>#{_}</div>;
+            return (
+              <li className="text-[#E1B7B8] text-sm font-bold list-none">
+                #{_}
+              </li>
+            );
           })
         ) : (
           <p>No Tags !</p>

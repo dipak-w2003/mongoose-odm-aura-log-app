@@ -62,9 +62,9 @@ const TodoTagsPage = () => {
                 key={`todo-tags:${__}:${_}`}
                 className="pr-3  gap-1  w-fit  bg-[#034A37] min-h-[50px] h-[50px] rounded inline-flex   border-0 items-center  "
               >
-                <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-0   text-lg ">
+                {/* <p className=" ml-3  h-[30px] w-[30px] rounded-full  flex text-center justify-center items-center border-0   text-lg ">
                   {__ + 1})
-                </p>
+                </p> */}
                 <h3 className="text-sm ml-3">#{_}</h3>
 
                 <img
