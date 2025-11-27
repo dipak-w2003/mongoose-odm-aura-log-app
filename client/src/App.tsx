@@ -6,14 +6,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { SidebarLayout } from "./components/other/sidebar/sidebar-layout";
-import { activeTheme } from "./lib/store/global/theme/theme-changer-slice.type";
 import PageNotFound404 from "./pages/error/page-not-found-page";
 import { lazy, type JSX } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./lib/store/store";
-import CompletedTodosMainPage from "./pages/todos/completed-todos/completed-todos-main-page";
-import PendingTodosMainPage from "./pages/todos/pending-todos/pending-todos-main-page";
-import TrashedTodosMainPage from "./pages/todos/trashed-todos/trashed-todos-main-page";
 
 /**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
@@ -31,6 +27,15 @@ const ArchivedTodosMainPage = lazy(
 );
 const CrucialsTodosMainPage = lazy(
   () => import("./pages/todos/crucials-todos/crucials-todos-main-page")
+);
+const CompletedTodosMainPage = lazy(
+  () => import("./pages/todos/completed-todos/completed-todos-main-page")
+);
+const PendingTodosMainPage = lazy(
+  () => import("./pages/todos/pending-todos/pending-todos-main-page")
+);
+const TrashedTodosMainPage = lazy(
+  () => import("./pages/todos/trashed-todos/trashed-todos-main-page")
 );
 
 /**@Notes_IMPORT */
