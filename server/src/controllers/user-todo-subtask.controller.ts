@@ -109,10 +109,14 @@ export const updateEntireSubTasks = async (req: IExtendedRequest, res: Response)
 
 
 // set false subtask completion status
-export const unsetSubtaskCompletionStatus = async (req: IExtendedRequest, res: Response) => {
+export const setASubtaskCompletionStatus = async (req: IExtendedRequest, res: Response) => {
   try {
     const userId = req.user?.id
     const todoId: string = req.params.id
+    const statusBoolean: string = req.body.statusBoolean
+    // const USER_A_DEFAULT_SUBTASK_COMPLETION_STATUS = false;
+    const USER_A_DEFAULT_SUBTASK_COMPLETION_STATUS: boolean = !statusBoolean || statusBoolean.length || [0, '0', 'false'].includes(statusBoolean) ? false : true
+
     if (!userId) return res.status(401).json({
       message: "Unathourized"
     })
@@ -125,7 +129,7 @@ export const unsetSubtaskCompletionStatus = async (req: IExtendedRequest, res: R
         _id: todoId, user: userId
       },
       {
-        completionStatus: false,
+        completionStatus: USER_A_DEFAULT_SUBTASK_COMPLETION_STATUS,
       },
       {
         new: true
@@ -136,7 +140,8 @@ export const unsetSubtaskCompletionStatus = async (req: IExtendedRequest, res: R
     })
 
     res.status(200).json({
-      message: "subtask completion status updated to false successfully"
+      message: "subtask completion status updated to " + USER_A_DEFAULT_SUBTASK_COMPLETION_STATUS,
+      data: _todoSetSubtaskCompletionStatus
     })
   } catch (error: any) {
     res.status(501).json({

@@ -6,9 +6,9 @@ import type { AppDispatch } from "../store";
 /**@Interface_Types */
 export type ITodoSubtasksStatus = "pending" | "in-progress";
 export interface ITodoSubtasks {
+  _id: string,
   todoId: string;
   title: string;
-  // _id: string,
 
   status: ITodoSubtasksStatus;
   position: number;
@@ -61,6 +61,23 @@ export function fetchTodoSubtasks() {
   };
 }
 
+
+export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1 }: { id: string, statusBoolean: boolean | 0 | 1 }) {
+  return async function SetTodoSubtasksCompletionStatusSingleOneThunk(dispatch: AppDispatch) {
+    if (!id && id.length > 0) {
+      dispatch(setTodoSubtaskStatus(Status.ERROR))
+      return alert("Provider Proper Token")
+    }
+    const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status/" + id, { statusBoolean })
+    if (response.status === 201) {
+      dispatch(setTodoSubtaskStatus(Status.SUCCESS))
+      console.log("Sub task completion successfully ticked !");
+    } else {
+      dispatch(setTodoSubtaskStatus(Status.ERROR))
+    }
+  }
+
+}
 // // Add Todo Subtask
 // export function addTodoSubtasks(data:ITodoSubtasks[]){
 //   return async function addTodoSubtasksThunk(dispatch:AppDispatch){

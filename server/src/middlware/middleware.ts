@@ -50,3 +50,32 @@ export const isLoggedIn = asyncErrorHandler(
     }
   }
 );
+
+
+/**
+ * Only allows access to users with role "admin"
+ * Must be used after isLoggedIn middleware
+ */
+export const isAdmin = asyncErrorHandler(
+  async (req: IExtendedRequest, res: Response, next: NextFunction) => {
+    // `req.user.id` comes from isLoggedIn middleware
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized access" });
+    }
+
+    const userData = (await UserModel.findById(userId)) as IUser | null;
+
+    if (!userData) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    if (userData.role !== "admin") {
+      return res.status(403).json({ message: "Admin access required!" });
+    }
+
+    // User is admin, allow access
+    return next();
+  }
+);

@@ -87,7 +87,7 @@ const TodoTagsPage = () => {
             name="tag"
             type="text"
             onChange={handleTaskTagsInput}
-            className="bg-[#034A37]   w-[90%] px-3 py-3 utline-[#BCCBCE] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
+            className="bg-[#034A37]   w-[90%] px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
             placeholder="Task Tags"
             autoComplete="off"
             value={tags}
