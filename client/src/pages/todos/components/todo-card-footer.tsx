@@ -1,3 +1,8 @@
+import type { AppDispatch } from "@/lib/store/store";
+import { fetchTodos } from "@/lib/store/todos/todos-slice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 interface TodoCardFooterProps {
   onEdit?: () => void;
   onDelete?: () => void;
@@ -9,6 +14,8 @@ const TodoCardFooter = ({
   onDelete,
   onMarkComplete,
 }: TodoCardFooterProps) => {
+  const dispatch: AppDispatch = useDispatch();
+
   return (
     <footer className="flex justify-end gap-3 mt-3">
       {/* Complete */}

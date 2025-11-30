@@ -2,6 +2,9 @@ import { lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ITodo } from "@/lib/store/todos/todos-slice-type";
 import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
+import { deleteAnEntireTodo } from "@/lib/store/todos/todos-slice";
+import type { AppDispatch } from "@/lib/store/store";
+import { useDispatch } from "react-redux";
 
 const PieChart = lazy(
   () => import("@/components/most-use/circular-progress-bar-pie")
@@ -19,6 +22,7 @@ interface TodoCardProps {
 }
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
+  const dispatch: AppDispatch = useDispatch();
   return (
     <div className="group w-full">
       <div
@@ -83,7 +87,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
                   console.log(`Mark complete: ${todo.title}`)
                 }
                 onEdit={() => console.log(`Edit todo: ${todo.title}`)}
-                onDelete={() => console.log(`Delete todo: ${todo.title}`)}
+                onDelete={() => dispatch(deleteAnEntireTodo(todo._id))}
               />
             </motion.div>
           )}

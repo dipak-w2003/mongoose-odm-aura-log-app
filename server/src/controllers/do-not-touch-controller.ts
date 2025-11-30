@@ -14,6 +14,7 @@ import { NoteModel } from "../models/user-note.model";
 import { BlogModel } from "../models/user-blog.model";
 import { UserModel } from "../models/user.model";
 import { IExtendedRequest } from "../middlware/index.type";
+import { TodoModel } from "../models/user-todo.model";
 
 export const deleteEntireDatabase = async (): Promise<void> => {
   const db = mongoose.connection.db;
@@ -59,6 +60,7 @@ export const DoNotTouchController = {
 
       // Delete linked models
       await Promise.all([
+        TodoModel.deleteMany({ userId: id }).session(session),
         TodoSubtaskModel.deleteMany({ userId: id }).session(session),
         NoteModel.deleteMany({ userId: id }).session(session),
         BlogModel.deleteMany({ userId: id }).session(session),
@@ -77,4 +79,38 @@ export const DoNotTouchController = {
       return res.status(500).json({ error: (err as Error).message });
     }
   },
+
+  // Delete Todos (Main & Subtasks)
+  deleteAnEntireTodo: async (req: IExtendedRequest, res: Response) => {
+    const { todoId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(todoId)) {
+      return res.status(400).json({ error: "Invalid todoId" });
+    }
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      // IMPORTANT: Run sequentially, NOT Promise.all()
+      await TodoModel.deleteOne({ _id: todoId }).session(session);
+
+      await TodoSubtaskModel.deleteMany({ todoId }).session(session);
+
+      await session.commitTransaction();
+      session.endSession();
+
+      return res.status(200).json({
+        message: "Todo and its subtasks deleted successfully!"
+      });
+
+    } catch (err: any) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(500).json({
+        error: err.message || "Error Server Message !"
+      });
+    }
+  }
+
 };

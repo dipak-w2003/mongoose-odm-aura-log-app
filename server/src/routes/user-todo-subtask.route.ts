@@ -14,6 +14,6 @@ router.route("/:id")
 router.route("/set-a-completion-status/:id").post(isLoggedIn, asyncErrorHandler(setASubtaskCompletionStatus))
 
 
-router.route("/set-completion-status-message/:id").post(isLoggedIn, asyncErrorHandler(setSubtaskCompletionMessage))
+router.route("/set-a-completion-status-message/:id").post(isLoggedIn, asyncErrorHandler(setSubtaskCompletionMessage))
 
 export default router

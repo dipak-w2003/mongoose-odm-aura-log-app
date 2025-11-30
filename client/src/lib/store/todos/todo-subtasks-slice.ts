@@ -9,13 +9,12 @@ export interface ITodoSubtasks {
   _id: string,
   todoId: string;
   title: string;
-
   status: ITodoSubtasksStatus;
   position: number;
-  createdAt: string;
-  updatedAt: string;
   completionMessage?: string;
   completionStatus?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 interface InitialStateTodoSubtask {
   subtasks: ITodoSubtasks[];
@@ -39,9 +38,56 @@ const todoSubtasksSlice = createSlice({
       if (_list.length < 0) return;
       state.subtasks = _list;
     },
-  },
+
+    // TODO : delete single subtask (btw, not needed for now. but need in the future)
+    deleteSubtaskSingle(state, action: PayloadAction<{}>) { },
+
+    // Deletes all subtask linked to a certain todo._id === substaks[todoId]
+    deleteSubtasksLinkedToCertainTodoId(state, action: PayloadAction<{ todoId: string }>) {
+      state.subtasks = state.subtasks.filter(subtask => subtask.todoId !== action.payload.todoId)
+    },
+
+    // Edit what ? Multiple Values and keys, dynamic editing
+    editWhatSubtaskSingleData: (
+      state,
+      action: PayloadAction<{
+        value: string | boolean | number;
+        key: "title" | "status" | "position" | "completionMessage" | "completionStatus";
+        subtaskId: string;
+      }>
+    ) => {
+      const { value, key, subtaskId } = action.payload;
+
+      const index = state.subtasks.findIndex((s) => s._id === subtaskId);
+      if (index === -1) return; // subtask not found
+
+      // Validation for title: no duplicate titles
+      if (key === "title" && typeof value === "string") {
+        const isDuplicate = state.subtasks.some(
+          (s) => s._id !== subtaskId && s.title === value.trim()
+        );
+        if (isDuplicate) return; // skip update
+      }
+
+      // Validation for position: no duplicate positions
+      if (key === "position" && typeof value === "number") {
+        const isDuplicate = state.subtasks.some(
+          (s) => s._id !== subtaskId && s.position === value
+        );
+        if (isDuplicate) return; // skip update
+      }
+
+      // Update the field
+      state.subtasks[index] = {
+        ...state.subtasks[index],
+        [key]: value,
+      };
+    },
+
+
+  }
 });
-export const { setTodoSubtasks, setTodoSubtaskStatus } =
+export const { setTodoSubtasks, setTodoSubtaskStatus, deleteSubtasksLinkedToCertainTodoId, editWhatSubtaskSingleData } =
   todoSubtasksSlice.actions;
 export default todoSubtasksSlice.reducer;
 
@@ -54,7 +100,7 @@ export function fetchTodoSubtasks() {
       return;
     }
     const _list: ITodoSubtasks[] = response.data.data;
-    console.log("SUBTASK LIST : ", _list);
+    // console.log("SUBTASK LIST : ", _list);
 
     // if (_list.length < 0 && !_list) return;
     dispatch(setTodoSubtasks(_list));
@@ -76,8 +122,20 @@ export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1
       dispatch(setTodoSubtaskStatus(Status.ERROR))
     }
   }
-
 }
+
+// Todo-Subtask-Completion-Status/Message
+export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "committed message !" }: { id: string, completionMessage: string }) {
+  return async function SetTodoSubtasksCompletionStatusAndMessageSingleOneThunk(dispatch: AppDispatch) {
+    if (!id && id.length > 0) return;
+    const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status-message/" + id, { completionMessage })
+    if (response.status !== 200) return;
+    // dispatch(editWhatSubtaskSingleData({ key: "completionMessage", value: completionMessage, subtaskId: id }))
+    // dispatch(editWhatSubtaskSingleData({ key: "status", value: true, subtaskId: id }))
+    dispatch(setTodoSubtaskStatus(Status.SUCCESS))
+  }
+}
+
 // // Add Todo Subtask
 // export function addTodoSubtasks(data:ITodoSubtasks[]){
 //   return async function addTodoSubtasksThunk(dispatch:AppDispatch){

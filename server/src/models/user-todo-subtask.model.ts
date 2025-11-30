@@ -10,7 +10,7 @@ export interface ITodoSubtask extends Document {
   user: mongoose.Types.ObjectId;
   todoId: mongoose.Types.ObjectId;
   title: string;
-  status: "pending" | "in-progress";
+  status: "pending" | "completed";
   completionMessage?: string;
   completionStatus?: boolean;
   position: number;
@@ -30,7 +30,7 @@ const TodoSubtaskSchema = new Schema<ITodoSubtask>(
     title: { type: String, required: true, trim: true },
     status: {
       type: String,
-      enum: ["pending", "in-progress"],
+      enum: ["pending", "completed"],
       default: "pending",
     },
     position: { type: Number, index: true },

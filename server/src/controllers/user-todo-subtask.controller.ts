@@ -152,41 +152,36 @@ export const setASubtaskCompletionStatus = async (req: IExtendedRequest, res: Re
 // set subtask completionMessage
 export const setSubtaskCompletionMessage = async (req: IExtendedRequest, res: Response) => {
   try {
-    const userId = req.user?.id
-    const todoId: string = req.params.id
-    const todoSubtaskCompletionMessage: string = req.body.todoSubtaskCompletionMessage
-    if (!userId) return res.status(401).json({
-      message: "Unathourized"
-    })
-    if (!todoId) return res.status(404).json({
-      message: "Todo not found or not yours !"
-    })
+    const userId = req.user?.id;
+    const subtaskId = req.params.id;
+    const completionMessage: string = req.body.completionMessage;
 
-    if (!todoSubtaskCompletionMessage && todoSubtaskCompletionMessage.length < 0) return res.status(405).json({
-      message: "sub task completioon message required !"
-    })
-    const _todoSetSubtaskCompletionStatusAndMessage = await TodoSubtaskModel.findOneAndUpdate(
+    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+    if (!subtaskId || !mongoose.Types.ObjectId.isValid(subtaskId)) {
+      return res.status(400).json({ message: "Invalid subtask ID" });
+    }
+    if (!completionMessage || completionMessage.trim().length === 0) {
+      return res.status(400).json({ message: "Subtask completion message is required!" });
+    }
+
+    const updatedSubtask = await TodoSubtaskModel.findOneAndUpdate(
+      { _id: subtaskId, user: userId },
       {
-        _id: todoId, user: userId
-      },
-      {
+        status: "completed",
         completionStatus: true,
-        completionMessage: todoSubtaskCompletionMessage
+        completionMessage
       },
-      {
-        new: true
-      })
+      { new: true }
+    );
 
-    if (!_todoSetSubtaskCompletionStatusAndMessage) return res.status(404).json({
-      message: "Todo not found or not yours !"
-    })
+    if (!updatedSubtask)
+      return res.status(404).json({ message: "Subtask not found or not yours!" });
 
     res.status(200).json({
-      message: "subtask completion message updated successfully"
-    })
+      message: "Subtask completion status & message updated successfully",
+      data: updatedSubtask
+    });
   } catch (error: any) {
-    res.status(501).json({
-      message: error.message || "internal server error"
-    })
+    res.status(500).json({ message: error.message || "Internal server error" });
   }
-}
+};

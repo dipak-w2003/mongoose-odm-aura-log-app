@@ -4,6 +4,7 @@ import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ITempTodoCollector } from "./temp-todos-collector-slice";
+import { deleteSubtasksLinkedToCertainTodoId, fetchTodoSubtasks } from "./todo-subtasks-slice";
 
 //  For Update and Delete Todos and Subtask 
 /**
@@ -43,9 +44,14 @@ const TodoSlice = createSlice({
      * @Handle_Todo_Tags
      * @CRUD
      */
+
+
+    deleteTodo(state, action: PayloadAction<{ todoId: string }>) {
+      state.todo = state.todo.filter(todo => todo._id !== action.payload.todoId);
+    }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo } = TodoSlice.actions
 export default TodoSlice.reducer
 
 
@@ -58,7 +64,7 @@ export function fetchTodos() {
       dispatch(setTodoStatus(Status.ERROR))
       return;
     }
-    console.log("SUBTASKS : ", subtask_response.data.data);
+    // console.log("SUBTASKS : ", subtask_response.data.data);
 
     let data: ITodo[] | null = null;
     data = todos_response.data?.data
@@ -67,7 +73,6 @@ export function fetchTodos() {
       const _idTOid = data.map((_) => {
         return { ..._, id: _._id }
       })
-      console.log(_idTOid);
 
       dispatch(fetchTodo({ todos: data }))
     }
@@ -111,13 +116,47 @@ export function addTodos(data: ITempTodoCollector) {
   }
 }
 
-// export async function deleteTodos(id: string) {
-//   return async function (dispatch: Dispatch) {
-//     if (!id) return;
-//     const response = await APIWITHTOKEN.delete("/user/todo/" + id)
-//     if (response.status !== 200) return;
+// Delete Todo
+export async function deleteTodos(id: string) {
+  return async function (dispatch: AppDispatch) {
+    if (!id) return;
+    const response = await APIWITHTOKEN.delete("/user/todo/" + id)
+    if (response.status !== 200) return;
+    dispatch(fetchTodos());
+
+  }
+}
+
+// Delete A Entire Todo
+export function deleteAnEntireTodo(id: string) {
+  return async function deleteAnEntireTodoThunk(dispatch: AppDispatch) {
+    if (!id) {
+      dispatch(setTodoStatus(Status.ERROR));
+      return;
+    }
+
+    dispatch(setTodoStatus(Status.LOADING));
+
+    try {
+      const response = await APIWITHTOKEN.delete("/user/donot-touch/delete-an-entire-todo/" + id);
+      if (response.status !== 200) {
+        dispatch(setTodoStatus(Status.ERROR));
+        return;
+      }
 
 
+      // Update store immediately
+      dispatch(deleteTodo({ todoId: id }));
+      dispatch(deleteSubtasksLinkedToCertainTodoId({ todoId: id }));
+      dispatch(setTodoStatus(Status.SUCCESS));
 
-//   }
-// }
+
+      // other fetches
+      // dispatch(fetchTodos())
+      // dispatch(fetchTodoSubtasks())
+    } catch (err) {
+      console.error(err);
+      dispatch(setTodoStatus(Status.ERROR));
+    }
+  };
+}

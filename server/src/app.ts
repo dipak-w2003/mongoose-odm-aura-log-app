@@ -9,7 +9,7 @@ import userTodoRoute from './routes/user-todo.route';
 import userTodoSubTask from './routes/user-todo-subtask.route';
 import userNoteRoute from './routes/user-note.route';
 import userBlogRoute from './routes/user-blog.route';
-
+import donotTouchRoute from './routes/do-not-touch-route';
 /** @dotEnv */
 dotenv.config();
 
@@ -36,5 +36,5 @@ app.use('/api/user/todo', userTodoRoute);
 app.use('/api/user/note', userNoteRoute);
 app.use('/api/user/blog', userBlogRoute);
 app.use('/api/user/todo/subtask', userTodoSubTask);
-
+app.use('/api/user/donot-touch', donotTouchRoute)
 export default app;

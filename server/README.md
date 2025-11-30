@@ -2,57 +2,132 @@
 
 # ODM CRUD Operations's
 
-## CREATE
+## Explain all Modals & proper usecase
 
-```ts
-// create one
-const newUser = await User.create({
-  name: "Dipak",
-  email: "dipak@example.com",
-  age: 23,
-});
-// or insert many
-await User.insertMany([
-  { name: "A", email: "a@mail.com", age: 20 },
-  { name: "B", email: "b@mail.com", age: 25 },
-]);
-```
+## MongoDB + Mongoose Transactions – Full Explanation With Syntax
 
-## READ
+```txt
 
-```ts
-// find all
-const allUsers = await User.find();
-// find with filter
-const user = await User.findOne({ email: "dipak@example.com" });
-// find by id
-const byId = await User.findById("66c1e6b7f8...");
-// find with conditions
-const adults = await User.find({ age: { $gte: 18 } });
-```
+1. Overview
 
-## UPDATE
+MongoDB normally executes operations independently. If one delete
+operation succeeds and another fails, MongoDB will NOT automatically
+roll back changes. This can cause inconsistent data.
 
-```ts
-// update one
-await User.updateOne({ email: "dipak@example.com" }, { $set: { age: 24 } });
-// update many
-await User.updateMany({}, { $inc: { age: 1 } });
-// find & update (returns new document if { new: true })
-const updated = await User.findByIdAndUpdate(
-  "66c1e6b7f8...",
-  { age: 30 },
-  { new: true }
-);
-```
+Mongoose Sessions & Transactions allow grouping multiple operations into
+a single “all-or-nothing” block.
 
-## DELETE
+2. What Is a Session?
 
-```ts
-// delete one
-await User.deleteOne({ email: "dipak@example.com" });
-// delete many
-await User.deleteMany({ age: { $lt: 18 } });
-// find & delete
-await User.findByIdAndDelete("66c1e6b7f8...");
+A session is a temporary workspace that groups several operations
+together.
+
+Syntax:
+
+    const session = await mongoose.startSession();
+
+Meaning: - Creates a private execution context for DB operations -
+Required before starting a transaction
+
+3. What Is a Transaction?
+
+A transaction ensures multiple operations behave as ONE single atomic
+action.
+
+Syntax:
+
+    session.startTransaction();
+
+Meaning: - All operations inside the transaction must either succeed
+together or fail together.
+
+Inside a transaction:
+
+    await Model.create([{ ... }], { session });
+    await Model.updateOne({ ... }).session(session);
+    await Model.deleteOne({ ... }).session(session);
+
+4. What Is Commit?
+
+commitTransaction() finalizes the transaction and saves all changes
+permanently.
+
+Syntax:
+
+    await session.commitTransaction();
+
+Meaning: - Confirms that all operations succeeded - Writes everything to
+the database
+
+5. What Is Abort?
+
+abortTransaction() cancels the transaction and undoes all operations
+inside it.
+
+Syntax:
+
+    await session.abortTransaction();
+
+Meaning: - Rolls back everything and leaves the database unchanged
+
+6. Why Do We Need Transactions?
+
+Without transactions: - Todo deleted ✔ - Subtasks deletion fails ❌ -
+Database becomes inconsistent
+
+With transactions: - Both must succeed or both fail → SAFE
+
+Use transactions to maintain data integrity across multiple collections.
+
+7. When Should You Use Transactions?
+
+Use when operations depend on each other:
+
+-   Delete Todo + Delete Subtasks
+-   Create Order + Create Payment + Decrease Stock
+-   Register User + Create Profile Document
+-   Banking operations (transfer money)
+
+Avoid transactions for: - Basic CRUD - High-frequency operations -
+Single-document writes
+
+8. Example: Delete Todo + Subtasks With Transaction
+
+    deleteAEntireTodo: async (req, res) => {
+      const { todoId } = req.params;
+
+      const session = await mongoose.startSession();
+      session.startTransaction();
+
+      try {
+        await Promise.all([
+          TodoModel.deleteOne({ _id: todoId }).session(session),
+          TodoSubtaskModel.deleteMany({ todoId }).session(session),
+        ]);
+
+        await session.commitTransaction();
+        session.endSession();
+
+        return res.status(200).json({
+          message: "Todo and subtasks deleted successfully!"
+        });
+      } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+
+        return res.status(500).json({ error: error.message });
+      }
+    }
+
+9. Glossary
+
+-   Session: temporary DB workspace for grouped operations
+-   Transaction: runs operations atomically
+-   Commit: finalize and save everything
+-   Abort: rollback and undo everything
+-   Atomicity: all operations succeed or none
+-   Consistency: database always stays in valid state
+
+
+
 ```
