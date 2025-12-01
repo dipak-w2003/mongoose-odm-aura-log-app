@@ -4,7 +4,7 @@ export const connectDB = async (): Promise<void> => {
   try {
     await mongoose.connect(envConfigs.mongoConfig.cs as string)
   } catch (error) {
-    console.log("Mongodb connectio failed !!");
+    console.log("Mongodb connection failed !!");
   }
 }
 // check which database are we currently using 

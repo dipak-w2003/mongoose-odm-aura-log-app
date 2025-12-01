@@ -16,4 +16,4 @@ export const envConfigs = {
     appPassword: process.env.NODEMAILER_GMAIL_APP_PASSWORD
   }
 }
-console.log(process.env.MONGO_DB_CS);
+// console.log(process.env.MONGO_DB_CS);
