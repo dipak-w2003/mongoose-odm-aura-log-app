@@ -80,6 +80,10 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
   // Trigger modal instead of saving immediately
   const handleSaveClick = (subtask: ITodoSubtasks) => {
     const data = subtaskEditState[subtask._id];
+    if (data.completionMessage.length > 0 && data.completionMessage == "N/A") {
+      alert("Provide Something Completion Message !");
+      return;
+    }
     if (!data.completionMessage.trim()) {
       alert("Please enter a commit message.");
       return;
@@ -128,7 +132,8 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
   const cancelSave = () => setModalData(null);
 
   return (
-    <motion.div className="flex flex-col gap-3">
+    <motion.div className="flex flex-col gap-3 border-t border-t-[#022A2A]">
+      <header className="mt-2">Sub Task,</header>
       {finalizedSubtasks.map((subtask) => {
         const editState = subtaskEditState[subtask._id];
         const isOpen = openCommitBoxes.has(subtask._id);
@@ -138,7 +143,7 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
           <motion.div
             key={subtask._id}
             layout
-            className="cursor-pointer bg-[#022A2A] rounded-md border border-[#033c2c] p-3 hover:bg-[#034C38] transition-colors"
+            className={`cursor-pointer bg-[#022A2A] rounded-md border border-[#033c2c] p-3 hover:bg-[#034C38] transition-colors`}
             onClick={() => toggleCommitBox(subtask._id)}
           >
             <div className="flex items-center justify-between">
@@ -151,13 +156,10 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
 
               <div className="relative" onClick={(e) => e.stopPropagation()}>
                 <motion.button
-                  className={`w-6 h-6 rounded-full border flex items-center justify-center ${
-                    editState.completionStatus
-                      ? "border-[#FE802C] bg-[#FE802C]"
-                      : "border-[#888]"
-                  }`}
+                  className={`w-6 h-6 rounded-full flex items-center justify-center cursor-not-allowed`}
                   whileTap={{ scale: 0.9 }}
-                  disabled={editState.completionStatus}
+                  // by default, we cannot completion tick:input to be disabled & so on the clickEvent:functions()
+                  disabled
                   onClick={() => {
                     const newStatus = !editState.completionStatus;
                     updateSubtaskField(
@@ -173,16 +175,45 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
                       })
                     );
 
-                    dispatch(fetchTodoSubtasks());
+                    // dispatch(fetchTodoSubtasks());
                   }}
                 >
-                  {editState.completionStatus && (
-                    <div className="w-3 h-3 bg-black rounded-full" />
-                  )}
+                  <svg
+                    width="64px"
+                    height="64px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={{
+                      filter: editState.completionStatus
+                        ? "drop-shadow(0 4px 6px rgba(254, 128, 44, 0.5))"
+                        : "none",
+                      transition: "filter 0.2s ease-in-out",
+                    }}
+                  >
+                    <path
+                      d="M7.29417 12.9577L10.5048 16.1681L17.6729 9"
+                      stroke={
+                        editState.completionStatus ? "#FE802C" : "transparent"
+                      }
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke={"#FE802C"}
+                      strokeWidth="2"
+                    ></circle>
+                  </svg>
                 </motion.button>
               </div>
             </div>
 
+            {/* Animate Presence */}
+            {/* Toggled Commit Box Message */}
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div

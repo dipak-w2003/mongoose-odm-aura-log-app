@@ -4,7 +4,7 @@ import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 
 /**@Interface_Types */
-export type ITodoSubtasksStatus = "pending" | "in-progress";
+export type ITodoSubtasksStatus = "pending" | "completed";
 export interface ITodoSubtasks {
   _id: string,
   todoId: string;
@@ -125,13 +125,17 @@ export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1
 }
 
 // Todo-Subtask-Completion-Status/Message
-export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "committed message !" }: { id: string, completionMessage: string }) {
+export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "completion message !" }: { id: string, completionMessage: string }) {
   return async function SetTodoSubtasksCompletionStatusAndMessageSingleOneThunk(dispatch: AppDispatch) {
     if (!id && id.length > 0) return;
     const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status-message/" + id, { completionMessage })
     if (response.status !== 200) return;
-    // dispatch(editWhatSubtaskSingleData({ key: "completionMessage", value: completionMessage, subtaskId: id }))
-    // dispatch(editWhatSubtaskSingleData({ key: "status", value: true, subtaskId: id }))
+
+    // Individually updating for now
+
+    dispatch(editWhatSubtaskSingleData({ key: "completionMessage", value: completionMessage, subtaskId: id }))
+    dispatch(editWhatSubtaskSingleData({ key: "status", value: "completed", subtaskId: id }))
+    dispatch(editWhatSubtaskSingleData({ key: "completionStatus", value: true, subtaskId: id }))
     dispatch(setTodoSubtaskStatus(Status.SUCCESS))
   }
 }

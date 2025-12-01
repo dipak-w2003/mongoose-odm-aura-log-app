@@ -23,6 +23,7 @@ interface TodoCardProps {
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
   const dispatch: AppDispatch = useDispatch();
+
   return (
     <div className="group w-full">
       <div
@@ -42,7 +43,16 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             priority={todo.priority}
             date={new Date()}
           />
-          <PieChart progress={Math.floor(Math.random() * 100)} label="" />
+          {/* pie chart progress in the percent basis of subtask.completionStatus */}
+          <PieChart
+            progress={Math.floor(
+              (subtasks.filter((st) => st.completionStatus && st.status)
+                .length /
+                subtasks.length) *
+                100
+            )}
+            label=""
+          />
         </article>
 
         {/* TOGGLE BUTTON */}

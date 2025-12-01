@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 // Use require instead of import
-const AutoIncrementFactory = require("mongoose-sequence");
+// const AutoIncrementFactory = require("mongoose-sequence");
 
-// Initialize with the connection
-const AutoIncrement = AutoIncrementFactory(mongoose.connection);
+// // Initialize with the connection
+// const AutoIncrement = AutoIncrementFactory(mongoose.connection);
 
 export interface ITodoSubtask extends Document {
   user: mongoose.Types.ObjectId;
