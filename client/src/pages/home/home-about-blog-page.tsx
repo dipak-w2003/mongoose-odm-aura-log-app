@@ -1,5 +1,3 @@
-import React from "react";
-
 const HomeAboutBlogPage = () => {
   return (
     <main className="flex justify-center items-center">

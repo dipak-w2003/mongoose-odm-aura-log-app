@@ -4,7 +4,7 @@ import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Status } from "@/lib/global";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { status } = useSelector((state: RootState) => state.userLogin);

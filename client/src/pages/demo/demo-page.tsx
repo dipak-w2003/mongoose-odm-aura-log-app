@@ -1,5 +1,3 @@
-import React from "react";
-
 const DemoPage = () => {
   return <div>DemoPage</div>;
 };

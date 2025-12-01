@@ -40,7 +40,7 @@ const todoSubtasksSlice = createSlice({
     },
 
     // TODO : delete single subtask (btw, not needed for now. but need in the future)
-    deleteSubtaskSingle(state, action: PayloadAction<{}>) { },
+    // deleteSubtaskSingle(state, action: PayloadAction<{}>) { },
 
     // Deletes all subtask linked to a certain todo._id === substaks[todoId]
     deleteSubtasksLinkedToCertainTodoId(state, action: PayloadAction<{ todoId: string }>) {

@@ -4,7 +4,7 @@ import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ITempTodoCollector } from "./temp-todos-collector-slice";
-import { deleteSubtasksLinkedToCertainTodoId, fetchTodoSubtasks } from "./todo-subtasks-slice";
+import { deleteSubtasksLinkedToCertainTodoId } from "./todo-subtasks-slice";
 
 //  For Update and Delete Todos and Subtask 
 /**
@@ -65,14 +65,15 @@ export function fetchTodos() {
       return;
     }
     // console.log("SUBTASKS : ", subtask_response.data.data);
+    console.log(subtask_response.status);
 
     let data: ITodo[] | null = null;
     data = todos_response.data?.data
     if (data && data.length !== 0) {
       dispatch(setTodoStatus(Status.SUCCESS))
-      const _idTOid = data.map((_) => {
-        return { ..._, id: _._id }
-      })
+      // const _idTOid = data.map((_) => {
+      //   return { ..._, id: _._id }
+      // })
 
       dispatch(fetchTodo({ todos: data }))
     }

@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { IUserLog } from "../global/auth/login/user-login-slice.type";
 
-const BASE_URL = "http://localhost:4406/api";
+// const BASE_URL = "http://localhost:4406/api";
+const BASE_URL = "https://mongoose-odm-aura-log-app.onrender.com/api";
 
 // Create a base axios instance (no auth)
 export const API = axios.create({
