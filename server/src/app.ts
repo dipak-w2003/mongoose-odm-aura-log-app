@@ -23,7 +23,7 @@ connectDB();
 app.use(express.json());
 
 /** @CORS : Allow Backend API calling from other URLs */
-const allowedOrigins = ["http://localhost:5173", "http://localhost:4173"];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:4173", "https://mongoose-odm-aura-log-app-client.onrender.com"];
 app.use(
   cors({
     origin: (origin, callback) => {
