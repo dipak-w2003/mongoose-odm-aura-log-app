@@ -26,7 +26,7 @@ if (userData) {
 
 // Extract token either from `parsedUser` or directly from localStorage
 const token = parsedUser?.token || localStorage.getItem("token");
-console.log(token);
+// console.log(token);
 
 // Create axios instance with token if available
 export const APIWITHTOKEN = axios.create({

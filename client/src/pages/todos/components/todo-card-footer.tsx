@@ -1,14 +1,17 @@
+import Modal from "@/components/most-use/modal";
+import { useState } from "react";
+import AddMainTodoCard from "./add-main-todo-card";
+import TodoModalTabs from "./todo-modal-tabs";
+import TodoSubTaskCard from "./todo-subtask-card";
+
 interface TodoCardFooterProps {
   onEdit?: () => void;
   onDelete?: () => void;
   onMarkComplete?: () => void;
 }
 
-const TodoCardFooter = ({
-  onEdit,
-  onDelete,
-  onMarkComplete,
-}: TodoCardFooterProps) => {
+const TodoCardFooter = ({ onDelete, onMarkComplete }: TodoCardFooterProps) => {
+  const [open, setOpen] = useState(false);
   return (
     <footer className="flex justify-end gap-3 mt-3">
       {/* Complete */}
@@ -21,7 +24,7 @@ const TodoCardFooter = ({
 
       {/* Edit */}
       <button
-        onClick={onEdit}
+        onClick={() => setOpen(true)}
         className="bg-[#022A2A] border border-[#0dcaa3] text-[#0dcaa3] text-sm px-3 py-1 rounded-md hover:bg-[#034C38] transition-all"
       >
         Edit
@@ -30,10 +33,27 @@ const TodoCardFooter = ({
       {/* Delete */}
       <button
         onClick={onDelete}
-        className="bg-[#bf3b3b] text-white text-sm px-3 py-1 rounded-md hover:bg-[#d15656] transition-all"
+        className="bg-[#bf3b3b] text-white text-sm px-3 py-1 rounded-md hover:bg-[#d1bd56] transition-all"
       >
         Delete
       </button>
+
+      {/* Modal */}
+      <Modal
+        isOpen={open}
+        // setClose={() => setOpen(false)}
+        onClose={() => setOpen(false)}
+      >
+        <TodoModalTabs
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          tabs={[
+            { content: <AddMainTodoCard />, id: "1", label: "Main Todo" },
+            { content: <TodoSubTaskCard />, id: "2", label: "Sub Task" },
+          ]}
+        />
+        {/* <AddMainTodoCard /> */}
+      </Modal>
     </footer>
   );
 };
