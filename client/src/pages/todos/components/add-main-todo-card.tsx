@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  type ChangeEvent,
-  type FormEvent,
-  type ReactNode,
-} from "react";
+import { type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { todoPriority } from "@/lib/store/todos/todos-slice-type";
 
@@ -11,46 +6,35 @@ import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  setTodoTitleTemp,
-  setTodoDescriptionTemp,
-  setTodoDueDateTemp,
-  setTodoPriorityTemp,
-  setTodoTimeTemp,
-  setValidateTodoTempCollectionNullifification,
-  resetTempTodoCollector,
-} from "@/lib/store/todos/temp-todos-collector-slice";
-
-import { addTodos } from "@/lib/store/todos/todos-slice";
+  setTodoTitleUpdate,
+  setTodoDescriptionUpdate,
+  setTodoDueDateUpdate,
+  setTodoPriorityUpdate,
+  setTodoTimeUpdate,
+  resetUpdateTodoCollector,
+} from "@/lib/store/todos/updating-todos-collector-slice";
 
 interface AddTodoCardProps {
   title?: string;
   children?: ReactNode;
-  onClose?: () => void;
+  // onClose?: () => void;
 }
 
-const AddMainTodoCard = ({
-  title = "Create Task",
-  children,
-  onClose,
-}: AddTodoCardProps) => {
+const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { _isNullificationExists, todo: tempTodos } = useSelector(
-    (state: RootState) => state.tempTodoCollector
+  const { _isNullificationExists, todo: updatingTodo } = useSelector(
+    (state: RootState) => state.updateTodoCollector
   );
   const { status: todoStatus } = useSelector((state: RootState) => state.todos);
 
-  const tempTodosSafe = tempTodos || {
+  const udpdatingTodoSafe = updatingTodo || {
     title: "",
     description: "",
     priority: "medium" as todoPriority,
     dueDate: "",
     time: "10:00",
   };
-
-  useEffect(() => {
-    dispatch(setValidateTodoTempCollectionNullifification());
-  }, [dispatch, tempTodos]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,8 +43,7 @@ const AddMainTodoCard = ({
       return;
     }
 
-    dispatch(addTodos(tempTodosSafe));
-    dispatch(resetTempTodoCollector());
+    dispatch(resetUpdateTodoCollector());
     console.log("Todo added successfully");
   };
 
@@ -72,14 +55,14 @@ const AddMainTodoCard = ({
   return (
     <AnimatePresence>
       <motion.div
-        className=" inset-0 z-50 flex items-center justify-center "
+        className=" inset-0 z-50 flex items-center w-full justify-center "
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={onClose}
+        // onClick={onClose}
       >
         <motion.div
-          className="relative w-[90%]   border border-white/20 rounded p-5 shadow-xl"
+          className="relative w-[fit]   border p-5 border-white/20 rounded  shadow-xl"
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -92,19 +75,19 @@ const AddMainTodoCard = ({
           </div> */}
 
           {/* Form */}
-          <form className="flex flex-col gap-5 " onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
             <AnimatePresence>
               <motion.section
-                className="flex flex-col gap-3"
+                className="flex flex-col gap-3 "
                 variants={sectionVariants}
                 initial="hidden"
                 animate="visible"
               >
                 <input
                   type="text"
-                  value={tempTodosSafe.title}
+                  value={udpdatingTodoSafe.title}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    dispatch(setTodoTitleTemp(e.target.value))
+                    dispatch(setTodoTitleUpdate(e.target.value))
                   }
                   placeholder="Task Name"
                   required
@@ -112,9 +95,9 @@ const AddMainTodoCard = ({
                   autoComplete="off"
                 />
                 <textarea
-                  value={tempTodosSafe.description}
+                  value={udpdatingTodoSafe.description}
                   onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                    dispatch(setTodoDescriptionTemp(e.target.value))
+                    dispatch(setTodoDescriptionUpdate(e.target.value))
                   }
                   placeholder="Task Description"
                   rows={4}
@@ -122,10 +105,10 @@ const AddMainTodoCard = ({
                 />
                 <div className="flex gap-3">
                   <select
-                    value={tempTodosSafe.priority}
+                    value={udpdatingTodoSafe.priority}
                     onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                       dispatch(
-                        setTodoPriorityTemp(e.target.value as todoPriority)
+                        setTodoPriorityUpdate(e.target.value as todoPriority)
                       )
                     }
                     className="bg-white/20 text-white px-3 py-3 rounded-lg outline-none border border-white/20"
@@ -138,17 +121,17 @@ const AddMainTodoCard = ({
                   </select>
                   <input
                     type="date"
-                    value={tempTodosSafe.dueDate}
+                    value={udpdatingTodoSafe.dueDate.slice(0, 10)}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setTodoDueDateTemp(e.target.value))
+                      dispatch(setTodoDueDateUpdate(e.target.value))
                     }
                     className="bg-white/20 text-white px-3 py-3 rounded-lg outline-none border border-white/20"
                   />
                   <input
                     type="time"
-                    value={tempTodosSafe.time}
+                    value={udpdatingTodoSafe.dueDate.slice(11, 16)}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setTodoTimeTemp(e.target.value))
+                      dispatch(setTodoTimeUpdate(e.target.value))
                     }
                     className="bg-white/20 text-white px-3 py-3 rounded-lg outline-none border border-white/20"
                   />
@@ -170,13 +153,13 @@ const AddMainTodoCard = ({
             )}
 
             {/* Buttons */}
-            <div className="flex justify-end gap-3 mt-4">
+            <div className="flex justify-center w-full gap-3 mt-4">
               {!_isNullificationExists && (
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                  className="px-4 py-2 bg-green-500 w-full text-white rounded-lg hover:bg-green-600 transition"
                 >
-                  Add Task
+                  Update
                 </button>
               )}
             </div>

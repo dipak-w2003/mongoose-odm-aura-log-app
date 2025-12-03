@@ -14,12 +14,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     <ModalPortal>
       {/* Backdrop */}
       <div
-        className="fixed inset-0  backdrop-blur-md flex items-center justify-center z-[9999] h-dvh"
+        className="fixed inset-0  backdrop-blur-md flex items-center justify-center z-[9999] h-dvh overflow-hidden"
         onClick={onClose}
       >
         {/* Modal box */}
         <div
-          className="relative  backdrop-blur-md w-[90%]  h-0"
+          className="relative  backdrop-blur-md w-[90%] "
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}

@@ -23,7 +23,6 @@ interface TodoCardProps {
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
   const dispatch: AppDispatch = useDispatch();
-
   return (
     <div className="group w-full">
       <div
@@ -93,10 +92,11 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
                 specifiedTodoId={todo._id}
               />
               <TodoCardFooter
+                todosData={{ ...todo, subtask: subtasks }}
+                id={todo._id}
                 onMarkComplete={() =>
                   console.log(`Mark complete: ${todo.title}`)
                 }
-                onEdit={() => console.log(`Edit todo: ${todo.title}`)}
                 onDelete={() => dispatch(deleteAnEntireTodo(todo._id))}
               />
             </motion.div>

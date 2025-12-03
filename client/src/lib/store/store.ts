@@ -6,6 +6,7 @@ import sidebarLv2Slice from "./additionals/sidebar/sidebar-slice"
 import tempTodoCollectorSlice from "./todos/temp-todos-collector-slice"
 import todoSlice from "./todos/todos-slice"
 import todoSubtasksSlice from './todos/todo-subtasks-slice'
+import updateTodoCollectorSlice from './todos/updating-todos-collector-slice'
 export const store = configureStore({
   reducer: {
     sidebar2LinkManage: sidebarLv2Slice,
@@ -14,7 +15,8 @@ export const store = configureStore({
     userRegister: userRegisterlice,
     tempTodoCollector: tempTodoCollectorSlice,
     todos: todoSlice,
-    todoSubtask: todoSubtasksSlice
+    todoSubtask: todoSubtasksSlice,
+    updateTodoCollector: updateTodoCollectorSlice
   },
 })
 

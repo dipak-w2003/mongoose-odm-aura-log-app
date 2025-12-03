@@ -169,7 +169,7 @@ const AddTodoMainPage = () => {
             initial="hidden"
             animate="visible"
           >
-            <SubTaskPage />
+            <TodoTagsPage />
           </motion.section>
         </AnimatePresence>
 
@@ -180,7 +180,7 @@ const AddTodoMainPage = () => {
             initial="hidden"
             animate="visible"
           >
-            <TodoTagsPage />
+            <SubTaskPage />
           </motion.section>
         </AnimatePresence>
 

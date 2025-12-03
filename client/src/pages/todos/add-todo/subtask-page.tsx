@@ -104,18 +104,52 @@ const SubTaskPage = () => {
                 key={`subtask:${idx}:${item}`}
                 draggable
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.15 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  y: dragOverItem.current === idx ? 6 : 0, // SHIFT DOWN ON HOVER
+                  boxShadow:
+                    dragOverItem.current === idx
+                      ? "0px 0px 12px rgba(255,255,255,0.35)"
+                      : "0px 0px 0px rgba(0,0,0,0)",
+                  transition: { duration: 0.15, ease: "easeOut" },
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.9,
+                  transition: { duration: 0.15 },
+                }}
+                transition={{
+                  layout: { type: "spring", stiffness: 420, damping: 30 },
+                }}
                 onDragStart={() => (dragItem.current = idx)}
                 onDragEnter={() => (dragOverItem.current = idx)}
                 onDragEnd={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
-                whileDrag={{ scale: 1.05 }}
-                className="pr-3 gap-1 w-fit bg-[#034A37] min-h-[50px] h-[50px] rounded inline-flex  items-center  cursor-grab select-none transition-transform duration-150 hover:scale-[1.01]"
+                whileDrag={{
+                  scale: 1.07,
+                  opacity: 0.85,
+                  rotate: 0.5,
+                  boxShadow: "0px 6px 18px rgba(0,0,0,0.4)",
+                  transition: { duration: 0.12 },
+                }}
+                className="relative pr-3 gap-1 w-fit bg-[#034A37] min-h-[50px] h-[50px] rounded inline-flex items-center cursor-grab select-none"
               >
-                <p className="ml-3 h-[30px] w-[30px] rounded-full flex justify-center items-center  text-lg font-extrabold">
+                {/* DROP INDICATOR BAR */}
+                {dragOverItem.current === idx && (
+                  <motion.div
+                    layoutId="drop-indicator"
+                    className="absolute top-0 left-0 w-full h-[3px] rounded"
+                    style={{ background: "rgba(255,255,255,0.45)" }}
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    exit={{ opacity: 0, scaleX: 0 }}
+                    transition={{ duration: 0.15 }}
+                  />
+                )}
+
+                <p className="ml-3 h-[30px] w-[30px] rounded-full flex justify-center items-center text-lg font-extrabold">
                   {idx + 1})
                 </p>
                 <h3 className="text-sm ml-3">{item}</h3>

@@ -8,12 +8,18 @@ interface TabItem {
 }
 
 interface ModalTabsProps {
+  title?: string;
   isOpen: boolean;
   onClose: () => void;
   tabs: TabItem[];
 }
 
-const TodoModalTabs = ({ isOpen, onClose, tabs }: ModalTabsProps) => {
+const TodoModalTabs = ({
+  isOpen,
+  onClose,
+  tabs,
+  title = "Modal Demo",
+}: ModalTabsProps) => {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   if (!isOpen) return null;
@@ -45,7 +51,7 @@ const TodoModalTabs = ({ isOpen, onClose, tabs }: ModalTabsProps) => {
       >
         {/* Header */}
         <div className="flex justify-between items-center h-fit mb-4">
-          <h2 className="text-white font-semibold text-xl">Task Editor</h2>
+          <h2 className="text-white font-semibold text-md">{title}</h2>
 
           <button
             onClick={onClose}
@@ -78,6 +84,7 @@ const TodoModalTabs = ({ isOpen, onClose, tabs }: ModalTabsProps) => {
         {/* Content */}
         <AnimatePresence mode="wait">
           <motion.div
+            className=""
             key={activeTab}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

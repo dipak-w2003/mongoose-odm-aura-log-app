@@ -9,7 +9,7 @@ export default function ModalPortal({ children }: Props) {
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    const el = document.getElementById("todo-subtask-modal");
+    const el = document.getElementById("todo-modal");
     setContainer(el);
   }, []);
 
