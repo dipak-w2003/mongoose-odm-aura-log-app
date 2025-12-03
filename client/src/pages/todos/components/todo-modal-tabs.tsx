@@ -1,5 +1,8 @@
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store/store";
+import { setPortalModalClose } from "@/lib/store/additionals/portal-modal/portal-modal-slice";
 
 interface TabItem {
   id: string;
@@ -14,15 +17,14 @@ interface ModalTabsProps {
   tabs: TabItem[];
 }
 
-const TodoModalTabs = ({
-  isOpen,
-  onClose,
-  tabs,
-  title = "Modal Demo",
-}: ModalTabsProps) => {
+const TodoModalTabs = ({ tabs, title = "Modal Demo" }: ModalTabsProps) => {
+  const { isPortalOpen } = useSelector((state: RootState) => state.portalModal);
+
+  const dispatch: AppDispatch = useDispatch();
+
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
-  if (!isOpen) return null;
+  if (!isPortalOpen) return null;
 
   return (
     <AnimatePresence>
@@ -32,7 +34,7 @@ const TodoModalTabs = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={onClose}
+        onClick={() => dispatch(setPortalModalClose())}
       />
 
       {/* Modal */}
@@ -54,7 +56,7 @@ const TodoModalTabs = ({
           <h2 className="text-white font-semibold text-md">{title}</h2>
 
           <button
-            onClick={onClose}
+            onClick={() => dispatch(setPortalModalClose())}
             className="text-white bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg"
           >
             Close

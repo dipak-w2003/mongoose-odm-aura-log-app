@@ -67,7 +67,7 @@ export default function TodoSubTaskCard() {
 
     // Clear all subtasks safely
     arr.forEach((_, index) =>
-      dispatch(deleteTodoSubTaskUpdate({ _idx: index }))
+      dispatch(deleteTodoSubTaskUpdate({ _idx: _._id }))
     );
     arr.forEach((item) => dispatch(setTodoSubTaskUpdate(item)));
 
@@ -111,7 +111,7 @@ export default function TodoSubTaskCard() {
                 <img
                   src={multiplySVG}
                   onClick={() =>
-                    dispatch(deleteTodoSubTaskUpdate({ _idx: idx }))
+                    dispatch(deleteTodoSubTaskUpdate({ _idx: item._id }))
                   }
                   className="h-4 opacity-70 group-hover:opacity-100 cursor-pointer hover:scale-110 transition"
                   alt="delete"

@@ -8,8 +8,12 @@ import {
   setEntireDataUpdatingTodo,
   type IUpdateTodoCollector,
 } from "@/lib/store/todos/updating-todos-collector-slice";
-import type { AppDispatch } from "@/lib/store/store";
-import { useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPortalModalClose,
+  setPortalModalOpen,
+} from "@/lib/store/additionals/portal-modal/portal-modal-slice";
 
 interface TodoCardFooterProps {
   id: string;
@@ -25,7 +29,8 @@ const TodoCardFooter = ({
   onMarkComplete,
   todosData,
 }: TodoCardFooterProps) => {
-  const [open, setOpen] = useState(false);
+  const { isPortalOpen } = useSelector((state: RootState) => state.portalModal);
+
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -42,7 +47,7 @@ const TodoCardFooter = ({
       <button
         onClick={() => {
           dispatch(setEntireDataUpdatingTodo(todosData));
-          setOpen(true);
+          dispatch(setPortalModalOpen());
         }}
         className="bg-[#022A2A] border border-[#0dcaa3] text-[#0dcaa3] text-sm px-3 py-1 rounded-md hover:bg-[#034C38] transition-all"
       >
@@ -59,18 +64,16 @@ const TodoCardFooter = ({
 
       {/* Modal */}
       <Modal
-        isOpen={open}
-        // setClose={() => setOpen(false)}
-        onClose={() => setOpen(false)}
+      // setClose={() => setOpen(false)}
       >
         <TodoModalTabs
           title={"Todo Update : " + id}
-          isOpen={open}
-          onClose={() => setOpen(false)}
+          isOpen={isPortalOpen}
+          onClose={() => dispatch(setPortalModalClose())}
           tabs={[
             { content: <AddMainTodoCard />, id: "1", label: "Main Todo" },
             { content: <TodoTagsCard />, id: "2", label: "Todo Tags" },
-            { content: <TodoSubTaskCard />, id: "3", label: "Todo Subtask" },
+            // { content: <TodoSubTaskCard />, id: "3", label: "Todo Subtask" },
           ]}
         />
         {/* <AddMainTodoCard /> */}

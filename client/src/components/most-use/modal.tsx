@@ -1,21 +1,24 @@
 import React from "react";
 import ModalPortal from "./modal-portal";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store/store";
+import { setPortalModalClose } from "@/lib/store/additionals/portal-modal/portal-modal-slice";
 
 interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+const Modal: React.FC<ModalProps> = ({ children }) => {
+  const { isPortalOpen } = useSelector((state: RootState) => state.portalModal);
+  const dispatch: AppDispatch = useDispatch();
+  if (!isPortalOpen) return null;
 
   return (
     <ModalPortal>
       {/* Backdrop */}
       <div
         className="fixed inset-0  backdrop-blur-md flex items-center justify-center z-[9999] h-dvh overflow-hidden"
-        onClick={onClose}
+        onClick={() => dispatch(setPortalModalClose())}
       >
         {/* Modal box */}
         <div

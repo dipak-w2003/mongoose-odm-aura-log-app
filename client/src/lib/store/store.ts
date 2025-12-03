@@ -7,6 +7,8 @@ import tempTodoCollectorSlice from "./todos/temp-todos-collector-slice"
 import todoSlice from "./todos/todos-slice"
 import todoSubtasksSlice from './todos/todo-subtasks-slice'
 import updateTodoCollectorSlice from './todos/updating-todos-collector-slice'
+import portalModalSlice from "./additionals/portal-modal/portal-modal-slice"
+
 export const store = configureStore({
   reducer: {
     sidebar2LinkManage: sidebarLv2Slice,
@@ -16,7 +18,8 @@ export const store = configureStore({
     tempTodoCollector: tempTodoCollectorSlice,
     todos: todoSlice,
     todoSubtask: todoSubtasksSlice,
-    updateTodoCollector: updateTodoCollectorSlice
+    updateTodoCollector: updateTodoCollectorSlice,
+    portalModal: portalModalSlice
   },
 })
 

@@ -39,6 +39,15 @@ const TodoSlice = createSlice({
     },
 
 
+    // Make Update Todo Reducer
+
+    // :: updateTodo used in other part of the slice
+    EditMainStateTodo(state, action: PayloadAction<{ todo: ITodo, _id: string }>) {
+      if (!action.payload._id) return
+      const _index = state.todo.findIndex(_ => _._id == action.payload.todo._id)
+      if (_index || _index < 0) return;
+      state.todo.splice(_index, 1, action.payload.todo)
+    },
 
     /**
      * @Handle_Todo_Tags
@@ -51,7 +60,7 @@ const TodoSlice = createSlice({
     }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo, deleteTodo } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo } = TodoSlice.actions
 export default TodoSlice.reducer
 
 

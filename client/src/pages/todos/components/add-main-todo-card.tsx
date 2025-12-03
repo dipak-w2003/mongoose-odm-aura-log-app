@@ -1,4 +1,9 @@
-import { type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  type ChangeEvent,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { todoPriority } from "@/lib/store/todos/todos-slice-type";
 
@@ -12,7 +17,10 @@ import {
   setTodoPriorityUpdate,
   setTodoTimeUpdate,
   resetUpdateTodoCollector,
+  setValidateTodoUpdateCollectionNullifification,
+  updateTodos,
 } from "@/lib/store/todos/updating-todos-collector-slice";
+import { setValidateTodoTempCollectionNullifification } from "@/lib/store/todos/temp-todos-collector-slice";
 
 interface AddTodoCardProps {
   title?: string;
@@ -43,6 +51,9 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
       return;
     }
 
+    console.log(updateTodos);
+
+    dispatch(updateTodos(updatingTodo));
     dispatch(resetUpdateTodoCollector());
     console.log("Todo added successfully");
   };
@@ -51,6 +62,9 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
+  useEffect(() => {
+    dispatch(setValidateTodoUpdateCollectionNullifification());
+  }, [dispatch, updatingTodo]);
 
   return (
     <AnimatePresence>
@@ -129,7 +143,7 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
                   />
                   <input
                     type="time"
-                    value={udpdatingTodoSafe.dueDate.slice(11, 16)}
+                    value={udpdatingTodoSafe.time || "10:10"}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       dispatch(setTodoTimeUpdate(e.target.value))
                     }
