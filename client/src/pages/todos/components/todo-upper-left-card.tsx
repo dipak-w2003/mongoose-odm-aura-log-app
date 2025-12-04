@@ -4,7 +4,7 @@ import type { todoPriority } from "@/lib/store/todos/todos-slice-type";
 interface Props {
   title: string;
   priority: todoPriority;
-  date: Date;
+  date: string;
   tags?: string[];
 }
 
@@ -22,7 +22,7 @@ const TodoUpperLeftContent = ({ title, priority, date, tags }: Props) => {
         ))}
 
         <h3 className="text-white border border-[#BCCBCE] px-3 py-1 rounded-md text-sm font-bold">
-          {date.toLocaleDateString()}
+          {date}
         </h3>
       </div>
 

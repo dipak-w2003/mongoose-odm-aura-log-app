@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SidebarLv1 from "./sidebar-lv1";
 import SidebarLv2 from "./sidebar-lv2";
 import { type IUseToggle } from "@/hooks/local/toggle.hook";
-import type { RootState } from "@/lib/store/store";
+import type { AppDispatch, RootState } from "@/lib/store/store";
 import {
   ISidebarParentNamesCollection,
   type ISideBar,
@@ -10,6 +10,7 @@ import {
 } from "./sidebar.type";
 import { useEffect, type JSX } from "react";
 import { useLocation } from "react-router-dom";
+import { setSidebarParentName } from "@/lib/store/additionals/sidebar/sidebar-slice";
 export interface ISidebarLayoutProps extends IUseToggle {
   isLoggedIn?: string | null;
   IsidebarParentNames?: ISidebarParentNames;
@@ -19,10 +20,12 @@ export const SidebarLayout = () => {
   const isLoggedIn = user && user?.token && user?.username;
 
   const SidebarLv2Component = (): JSX.Element | undefined => {
+    const disptach: AppDispatch = useDispatch();
     const { pathname } = useLocation();
     const parts = pathname.split("/").filter(Boolean);
     const parent = parts[1] as ISideBar["parentName"];
-    // console.log(parent);
+    console.log(parent);
+    disptach(setSidebarParentName(parent));
     if (isLoggedIn && ISidebarParentNamesCollection.includes(parent)) {
       return (
         <SidebarLv2 IsidebarParentNames={parent} isLoggedIn={isLoggedIn} />

@@ -6,6 +6,7 @@ import { APIWITHTOKEN } from "../http/API";
 import { Status } from "@/lib/global";
 import { EditMainStateTodo } from "./todos-slice";
 import { setPortalModalClose, setPortalModalOpen } from "../additionals/portal-modal/portal-modal-slice";
+import { dateToString } from "@/utils/date-converter";
 export interface IUpdateTodoCollector {
   _id: string,
   title: string,
@@ -21,7 +22,7 @@ const initialState: { todo: IUpdateTodoCollector, _isNullificationExists: boolea
     _id: "",
     title: "",
     description: "",
-    dueDate: "",
+    dueDate: dateToString(new Date(), "INPUT_DATE"),
     priority: "medium",
     subtask: [],
     tags: [],
@@ -45,20 +46,9 @@ const updateTodoCollectorSlice = createSlice({
     },
     setTodoDueDateUpdate(state, action: PayloadAction<string>) {
       // action.payload = "2025-12-27"
-      if (!state.todo.time) return; // safety check
+      console.log(action.payload);
 
-      const [year, month, day] = action.payload.split("-").map(Number);
-      const [hoursStr, minutesStr] = state.todo.time.split(":");
-
-      const hours = Number(hoursStr);
-      const minutes = Number(minutesStr);
-
-      // JS months are 0-indexed
-      const dueDateObj = new Date(year, month - 1, day, hours, minutes);
-
-      // Store as ISO string for consistency
-      state.todo.dueDate = dueDateObj.toISOString();
-      console.log(state.todo.dueDate);
+      state.todo.dueDate = action.payload;
 
     },
 
@@ -84,8 +74,6 @@ const updateTodoCollectorSlice = createSlice({
       // attaching those two for actual date and reminer time in future or coming days backend-database:todo:dueDate will be this so we can split("||") in future
       state.todo.time = action.payload
 
-      console.log(state.todo.dueDate);
-
     },
 
     setValidateTodoUpdateCollectionNullifification(state) {
@@ -102,7 +90,8 @@ const updateTodoCollectorSlice = createSlice({
     },
     setEntireDataUpdatingTodo(state, action: PayloadAction<IUpdateTodoCollector>) {
       const data = action.payload
-      state.todo = { ...data }
+
+      state.todo = { ...data, dueDate: dateToString(undefined, "INPUT_DATEx2", data.dueDate) }
     }
     ,
     resetUpdateTodoCollector(state) {
@@ -149,7 +138,7 @@ export interface IOnlyUpdateMainTodos {
 export function updateTodos(data: IOnlyUpdateMainTodos) {
   return async function updateTodosThunk(dispatch: AppDispatch) {
     if (!data._id && data._id.length > 5) return;
-    const _data = { ...data, dueDate: new Date() }
+    const _data = { ...data, dueDate: data.dueDate.split("-").join("/") }
     const response = await APIWITHTOKEN.patch("/user/todo/" + data._id, _data)
     if (response.status !== 200) {
       dispatch(setUpdateTodoStatus(Status.ERROR))
@@ -158,8 +147,8 @@ export function updateTodos(data: IOnlyUpdateMainTodos) {
       return
     }
     dispatch(setUpdateTodoStatus(Status.SUCCESS))
-    dispatch(setPortalModalClose())
-    dispatch(EditMainStateTodo({ _id: data._id, todo: data }))
+    dispatch(EditMainStateTodo({ todo: data }))
     dispatch(resetUpdateTodoCollector())
+    dispatch(setPortalModalClose())
   }
 }

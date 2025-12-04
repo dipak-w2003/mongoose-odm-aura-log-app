@@ -40,7 +40,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             title={todo.title}
             tags={todo.tags}
             priority={todo.priority}
-            date={new Date()}
+            date={todo.dueDate.split("T")[0].split("-").join(" / ")}
           />
           {/* pie chart progress in the percent basis of subtask.completionStatus */}
           <PieChart

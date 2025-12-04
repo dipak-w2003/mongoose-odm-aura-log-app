@@ -21,6 +21,7 @@ import {
   updateTodos,
 } from "@/lib/store/todos/updating-todos-collector-slice";
 import { setValidateTodoTempCollectionNullifification } from "@/lib/store/todos/temp-todos-collector-slice";
+import { dateToString } from "@/utils/date-converter";
 
 interface AddTodoCardProps {
   title?: string;
@@ -135,7 +136,7 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
                   </select>
                   <input
                     type="date"
-                    value={udpdatingTodoSafe.dueDate.slice(0, 10)}
+                    value={udpdatingTodoSafe.dueDate}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       dispatch(setTodoDueDateUpdate(e.target.value))
                     }

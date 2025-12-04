@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { todoPriority } from "./todos-slice-type";
+import { dateToString } from "@/utils/date-converter";
 export interface ITempTodoCollector {
   _id: string,
   title: string,
@@ -15,7 +16,7 @@ const initialState: { todo: ITempTodoCollector, _isNullificationExists: boolean 
     _id: "",
     title: "",
     description: "",
-    dueDate: "",
+    dueDate: dateToString(new Date(), "INPUT_DATE"),
     priority: "medium",
     subtask: [],
     tags: [],

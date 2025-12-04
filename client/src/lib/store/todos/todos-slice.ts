@@ -42,12 +42,12 @@ const TodoSlice = createSlice({
     // Make Update Todo Reducer
 
     // :: updateTodo used in other part of the slice
-    EditMainStateTodo(state, action: PayloadAction<{ todo: ITodo, _id: string }>) {
-      if (!action.payload._id) return
-      const _index = state.todo.findIndex(_ => _._id == action.payload.todo._id)
-      if (_index || _index < 0) return;
-      state.todo.splice(_index, 1, action.payload.todo)
+    EditMainStateTodo(state, action: PayloadAction<{ todo: ITodo }>) {
+      const _index = state.todo.findIndex(t => t._id === action.payload.todo._id);
+      if (_index < 0) return; // not found
+      state.todo.splice(_index, 1, action.payload.todo);
     },
+
 
     /**
      * @Handle_Todo_Tags
@@ -96,8 +96,9 @@ export function addTodos(data: ITempTodoCollector) {
     /**@FIRST_Response */
     const [yyyy, mm, dd] = data.dueDate.split("-")
     console.log([yyyy, mm, dd]);
-    const { description, priority, time, title, subtask, tags } = data
-    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, subtask, tags, dueDate: new Date() })
+    const { description, priority, time, title, subtask, tags, dueDate } = data
+    const _finalDate = dueDate.split("-").join("/")
+    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, subtask, tags, dueDate: _finalDate })
     if (todo_reponse.status !== 201) {
       dispatch(setTodoStatus(Status.ERROR))
       return;

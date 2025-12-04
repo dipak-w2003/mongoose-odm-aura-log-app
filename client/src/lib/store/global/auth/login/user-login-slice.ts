@@ -40,6 +40,8 @@ export default userLoginSlice.reducer
 export function userLogin(data: IUserLogin) {
   return async function userLoginThunk(dispatch: AppDispatch) {
     const response = await API.post("/auth/user/login", data)
+    console.log(response.request);
+
     if (response.status == 200) {
       dispatch(setLoginStatus(Status.SUCCESS))
       const data = response.data
