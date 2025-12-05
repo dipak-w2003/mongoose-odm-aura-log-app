@@ -10,14 +10,20 @@ import {
   setTodoDescriptionTemp,
   setTodoDueDateTemp,
   setTodoPriorityTemp,
-  setTodoTimeTemp,
   setValidateTodoTempCollectionNullifification,
   resetTempTodoCollector,
 } from "@/lib/store/todos/temp-todos-collector-slice";
 import { addTodos } from "@/lib/store/todos/todos-slice";
-import { clockSVG } from "@/other/assets/svg/collectionSVG";
+import DateTimePicker from "../archived-todos/draft-idea";
+import { formatKathmanduISO, formatUTCISO } from "@/utils/luxon-module";
 
 const AddTodoMainPage = () => {
+  const handleDate = (d: Date) => {
+    console.log("Selected:", formatKathmanduISO(d));
+    const _date = String(formatUTCISO(d));
+    dispatch(setTodoDueDateTemp(_date));
+  };
+
   const dispatch: AppDispatch = useDispatch();
   const { _isNullificationExists, todo: tempTodos } = useSelector(
     (state: RootState) => state.tempTodoCollector
@@ -81,6 +87,7 @@ const AddTodoMainPage = () => {
             initial="hidden"
             animate="visible"
           >
+            {/* Title */}
             <input
               type="text"
               id="title"
@@ -95,6 +102,7 @@ const AddTodoMainPage = () => {
               autoComplete="off"
             />
 
+            {/* Description */}
             <textarea
               id="description"
               name="description"
@@ -108,7 +116,7 @@ const AddTodoMainPage = () => {
               className="bg-[#034A37] min-h-[20vh] max-h-[20vh] w-[90%] px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded placeholder:text-sm text-sm"
             />
 
-            <div className="upper-section-bottoms w-[90%] flex justify-center gap-3">
+            <div className="upper-section-bottoms w-[90%] relative flex justify-start gap-3">
               {/* Priority */}
               <select
                 value={tempTodosSafe.priority}
@@ -117,7 +125,7 @@ const AddTodoMainPage = () => {
                 }
                 name="priority"
                 id="priority"
-                className="bg-[#034A37] w-1/3 px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded text-sm"
+                className="bg-[#034A37] w-[200px] px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded text-sm"
               >
                 {["low", "medium", "high", "urgent"].map((p) => (
                   <option key={p} value={p} className="bg-[#1D271D] text-white">
@@ -126,38 +134,14 @@ const AddTodoMainPage = () => {
                 ))}
               </select>
 
-              {/* Due Date */}
-              <input
-                type="date"
-                id="dueDate"
-                name="dueDate"
-                value={tempTodosSafe.dueDate}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  dispatch(setTodoDueDateTemp(e.target.value))
-                }
-                required
-                className="bg-[#034A37] w-1/3 px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded text-sm"
-              />
-
-              {/* Time */}
-              <label htmlFor="task-time" className="w-1/3 relative">
-                <input
-                  type="time"
-                  id="task-time"
-                  name="task-time"
-                  value={tempTodosSafe.time}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    dispatch(setTodoTimeTemp(e.target.value))
-                  }
-                  required
-                  className="bg-[#034A37] w-full px-3 py-3 outline-[#BCCBCE] focus:outline-2 border-0 rounded text-sm"
+              {/* Date Time Picker : component */}
+              <div className="w-2/4">
+                <DateTimePicker
+                  onChange={handleDate}
+                  showTime={true}
+                  dateFormat="PPpp"
                 />
-                <img
-                  src={clockSVG}
-                  className="absolute h-4 top-1/3 right-3"
-                  alt="clock icon"
-                />
-              </label>
+              </div>
             </div>
           </motion.section>
         </AnimatePresence>

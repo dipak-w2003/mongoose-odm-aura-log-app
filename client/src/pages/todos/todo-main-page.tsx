@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 
 const TodoMainPage: React.FC<{}> = ({}) => {
   return (
-    <main className="">
+    <main className="text-white">
       {
         <Outlet />
         // <SideBarLv2LinkBasisPageProvider parentName="todos" />

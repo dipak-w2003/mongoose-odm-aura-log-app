@@ -1,8 +1,6 @@
 import Modal from "@/components/most-use/modal";
-import { useState } from "react";
 import AddMainTodoCard from "./add-main-todo-card";
 import TodoModalTabs from "./todo-modal-tabs";
-import TodoSubTaskCard from "./todo-subtask-card";
 import TodoTagsCard from "./todo-tags-card";
 import {
   setEntireDataUpdatingTodo,

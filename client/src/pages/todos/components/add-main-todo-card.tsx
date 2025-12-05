@@ -15,13 +15,12 @@ import {
   setTodoDescriptionUpdate,
   setTodoDueDateUpdate,
   setTodoPriorityUpdate,
-  setTodoTimeUpdate,
   resetUpdateTodoCollector,
   setValidateTodoUpdateCollectionNullifification,
   updateTodos,
 } from "@/lib/store/todos/updating-todos-collector-slice";
-import { setValidateTodoTempCollectionNullifification } from "@/lib/store/todos/temp-todos-collector-slice";
-import { dateToString } from "@/utils/date-converter";
+import DateTimePicker from "../archived-todos/draft-idea";
+import { DateStrToDateKTM, formatUTCISO } from "@/utils/luxon-module";
 
 interface AddTodoCardProps {
   title?: string;
@@ -37,36 +36,44 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
   );
   const { status: todoStatus } = useSelector((state: RootState) => state.todos);
 
+  // updating data safe check
   const udpdatingTodoSafe = updatingTodo || {
     title: "",
     description: "",
     priority: "medium" as todoPriority,
-    dueDate: "",
+    dueDate: DateStrToDateKTM(Date()).js,
     time: "10:00",
   };
 
+  // submission checking
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (_isNullificationExists && todoStatus !== "success") {
       console.log("Todo insertion failure");
       return;
     }
-
     console.log(updateTodos);
-
     dispatch(updateTodos(updatingTodo));
     dispatch(resetUpdateTodoCollector());
     console.log("Todo added successfully");
   };
 
+  // motioin variants
   const sectionVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
+
+  // use effect
   useEffect(() => {
     dispatch(setValidateTodoUpdateCollectionNullifification());
   }, [dispatch, updatingTodo]);
 
+  // handle date
+  const handleDate = (d: Date) => {
+    const _date = String(formatUTCISO(d));
+    dispatch(setTodoDueDateUpdate(_date));
+  };
   return (
     <AnimatePresence>
       <motion.div
@@ -134,22 +141,15 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
                       </option>
                     ))}
                   </select>
-                  <input
-                    type="date"
-                    value={udpdatingTodoSafe.dueDate}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setTodoDueDateUpdate(e.target.value))
-                    }
-                    className="bg-white/20 text-white px-3 py-3 rounded-lg outline-none border border-white/20"
-                  />
-                  <input
-                    type="time"
-                    value={udpdatingTodoSafe.time || "10:10"}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setTodoTimeUpdate(e.target.value))
-                    }
-                    className="bg-white/20 text-white px-3 py-3 rounded-lg outline-none border border-white/20"
-                  />
+                  {/* Date Time Picker : component */}
+                  <div className="w-2/4">
+                    <DateTimePicker
+                      value={DateStrToDateKTM(udpdatingTodoSafe.dueDate).js}
+                      onChange={handleDate}
+                      showTime={true}
+                      dateFormat="PPpp"
+                    />
+                  </div>
                 </div>
               </motion.section>
             </AnimatePresence>

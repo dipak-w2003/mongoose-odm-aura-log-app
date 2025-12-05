@@ -66,9 +66,7 @@ export default function TodoSubTaskCard() {
     arr.splice(to, 0, moved);
 
     // Clear all subtasks safely
-    arr.forEach((_, index) =>
-      dispatch(deleteTodoSubTaskUpdate({ _idx: _._id }))
-    );
+    arr.forEach((_) => dispatch(deleteTodoSubTaskUpdate({ _idx: _._id })));
     arr.forEach((item) => dispatch(setTodoSubTaskUpdate(item)));
 
     dragItem.current = null;

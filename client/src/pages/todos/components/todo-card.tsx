@@ -5,6 +5,7 @@ import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
 import { deleteAnEntireTodo } from "@/lib/store/todos/todos-slice";
 import type { AppDispatch } from "@/lib/store/store";
 import { useDispatch } from "react-redux";
+import { DateStrToDateKTM } from "@/utils/luxon-module";
 
 const PieChart = lazy(
   () => import("@/components/most-use/circular-progress-bar-pie")
@@ -40,13 +41,14 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             title={todo.title}
             tags={todo.tags}
             priority={todo.priority}
-            date={todo.dueDate.split("T")[0].split("-").join(" / ")}
+            date={DateStrToDateKTM(todo.dueDate).formatted}
           />
           {/* pie chart progress in the percent basis of subtask.completionStatus */}
           <PieChart
             progress={Math.floor(
-              (subtasks.filter((st) => st.completionStatus && st.status)
-                .length /
+              (subtasks.filter(
+                (st) => st.completionStatus && st.status == "completed"
+              ).length /
                 subtasks.length) *
                 100
             )}

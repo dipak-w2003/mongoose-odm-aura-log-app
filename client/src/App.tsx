@@ -58,7 +58,7 @@ const LoginPage = lazy(() => import("./pages/global/auth/login/login-page"));
 const Layout = () => (
   <main
     className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
-      bg-[#022A2A]
+      bg-[#022A2A] text-white
 `}
   >
     {/* First child: Sidebar */}

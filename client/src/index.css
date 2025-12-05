@@ -8,7 +8,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-style: normal;
-  color: white;
+  /* color: white; */
 }
 
 *:has(p, i, article, h1, h2, h3, h4, h5, h6)::selection {

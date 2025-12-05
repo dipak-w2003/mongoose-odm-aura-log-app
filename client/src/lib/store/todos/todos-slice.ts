@@ -96,9 +96,8 @@ export function addTodos(data: ITempTodoCollector) {
     /**@FIRST_Response */
     const [yyyy, mm, dd] = data.dueDate.split("-")
     console.log([yyyy, mm, dd]);
-    const { description, priority, time, title, subtask, tags, dueDate } = data
-    const _finalDate = dueDate.split("-").join("/")
-    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, subtask, tags, dueDate: _finalDate })
+    const { description, priority, time, title, tags, dueDate } = data
+    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, tags, dueDate })
     if (todo_reponse.status !== 201) {
       dispatch(setTodoStatus(Status.ERROR))
       return;
@@ -116,6 +115,12 @@ export function addTodos(data: ITempTodoCollector) {
       return { todoId: _justCreatedTodoId, title: _, position: __ + 1 }
     })
 
+
+    if (data.subtask && data.subtask?.length < 0) {
+      dispatch(setTodoStatus(Status.SUCCESS))
+      return
+    }
+
     const todosubtask_reponse = await APIWITHTOKEN.post("/user/todo/subtask", tempSubtask)
 
     if (todosubtask_reponse.status !== 201) {
@@ -123,7 +128,6 @@ export function addTodos(data: ITempTodoCollector) {
       return;
     }
 
-    dispatch(setTodoStatus(Status.SUCCESS))
   }
 }
 

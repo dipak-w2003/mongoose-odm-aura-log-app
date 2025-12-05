@@ -22,7 +22,7 @@ const PieChart: React.FC<PieChartProps> = ({ progress = 0, label }) => {
   const progressColor = getProgressColor(progress);
 
   return (
-    <div className="inline-block m-2 w-[50px] h-[50px] relative rounded-full">
+    <div className="inline-block m-2 w-[50px] h-[50px] relative rounded-full text-white">
       <svg
         className="w-full h-full"
         viewBox="0 0 100 100"
@@ -60,8 +60,8 @@ const PieChart: React.FC<PieChartProps> = ({ progress = 0, label }) => {
 
       {/* Center Label */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-sm font-bold text-gray-800">{progress}%</div>
-        <div className="text-xs text-gray-500">{label}</div>
+        <div className="text-sm font-bold">{progress}%</div>
+        <div className="text-xs text-white">{label}</div>
       </div>
     </div>
   );

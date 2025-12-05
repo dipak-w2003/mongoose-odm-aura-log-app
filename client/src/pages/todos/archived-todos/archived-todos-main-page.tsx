@@ -4,7 +4,7 @@ const ArchivedTodosMainPage = () => {
   return (
     <TodoPagesWrapperWithFilterPanel>
       <main className="flex flex-col items-center gap-4 p-6">
-        Archived Todos Ho Hai
+        Archived Todos
       </main>
     </TodoPagesWrapperWithFilterPanel>
   );

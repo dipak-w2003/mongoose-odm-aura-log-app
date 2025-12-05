@@ -7,6 +7,7 @@ import { Status } from "@/lib/global";
 import { EditMainStateTodo } from "./todos-slice";
 import { setPortalModalClose, setPortalModalOpen } from "../additionals/portal-modal/portal-modal-slice";
 import { dateToString } from "@/utils/date-converter";
+import { DateStrToDateKTM } from "@/utils/luxon-module";
 export interface IUpdateTodoCollector {
   _id: string,
   title: string,
@@ -89,9 +90,10 @@ const updateTodoCollectorSlice = createSlice({
 
     },
     setEntireDataUpdatingTodo(state, action: PayloadAction<IUpdateTodoCollector>) {
-      const data = action.payload
-
-      state.todo = { ...data, dueDate: dateToString(undefined, "INPUT_DATEx2", data.dueDate) }
+      const _dueDate = DateStrToDateKTM(action.payload
+        .dueDate).isoKTM
+      const data = { ...action.payload, }
+      state.todo = { ...data, dueDate: String(_dueDate) }
     }
     ,
     resetUpdateTodoCollector(state) {
@@ -138,8 +140,7 @@ export interface IOnlyUpdateMainTodos {
 export function updateTodos(data: IOnlyUpdateMainTodos) {
   return async function updateTodosThunk(dispatch: AppDispatch) {
     if (!data._id && data._id.length > 5) return;
-    const _data = { ...data, dueDate: data.dueDate.split("-").join("/") }
-    const response = await APIWITHTOKEN.patch("/user/todo/" + data._id, _data)
+    const response = await APIWITHTOKEN.patch("/user/todo/" + data._id, data)
     if (response.status !== 200) {
       dispatch(setUpdateTodoStatus(Status.ERROR))
       dispatch(setPortalModalOpen())
