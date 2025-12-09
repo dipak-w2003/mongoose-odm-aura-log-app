@@ -1,17 +1,15 @@
 import Modal from "@/components/most-use/modal";
-import AddMainTodoCard from "./add-main-todo-card";
-import TodoModalTabs from "./todo-modal-tabs";
-import TodoTagsCard from "./todo-tags-card";
 import {
   setEntireDataUpdatingTodo,
   type IUpdateTodoCollector,
 } from "@/lib/store/todos/updating-todos-collector-slice";
-import type { AppDispatch, RootState } from "@/lib/store/store";
-import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch } from "@/lib/store/store";
+import { useDispatch } from "react-redux";
 import {
-  setPortalModalClose,
+  setPortalModalContent,
   setPortalModalOpen,
 } from "@/lib/store/additionals/portal-modal/portal-modal-slice";
+import TodoModalContentProvider from "./todo-modal-content-provider";
 
 interface TodoCardFooterProps {
   id: string;
@@ -22,13 +20,10 @@ interface TodoCardFooterProps {
 }
 
 const TodoCardFooter = ({
-  id,
   onDelete,
   onMarkComplete,
   todosData,
 }: TodoCardFooterProps) => {
-  const { isPortalOpen } = useSelector((state: RootState) => state.portalModal);
-
   const dispatch: AppDispatch = useDispatch();
 
   return (
@@ -46,8 +41,10 @@ const TodoCardFooter = ({
         onClick={() => {
           dispatch(setEntireDataUpdatingTodo(todosData));
           dispatch(setPortalModalOpen());
+          dispatch(setPortalModalContent("main-todo-update"));
         }}
-        className="bg-[#022A2A] border border-[#0dcaa3] text-[#0dcaa3] text-sm px-3 py-1 rounded-md hover:bg-[#034C38] transition-all"
+        className="bg-[#022A2A] border border-[#0dcaa3] text-[#0dcaa3] text-sm px-3 py-1 rounded-md hover:bg-[#034C38] transition-all
+        "
       >
         Edit
       </button>
@@ -64,17 +61,7 @@ const TodoCardFooter = ({
       <Modal
       // setClose={() => setOpen(false)}
       >
-        <TodoModalTabs
-          title={"Todo Update : " + id}
-          isOpen={isPortalOpen}
-          onClose={() => dispatch(setPortalModalClose())}
-          tabs={[
-            { content: <AddMainTodoCard />, id: "1", label: "Main Todo" },
-            { content: <TodoTagsCard />, id: "2", label: "Todo Tags" },
-            // { content: <TodoSubTaskCard />, id: "3", label: "Todo Subtask" },
-          ]}
-        />
-        {/* <AddMainTodoCard /> */}
+        <TodoModalContentProvider />
       </Modal>
     </footer>
   );

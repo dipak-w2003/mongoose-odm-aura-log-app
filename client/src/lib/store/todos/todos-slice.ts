@@ -17,7 +17,7 @@ import { deleteSubtasksLinkedToCertainTodoId } from "./todo-subtasks-slice";
  * remove all the other slice updatation  except add
  */
 const initialState: ITodoInitialState = {
-  activeTodoIndex: -1,
+  activeTodoId: "",
   todo: [],
   status: Status.LOADING
 }
@@ -26,6 +26,11 @@ const TodoSlice = createSlice({
   name: "todos-slice",
   initialState: initialState,
   reducers: {
+
+    setActiveTodoId(state, action: PayloadAction<string>) {
+      state.activeTodoId = action.payload
+    },
+
     setTodoStatus(state, action: PayloadAction<Status>) {
       state.status = action.payload
     },
@@ -60,7 +65,7 @@ const TodoSlice = createSlice({
     }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId } = TodoSlice.actions
 export default TodoSlice.reducer
 
 

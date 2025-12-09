@@ -15,7 +15,7 @@ const SidebarLv2: React.FC<ISidebarLayoutProps> = ({ IsidebarParentNames }) => {
   const sideBar2LinksArray = useSelector(
     (state: RootState) => state.sidebar2LinkManage
   );
-  console.log(sideBar2LinksArray);
+  // console.log(sideBar2LinksArray);
 
   // Hooks
   const dispatch: AppDispatch = useDispatch();

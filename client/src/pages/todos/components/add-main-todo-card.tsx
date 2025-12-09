@@ -28,7 +28,7 @@ interface AddTodoCardProps {
   // onClose?: () => void;
 }
 
-const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
+export default function AddMainTodoCard({ children }: AddTodoCardProps) {
   const dispatch: AppDispatch = useDispatch();
 
   const { _isNullificationExists, todo: updatingTodo } = useSelector(
@@ -183,6 +183,4 @@ const AddMainTodoCard = ({ children }: AddTodoCardProps) => {
       </motion.div>
     </AnimatePresence>
   );
-};
-
-export default AddMainTodoCard;
+}

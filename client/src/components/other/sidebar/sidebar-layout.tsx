@@ -24,7 +24,7 @@ export const SidebarLayout = () => {
     const { pathname } = useLocation();
     const parts = pathname.split("/").filter(Boolean);
     const parent = parts[1] as ISideBar["parentName"];
-    console.log(parent);
+    // console.log(parent);
     disptach(setSidebarParentName(parent));
     if (isLoggedIn && ISidebarParentNamesCollection.includes(parent)) {
       return (

@@ -2,6 +2,7 @@ import { Status } from "@/lib/global";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
+import { setPortalModalClose } from "../additionals/portal-modal/portal-modal-slice";
 
 /**@Interface_Types */
 export type ITodoSubtasksStatus = "pending" | "completed";
@@ -13,8 +14,8 @@ export interface ITodoSubtasks {
   position: number;
   completionMessage?: string;
   completionStatus?: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 interface InitialStateTodoSubtask {
   subtasks: ITodoSubtasks[];
@@ -47,6 +48,9 @@ const todoSubtasksSlice = createSlice({
       state.subtasks = state.subtasks.filter(subtask => subtask.todoId !== action.payload.todoId)
     },
 
+    addTodoSubtasks(state, action: PayloadAction<ITodoSubtasks>) {
+      state.subtasks.push(action.payload)
+    },
     // Edit what ? Multiple Values and keys, dynamic editing
     editWhatSubtaskSingleData: (
       state,
@@ -87,7 +91,7 @@ const todoSubtasksSlice = createSlice({
 
   }
 });
-export const { setTodoSubtasks, setTodoSubtaskStatus, deleteSubtasksLinkedToCertainTodoId, editWhatSubtaskSingleData } =
+export const { setTodoSubtasks, setTodoSubtaskStatus, deleteSubtasksLinkedToCertainTodoId, editWhatSubtaskSingleData, addTodoSubtasks } =
   todoSubtasksSlice.actions;
 export default todoSubtasksSlice.reducer;
 
@@ -140,9 +144,26 @@ export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, complet
   }
 }
 
-// // Add Todo Subtask
-// export function addTodoSubtasks(data:ITodoSubtasks[]){
-//   return async function addTodoSubtasksThunk(dispatch:AppDispatch){
-//     const response = await APIWITHTOKEN.put()
-//   }
-// }
+// Add Todo Subtask
+export interface addTodoSubtaskProps {
+  certainSubtaskLength: number,
+  data: {
+    todoId: string;
+    title: string;
+  }
+}
+export function addTodoSubtask({ certainSubtaskLength, data }: addTodoSubtaskProps) {
+  return async function addTodoSubtaskThunk(dispatch: AppDispatch) {
+    const finalized_data = { ...data, position: Number(certainSubtaskLength + 1) }
+    const response = await APIWITHTOKEN.post("/user/todo/subtask", finalized_data)
+    if (response.status !== 201) {
+      dispatch(setTodoSubtaskStatus("error"))
+    }
+    const received: ITodoSubtasks = response.data.data
+    console.log(received);
+
+    dispatch(setTodoSubtaskStatus("success"))
+    dispatch(addTodoSubtasks(received))
+    dispatch(setPortalModalClose())
+  }
+}

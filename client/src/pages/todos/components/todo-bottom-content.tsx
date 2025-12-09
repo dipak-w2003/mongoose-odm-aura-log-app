@@ -102,14 +102,6 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
     updateSubtaskField(subtaskId, "completionStatus", true);
     const certainConfirmingData = subtaskEditState[subtaskId];
 
-    // dispatch(
-    //   SetTodoSubtasksCompletionStatusSingleOne({
-    //     id: subtaskId,
-    //     statusBoolean: true,
-    //   })
-    // );
-
-    // SetTodoSubtasksCompletionStatusAndMessageSingleOne
     dispatch(
       SetTodoSubtasksCompletionStatusAndMessageSingleOne({
         completionMessage: certainConfirmingData.completionMessage,
@@ -245,13 +237,24 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
                       className="w-full bg-[#022A2A] border border-[#034C38] rounded-md px-3 py-2 text-sm text-white outline-none focus:border-[#FE802C] transition-all"
                     />
 
-                    <button
-                      disabled={editState.completionStatus}
-                      onClick={() => handleSaveClick(subtask)}
-                      className="bg-[#FE802C] text-black text-sm px-3 py-1 rounded-md self-start hover:bg-[#fd944a] transition-all"
-                    >
-                      {editState.completionStatus ? "Completed" : "Save"}
-                    </button>
+                    {/* Button Actions */}
+                    <div className="flex gap-4">
+                      <button
+                        disabled={editState.completionStatus}
+                        onClick={() => handleSaveClick(subtask)}
+                        className="bg-[#FE802C] text-black text-sm px-3 py-1 rounded-md self-start hover:bg-[#fd944a] transition-all"
+                      >
+                        {editState.completionStatus ? "Completed" : "Save"}
+                      </button>
+                      {editState.completionStatus && (
+                        <button
+                          onClick={() => alert("Single Subtask Update")}
+                          className="bg-[#022A2A] border border-[#0dcaa3] text-[#0dcaa3] text-sm px-3 py-1 rounded-md hover:bg-[#034C38] transition-all"
+                        >
+                          Update !
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               )}

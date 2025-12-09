@@ -2,10 +2,14 @@ import { lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ITodo } from "@/lib/store/todos/todos-slice-type";
 import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
-import { deleteAnEntireTodo } from "@/lib/store/todos/todos-slice";
+import {
+  deleteAnEntireTodo,
+  setActiveTodoId,
+} from "@/lib/store/todos/todos-slice";
 import type { AppDispatch } from "@/lib/store/store";
 import { useDispatch } from "react-redux";
 import { DateStrToDateKTM } from "@/utils/luxon-module";
+import { TodoSubtaskAddACard } from "./todo-subtask-add-a-card";
 
 const PieChart = lazy(
   () => import("@/components/most-use/circular-progress-bar-pie")
@@ -46,9 +50,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
           {/* pie chart progress in the percent basis of subtask.completionStatus */}
           <PieChart
             progress={Math.floor(
-              (subtasks.filter(
-                (st) => st.completionStatus && st.status == "completed"
-              ).length /
+              (subtasks.filter((st) => st.completionStatus).length /
                 subtasks.length) *
                 100
             )}
@@ -58,7 +60,10 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
 
         {/* TOGGLE BUTTON */}
         <button
-          onClick={onToggle}
+          onClick={() => {
+            onToggle();
+            dispatch(setActiveTodoId(todo._id));
+          }}
           className="
             absolute h-[28px] w-[28px] 
             bg-[#111711] rounded-full 
@@ -93,6 +98,10 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
                 bucketSubtasks={subtasks}
                 specifiedTodoId={todo._id}
               />
+
+              {/* Subtask Plus Icon Add & Modal Call */}
+              <TodoSubtaskAddACard />
+              {/* Todo Card Footer */}
               <TodoCardFooter
                 todosData={{ ...todo, subtask: subtasks }}
                 id={todo._id}

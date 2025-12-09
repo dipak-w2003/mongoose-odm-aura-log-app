@@ -13,7 +13,7 @@ const TodoPagesWrapperWithFilterPanel = lazy(
 const TodoCard = lazy(() => import("../components/todo-card"));
 
 const AllTodosMainPage = () => {
-  const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
+  const [selectedTodos, setSelectedTodos] = useState<string | null>(null);
 
   const { todo: todosListState } = useSelector(
     (state: RootState) => state.todos
@@ -28,13 +28,15 @@ const AllTodosMainPage = () => {
     dispatch(fetchTodoSubtasks());
   }, [dispatch]);
 
-  const handleMultiSelectedTodos = (id: string) => {
-    setSelectedTodos((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+  // const handleMultiSelectedTodos = (id: string) => {
+  //   setSelectedTodos((prev) =>
+  //     prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+  //   );
+  // };
+  const handleSingleSelect = (id: string) => {
+    setSelectedTodos((prev) => (prev === id ? null : id));
   };
-
-  const isSelected = (id: string) => selectedTodos.includes(id);
+  const isSelected = (id: string) => selectedTodos === id;
 
   return (
     <TodoPagesWrapperWithFilterPanel>
@@ -45,7 +47,7 @@ const AllTodosMainPage = () => {
                 key={todo._id}
                 todo={todo}
                 isSelected={isSelected(todo._id)}
-                onToggle={() => handleMultiSelectedTodos(todo._id)}
+                onToggle={() => handleSingleSelect(todo._id)}
                 subtasks={todoSubtasksListState}
               />
             ))

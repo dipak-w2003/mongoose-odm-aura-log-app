@@ -1,22 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 
-
-const initialState: { name?: string, isPortalOpen: boolean } = {
-  isPortalOpen: false
-
+export type ModalContentUnion = "main-todo-update" | "todo-a-subtask-update"
+const initialState: { modalContent: ModalContentUnion | null, isPortalOpen: boolean } = {
+  isPortalOpen: false,
+  modalContent: "main-todo-update"
 }
 const portalModalSlice = createSlice({
   name: "portal-modal-handler",
   initialState: initialState,
   reducers: {
-
+    setPortalModalContent(state, action: PayloadAction<ModalContentUnion>) {
+      state.modalContent = action.payload
+    },
     setPortalModalOpen(state) {
       state.isPortalOpen = true
     },
     setPortalModalClose(state) {
       state.isPortalOpen = false
     },
+
     setPortalModalToggle(state) {
       const isPortal = state.isPortalOpen
       if (isPortal) state.isPortalOpen = false
@@ -30,6 +33,6 @@ const portalModalSlice = createSlice({
 })
 
 
-export const { setPortalModalOpen, setPortalModalClose, setPortalModalToggle } = portalModalSlice.actions
+export const { setPortalModalOpen, setPortalModalClose, setPortalModalToggle, setPortalModalContent } = portalModalSlice.actions
 export default portalModalSlice.reducer
 

@@ -13,7 +13,7 @@ export interface ITodo {
   time: string
 }
 export interface ITodoInitialState {
-  activeTodoIndex: number;
+  activeTodoId: string;
   todo: ITodo[],
   status: Status
 }

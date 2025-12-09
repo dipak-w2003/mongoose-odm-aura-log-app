@@ -10,22 +10,49 @@ import mongoose from "mongoose";
  */
 
 
+// export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
+//   try {
+//     const createDatas: Partial<ITodoSubtask>[] | Partial<ITodoSubtask> = req.body.ids || req.body;
+//     const userId = req.user?.id;
+
+//     let createdDatas: ITodoSubtask | null = null;
+//     if (Array.isArray(createDatas)) {
+//       const subTasks = createDatas.map((data) => ({ user: userId, ...data }));
+//       // Use create() for each to trigger mongoose-sequence plugin
+//       await Promise.all(subTasks.map((task) => TodoSubtaskModel.create(task)));
+//     } else {
+//       createdDatas = await TodoSubtaskModel.create({ user: userId, ...createDatas });
+//     }
+//     res.status(201).json({ message: "Subtasks created successfully!", data: createDatas });
+//   } catch (error) {
+//     res.status(500).json({ message: "Failed to create subtasks", error });
+//   }
+// };
 export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
   try {
-    const createDatas: Partial<ITodoSubtask>[] | Partial<ITodoSubtask> = req.body.ids || req.body;
     const userId = req.user?.id;
 
-    let createdDatas: ITodoSubtask | null = null;
-    if (Array.isArray(createDatas)) {
-      const subTasks = createDatas.map((data) => ({ user: userId, ...data }));
-      // Use create() for each to trigger mongoose-sequence plugin
-      await Promise.all(subTasks.map((task) => TodoSubtaskModel.create(task)));
+    const payload = req.body.ids || req.body;
+
+    let created;
+
+    if (Array.isArray(payload)) {
+      // Add user and create each item individually so mongoose-sequence works
+      const docs = payload.map((d) => ({ user: userId, ...d }));
+      created = await Promise.all(docs.map((d) => TodoSubtaskModel.create(d)));
     } else {
-      createdDatas = await TodoSubtaskModel.create({ user: userId, ...createDatas });
+      created = await TodoSubtaskModel.create({ user: userId, ...payload });
     }
-    res.status(201).json({ message: "Subtasks created successfully!", data: createDatas });
+
+    res.status(201).json({
+      message: "Subtasks created successfully!",
+      data: created, // ✅ return actual Mongoose docs
+    });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create subtasks", error });
+    res.status(500).json({
+      message: "Failed to create subtasks",
+      error,
+    });
   }
 };
 
