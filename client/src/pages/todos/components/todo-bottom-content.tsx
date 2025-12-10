@@ -8,6 +8,7 @@ import {
 
 import type { AppDispatch } from "@/lib/store/store";
 import { useDispatch } from "react-redux";
+import { DateStrToDateKTM } from "@/utils/luxon-module";
 
 type SubtaskEditState = Record<
   string,
@@ -137,7 +138,7 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
             className={`cursor-pointer bg-[#022A2A] rounded-md border border-[#033c2c] p-3 hover:bg-[#034C38] transition-colors`}
             onClick={() => toggleCommitBox(subtask._id)}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between relative">
               <div className="flex items-center gap-3">
                 <i className="text-[#FEFEFE]">
                   {subtask.position.toString().padStart(2, "0")})
@@ -201,6 +202,13 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
                   </svg>
                 </motion.button>
               </div>
+
+              {/* completed date */}
+              {!isOpen && subtask.completionStatus && (
+                <h1 className="absolute right-10 text-xs italic text-gray-400">
+                  {DateStrToDateKTM(String(subtask.updatedAt)).formatted}
+                </h1>
+              )}
             </div>
 
             {/* Animate Presence */}

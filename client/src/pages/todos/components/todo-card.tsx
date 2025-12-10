@@ -27,17 +27,64 @@ interface TodoCardProps {
 }
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
+  const SUBTASK_PROGRESS_Number = (): number => {
+    const FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO = subtasks.filter(
+      (_) => _.todoId == todo._id
+    );
+
+    const COMPLETED = FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO.filter(
+      (st) => st.completionStatus && st.status === "completed"
+    ).length;
+
+    const TOTAL = subtasks.length;
+
+    // Math-based percentage: (COMPLETED / TOTAL) * 100
+    let SUBTASK_PROGRESS: number;
+
+    if (TOTAL <= 0) {
+      SUBTASK_PROGRESS = 0;
+    } else {
+      SUBTASK_PROGRESS = Math.round((COMPLETED / TOTAL) * 100);
+
+      // Optional: ensure a tiny visible floor if any progress exists
+      if (SUBTASK_PROGRESS > 0 && SUBTASK_PROGRESS < 5) SUBTASK_PROGRESS = 5;
+    }
+
+    // Safety clamp
+    if (SUBTASK_PROGRESS < 0) SUBTASK_PROGRESS = 0;
+    if (SUBTASK_PROGRESS > 100) SUBTASK_PROGRESS = 100;
+
+    return SUBTASK_PROGRESS;
+  };
+
   const dispatch: AppDispatch = useDispatch();
   return (
     <div className="group w-full">
-      <div
+      <motion.div
         className={`
-          w-full rounded-lg border border-[#022A2A]
-          bg-[#034C38] hover:bg-[#104234]
-          transition-all duration-200
-          p-3 relative shadow-[3px_3px_8px_-2px_#ffffff]
-          ${isSelected ? "!shadow-[3px_3px_8px_-2px_#fe802c]" : ""}
-        `}
+        w-full rounded-lg border border-[#022A2A]
+        bg-[#034C38] hover:bg-[#104234]
+        transition-all duration-200
+        p-3 relative
+      `}
+        animate={
+          isSelected
+            ? {
+                boxShadow: [
+                  "3px 3px 8px -2px #fe802c",
+                  "3px 3px 14px -2px #ff9c45",
+                  "3px 3px 8px -2px #fe802c",
+                ],
+              }
+            : {
+                boxShadow: "3px 3px 8px -2px #ffffff",
+              }
+        }
+        transition={{
+          duration: 1.6,
+          repeat: isSelected ? Infinity : 0,
+          ease: "easeInOut",
+        }}
       >
         {/* TOP SECTION */}
         <article className="w-full flex justify-between items-start border-b border-[#022A2A] pb-3">
@@ -48,14 +95,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             date={DateStrToDateKTM(todo.dueDate).formatted}
           />
           {/* pie chart progress in the percent basis of subtask.completionStatus */}
-          <PieChart
-            progress={Math.floor(
-              (subtasks.filter((st) => st.completionStatus).length /
-                subtasks.length) *
-                100
-            )}
-            label=""
-          />
+          <PieChart progress={SUBTASK_PROGRESS_Number()} label="" />
         </article>
 
         {/* TOGGLE BUTTON */}
@@ -113,7 +153,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 };

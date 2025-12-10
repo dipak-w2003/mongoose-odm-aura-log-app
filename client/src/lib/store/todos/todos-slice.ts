@@ -35,7 +35,7 @@ const TodoSlice = createSlice({
       state.status = action.payload
     },
     addTodo(state, action: PayloadAction<{ todo: ITodo }>) {
-      state.todo.push({ ...action.payload.todo })
+      state.todo.unshift({ ...action.payload.todo })
     },
 
     fetchTodo(state, action: PayloadAction<{ todos: ITodo[] }>) {
