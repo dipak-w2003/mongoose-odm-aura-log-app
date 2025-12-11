@@ -7,12 +7,15 @@ import mongoose, { Schema, Document } from "mongoose";
  * - `user` is an ObjectId reference to the User model
  * - rest of the fields describe the todo itself
  */
+export type TodoStatus = "pending" | "in-progress" | "completed";
+export type TodoPriority = "low" | "medium" | "high" | "urgent";
+export type TodoMode = "archived" | "trashed";
 export interface ITodo extends Document {
   user: mongoose.Types.ObjectId;   // reference to User document
   title: string;
   description?: string;
-  status: "pending" | "in-progress" | "completed" | "archived";
-  priority: "low" | "medium" | "high" | "urgent";
+  status: TodoStatus;
+  priority: TodoPriority;
   tags?: string[];
   dueDate?: Date;
   completedAt?: Date;
@@ -60,7 +63,7 @@ const TodoSchema = new Schema<ITodo>(
     // Current state of the todo
     status: {
       type: String,
-      enum: ["pending", "in-progress", "completed", "archived"],
+      enum: ["pending", "in-progress", "completed"],
       default: "pending",
     },
 

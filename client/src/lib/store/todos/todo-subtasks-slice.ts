@@ -129,10 +129,11 @@ export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1
 }
 
 // Todo-Subtask-Completion-Status/Message
-export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "completion message !" }: { id: string, completionMessage: string }) {
+export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "completion message !", todoId }: { id: string, completionMessage: string, todoId: string }) {
+
   return async function SetTodoSubtasksCompletionStatusAndMessageSingleOneThunk(dispatch: AppDispatch) {
     if (!id && id.length > 0) return;
-    const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status-message/" + id, { completionMessage })
+    const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status-message/" + id, { completionMessage, todoId })
     if (response.status !== 200) return;
 
     // Individually updating for now

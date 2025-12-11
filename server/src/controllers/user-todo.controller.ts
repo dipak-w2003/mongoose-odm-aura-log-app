@@ -244,3 +244,41 @@ export const unsetTodoTrashed = async (req: IExtendedRequest, res: Response) => 
     })
   }
 }
+
+/**@Todo_Staus */
+export const setTodoStatus = async (req: IExtendedRequest, res: Response) => {
+  try {
+    const userId = req.user?.id
+    const todoId: string = req.params.id
+    const { status: todoStatus } = req.body
+    const TODO_STATUS = ["pending", "in-progress", "completed", "archived"]
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    if (!todoId) {
+      return res.status(400).json({ message: "Invalid todo id!" });
+    }
+    if (!TODO_STATUS.includes((todoStatus as string).toLowerCase())) {
+      return res.status(402).json({ message: "Invalid todo status!" });
+    }
+    const _todoStatusUpdated = await TodoModel.findOneAndUpdate(
+      // ownership check
+      { _id: todoId, user: userId },
+      { status: todoStatus },
+      { new: true }
+      // return updated document
+    );
+    if (!_todoStatusUpdated) {
+      return res.status(404).json({ message: "Todo not found or not yours" });
+    }
+    res.status(200).json({
+      message: "Todo status updated successfully !",
+      data: _todoStatusUpdated
+    });
+  } catch (error: any) {
+    res.status(501).json({
+      message: error.message || "internal server error !"
+    })
+  }
+}

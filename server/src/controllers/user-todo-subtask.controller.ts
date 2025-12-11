@@ -10,24 +10,7 @@ import mongoose from "mongoose";
  */
 
 
-// export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
-//   try {
-//     const createDatas: Partial<ITodoSubtask>[] | Partial<ITodoSubtask> = req.body.ids || req.body;
-//     const userId = req.user?.id;
 
-//     let createdDatas: ITodoSubtask | null = null;
-//     if (Array.isArray(createDatas)) {
-//       const subTasks = createDatas.map((data) => ({ user: userId, ...data }));
-//       // Use create() for each to trigger mongoose-sequence plugin
-//       await Promise.all(subTasks.map((task) => TodoSubtaskModel.create(task)));
-//     } else {
-//       createdDatas = await TodoSubtaskModel.create({ user: userId, ...createDatas });
-//     }
-//     res.status(201).json({ message: "Subtasks created successfully!", data: createDatas });
-//   } catch (error) {
-//     res.status(500).json({ message: "Failed to create subtasks", error });
-//   }
-// };
 export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
   try {
     const userId = req.user?.id;
@@ -48,6 +31,8 @@ export const createSubTasks = async (req: IExtendedRequest, res: Response) => {
       message: "Subtasks created successfully!",
       data: created, // ✅ return actual Mongoose docs
     });
+
+
   } catch (error) {
     res.status(500).json({
       message: "Failed to create subtasks",
@@ -181,9 +166,9 @@ export const setSubtaskCompletionMessage = async (req: IExtendedRequest, res: Re
   try {
     const userId = req.user?.id;
     const subtaskId = req.params.id;
-    const completionMessage: string = req.body.completionMessage;
+    const { completionMessage, todoId }: { completionMessage: string, todoId: string } = req.body;
 
-    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+    if (!userId || !todoId) return res.status(401).json({ message: "Unauthorized" });
     if (!subtaskId || !mongoose.Types.ObjectId.isValid(subtaskId)) {
       return res.status(400).json({ message: "Invalid subtask ID" });
     }
@@ -203,6 +188,11 @@ export const setSubtaskCompletionMessage = async (req: IExtendedRequest, res: Re
 
     if (!updatedSubtask)
       return res.status(404).json({ message: "Subtask not found or not yours!" });
+
+    // Add a function where check if all subtask related for todoId subtask.completionStatus true then todo.isCompleted set to true
+    const certainTodoSubtaskList: ITodoSubtask[] = await TodoSubtaskModel.find({ user: userId, todoId: todoId }).sort({ position: 1 })
+    // const isAllSubtaskCompleted = certainTodoSubtaskList.filter(_ => _.completionStatus && _.completionMessage && _.completionMessage.length > 0)
+
 
     res.status(200).json({
       message: "Subtask completion status & message updated successfully",

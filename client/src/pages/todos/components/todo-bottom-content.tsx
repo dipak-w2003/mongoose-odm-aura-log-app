@@ -107,6 +107,7 @@ const TodoBottomContents = ({ bucketSubtasks, specifiedTodoId }: Props) => {
       SetTodoSubtasksCompletionStatusAndMessageSingleOne({
         completionMessage: certainConfirmingData.completionMessage,
         id: subtaskId,
+        todoId: specifiedTodoId,
       })
     );
 
