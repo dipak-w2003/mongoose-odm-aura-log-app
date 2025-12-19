@@ -1,5 +1,5 @@
 import { Status } from "@/lib/global";
-import type { ITodo, ITodoInitialState } from "./todos-slice-type";
+import type { ITodo, ITodoInitialState, todoLifecycle } from "./todos-slice-type";
 import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
@@ -62,10 +62,18 @@ const TodoSlice = createSlice({
 
     deleteTodo(state, action: PayloadAction<{ todoId: string }>) {
       state.todo = state.todo.filter(todo => todo._id !== action.payload.todoId);
+    },
+
+
+    // Other Reducers
+    setTodoLifecyle(state, action: PayloadAction<{ id: string, lifecycle: todoLifecycle }>) {
+      const _index = state.todo.findIndex(t => t._id === action.payload.id);
+      if (_index < 0) return; // not found
+      state.todo[_index].lifecycle = action.payload.lifecycle;
     }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId, setTodoLifecyle } = TodoSlice.actions
 export default TodoSlice.reducer
 
 
@@ -179,4 +187,18 @@ export function deleteAnEntireTodo(id: string) {
       dispatch(setTodoStatus(Status.ERROR));
     }
   };
+}
+// Set Todo Life Cycle
+export function updateTodoLifecycle({ id, lifecycle }: { id: string, lifecycle: todoLifecycle }) {
+  return async function updateTodoLifecycleThunk(dispatch: AppDispatch) {
+    dispatch(setTodoStatus(Status.LOADING))
+    const response = await APIWITHTOKEN.patch(`/user/todo/${id}/todo-lifecycle`, { todoLifecycle: lifecycle })
+    if (response.status !== 200) {
+      return dispatch(setTodoStatus(Status.ERROR))
+    }
+    console.log(lifecycle);
+
+    dispatch(setTodoStatus(Status.SUCCESS))
+    dispatch(setTodoLifecyle({ id, lifecycle }))
+  }
 }

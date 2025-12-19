@@ -5,7 +5,10 @@ import {
   type ReactNode,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { todoPriority } from "@/lib/store/todos/todos-slice-type";
+import type {
+  todoLifecycle,
+  todoPriority,
+} from "@/lib/store/todos/todos-slice-type";
 
 import type { AppDispatch, RootState } from "@/lib/store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,6 +34,7 @@ interface AddTodoCardProps {
 export default function AddMainTodoCard({ children }: AddTodoCardProps) {
   const dispatch: AppDispatch = useDispatch();
 
+  const { todo } = useSelector((state: RootState) => state.todos);
   const { _isNullificationExists, todo: updatingTodo } = useSelector(
     (state: RootState) => state.updateTodoCollector
   );
@@ -53,7 +57,8 @@ export default function AddMainTodoCard({ children }: AddTodoCardProps) {
       return;
     }
     console.log(updateTodos);
-    dispatch(updateTodos(updatingTodo));
+    const lifecycle = updatingTodo.lifecycle as todoLifecycle;
+    dispatch(updateTodos({ ...updatingTodo, lifecycle }));
     dispatch(resetUpdateTodoCollector());
     console.log("Todo added successfully");
   };

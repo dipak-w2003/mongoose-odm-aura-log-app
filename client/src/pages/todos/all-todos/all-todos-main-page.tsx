@@ -42,16 +42,18 @@ const AllTodosMainPage = () => {
     <TodoPagesWrapperWithFilterPanel>
       <section className="flex flex-col w-full gap-8 pb-24 relative">
         {todosListState.length > 0
-          ? todosListState.map((todo) => (
-              <TodoCard
-                key={todo._id}
-                todo={todo}
-                isSelected={isSelected(todo._id)}
-                onToggle={() => handleSingleSelect(todo._id)}
-                subtasks={todoSubtasksListState}
-              />
-            ))
-          : Array.from({ length: 3 }).map((_, i) => (
+          ? todosListState
+              // .filter((_) => _.lifecycle == "active")
+              .map((todo) => (
+                <TodoCard
+                  key={todo._id}
+                  todo={todo}
+                  isSelected={isSelected(todo._id)}
+                  onToggle={() => handleSingleSelect(todo._id)}
+                  subtasks={todoSubtasksListState}
+                />
+              ))
+          : Array.from({ length: 1 }).map((_, i) => (
               <TodoCardSkeleton key={i} />
             ))}
       </section>

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { todoPriority } from "./todos-slice-type";
+import type { todoLifecycle, todoPriority } from "./todos-slice-type";
 import type { ITodoSubtasks } from "./todo-subtasks-slice";
 import type { AppDispatch } from "../store";
 import { APIWITHTOKEN } from "../http/API";
@@ -17,6 +17,7 @@ export interface IUpdateTodoCollector {
   time: string,
   subtask?: ITodoSubtasks[],
   tags?: string[]
+  lifecycle?: todoLifecycle
 }
 const initialState: { todo: IUpdateTodoCollector, _isNullificationExists: boolean, Status: Status } = {
   todo: {
@@ -136,6 +137,7 @@ export interface IOnlyUpdateMainTodos {
   dueDate: string,
   time: string,
   tags?: string[]
+  lifecycle: todoLifecycle
 }
 export function updateTodos(data: IOnlyUpdateMainTodos) {
   return async function updateTodosThunk(dispatch: AppDispatch) {

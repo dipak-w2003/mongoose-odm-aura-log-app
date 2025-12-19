@@ -8,8 +8,9 @@ import {
 import { SidebarLayout } from "./components/other/sidebar/sidebar-layout";
 import PageNotFound404 from "./pages/error/page-not-found-page";
 import { lazy, type JSX } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "./lib/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "./lib/store/store";
+import { userLogout } from "./lib/store/global/auth/login/user-login-slice";
 
 /**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
@@ -73,12 +74,27 @@ const Layout = () => (
 );
 
 const User = () => {
+  const { status: userLoginStatus } = useSelector(
+    (state: RootState) => state.userLogin
+  );
+  const dispatch: AppDispatch = useDispatch();
+  const setLogoutUser = () => {
+    dispatch(userLogout());
+    if (userLoginStatus == "error") {
+      <Navigate to={"/"} />;
+    }
+  };
   return (
     <main
       className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
 `}
     >
-      User Geda
+      <button
+        onClick={setLogoutUser}
+        className=" h-20 w-20 py-2 px-6 bg-green-400"
+      >
+        Logout
+      </button>
     </main>
   );
 };

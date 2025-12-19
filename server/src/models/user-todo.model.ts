@@ -8,20 +8,25 @@ import mongoose, { Schema, Document } from "mongoose";
  * - rest of the fields describe the todo itself
  */
 export type TodoStatus = "pending" | "in-progress" | "completed";
-export type TodoPriority = "low" | "medium" | "high" | "urgent";
-export type TodoMode = "archived" | "trashed";
+export type TodoPriority = "low" | "medium" | "high";
+export type TodoLifecycle = "active" | "archived" | "trashed";
+
 export interface ITodo extends Document {
-  user: mongoose.Types.ObjectId;   // reference to User document
+  user: mongoose.Types.ObjectId;
+
   title: string;
   description?: string;
+
   status: TodoStatus;
+  lifecycle: TodoLifecycle;
+
   priority: TodoPriority;
+
   tags?: string[];
   dueDate?: Date;
   completedAt?: Date;
   reminders?: Date[];
-  isArchived?: boolean;
-  isTrashed?: boolean;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -96,15 +101,11 @@ const TodoSchema = new Schema<ITodo>(
     },
 
     // Recently added
-    isArchived: {
-      type: Boolean,
-      default: false,
+    lifecycle: {
+      type: String,
+      enum: ["active", "archived", "trashed"],
+      default: "active",
     },
-    isTrashed: {
-      type: Boolean,
-      default: false,
-    }
-
 
   },
 

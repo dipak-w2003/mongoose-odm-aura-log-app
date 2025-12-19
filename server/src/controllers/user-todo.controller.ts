@@ -117,133 +117,53 @@ export const deleteTodo = async (req: IExtendedRequest, res: Response) => {
 };
 
 
-// Enable Todo Archived
-export const setTodoArchive = async (req: IExtendedRequest, res: Response) => {
+// setTodoLifecycle
+export const setTodoLifecycle = async (req: IExtendedRequest, res: Response) => {
   try {
-    const userId = req.user?.id
-    const todoId: string = req.params.id
+    const userId = req.user?.id;
+    const todoId = req.params.id;
+    const { todoLifecycle } = req.body;
+
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+
     if (!todoId) {
-      return res.status(400).json({ message: "Invalid todo id!" });
+      return res.status(400).json({ message: "Invalid todo id" });
     }
-    const _todoSetArchiveUpdated = await TodoModel.findOneAndUpdate(
-      // ownership check
+
+    const allowedLifecycles = ["active", "archived", "trashed"] as const;
+    const normalizedLifecycle = String(todoLifecycle).toLowerCase();
+
+    if (!allowedLifecycles.includes(normalizedLifecycle as any)) {
+      return res.status(400).json({
+        message: "Invalid todo lifecycle provided",
+      });
+    }
+
+    const updatedTodo = await TodoModel.findOneAndUpdate(
       { _id: todoId, user: userId },
-      { isArchived: true },
+      { lifecycle: normalizedLifecycle },
       { new: true }
-      // return updated document
     );
-    if (!_todoSetArchiveUpdated) {
+
+    if (!updatedTodo) {
       return res.status(404).json({ message: "Todo not found or not yours" });
     }
-    res.status(200).json({
-      message: "Todo archiving enable updated successfully",
-      data: _todoSetArchiveUpdated
+
+    return res.status(200).json({
+      message: "Todo lifecycle updated successfully",
+      data: updatedTodo,
     });
 
   } catch (error: any) {
-    res.status(500).json({ message: error.message || "Server error" });
-
-  }
-}
-
-// Disbale Todo Archived
-export const unsetTodoArchive = async (req: IExtendedRequest, res: Response) => {
-  try {
-    const userId = req.user?.id
-    const todoId: string = req.params.id
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    if (!todoId) {
-      return res.status(400).json({ message: "Invalid todo id!" });
-    }
-    const __todoUnsetArchiveUpdated = await TodoModel.findOneAndUpdate(
-      // ownership check
-      { _id: todoId, user: userId },
-      { isArchived: false },
-      { new: true }
-      // return updated document
-    );
-    if (!__todoUnsetArchiveUpdated) {
-      return res.status(404).json({ message: "Todo not found or not yours" });
-    }
-    res.status(200).json({
-      message: "Todo updated successfully",
-      data: __todoUnsetArchiveUpdated
+    return res.status(500).json({
+      message: error.message || "Server error",
     });
-
-  } catch (error: any) {
-    res.status(500).json({ message: error.message || "Server error" });
   }
-}
+};
 
 
-// Set Trash Todo
-export const setTodoTrashed = async (req: IExtendedRequest, res: Response) => {
-  try {
-    const userId = req.user?.id
-    const todoId: string = req.params.id
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    if (!todoId) {
-      return res.status(400).json({ message: "Invalid todo id!" });
-    }
-    const _todoSetTrashedUpdated = await TodoModel.findOneAndUpdate(
-      // ownership check
-      { _id: todoId, user: userId },
-      { isTrashed: true },
-      { new: true }
-      // return updated document
-    );
-    if (!_todoSetTrashedUpdated) {
-      return res.status(404).json({ message: "Todo not found or not yours" });
-    }
-    res.status(200).json({
-      message: "Todo Trashed successfully",
-      data: _todoSetTrashedUpdated
-    });
-  } catch (error: any) {
-    res.status(501).json({
-      message: error.message || "internal server error !"
-    })
-  }
-}
-
-// Todo Unset/ Restore Trash like 
-export const unsetTodoTrashed = async (req: IExtendedRequest, res: Response) => {
-  try {
-    const userId = req.user?.id
-    const todoId: string = req.params.id
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    if (!todoId) {
-      return res.status(400).json({ message: "Invalid todo id!" });
-    }
-    const _todoUnsetTrashedUpdated = await TodoModel.findOneAndUpdate(
-      // ownership check
-      { _id: todoId, user: userId },
-      { isTrashed: false },
-      { new: true }
-      // return updated document
-    );
-    if (!_todoUnsetTrashedUpdated) {
-      return res.status(404).json({ message: "Todo not found or not yours" });
-    }
-    res.status(200).json({
-      message: "Todo restored successfully",
-      data: _todoUnsetTrashedUpdated
-    });
-  } catch (error: any) {
-    res.status(501).json({
-      message: error.message || "internal server error !"
-    })
-  }
-}
 
 /**@Todo_Staus */
 export const setTodoStatus = async (req: IExtendedRequest, res: Response) => {

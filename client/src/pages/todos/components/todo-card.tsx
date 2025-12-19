@@ -1,7 +1,6 @@
 import { lazy } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { ITodo } from "@/lib/store/todos/todos-slice-type";
-import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
+import type { ITodo, todoLifecycle } from "@/lib/store/todos/todos-slice-type";
 import {
   deleteAnEntireTodo,
   setActiveTodoId,
@@ -10,7 +9,11 @@ import type { AppDispatch } from "@/lib/store/store";
 import { useDispatch } from "react-redux";
 import { DateStrToDateKTM } from "@/utils/luxon-module";
 import { TodoSubtaskAddACard } from "./todo-subtask-add-a-card";
+import type { ITodoSubtasks } from "@/lib/store/todos/todo-subtasks-slice";
 
+// ASSETS
+import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
+// COMPONENTS
 const PieChart = lazy(
   () => import("@/components/most-use/circular-progress-bar-pie")
 );
@@ -19,11 +22,12 @@ const TodoMiddleContent = lazy(() => import("./todo-middle-content"));
 const TodoBottomContents = lazy(() => import("./todo-bottom-content"));
 const TodoCardFooter = lazy(() => import("./todo-card-footer"));
 
+// INTERFACE
 interface TodoCardProps {
   todo: ITodo;
   isSelected: boolean;
   onToggle: () => void;
-  subtasks: any[];
+  subtasks: ITodoSubtasks[];
 }
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
@@ -33,10 +37,11 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
     );
 
     const COMPLETED = FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO.filter(
-      (st) => st.completionStatus && st.status === "completed"
+      (st) => st.completionStatus
     ).length;
 
-    const TOTAL = subtasks.length;
+    // only total from same todoId
+    const TOTAL = FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO.length;
 
     // Math-based percentage: (COMPLETED / TOTAL) * 100
     let SUBTASK_PROGRESS: number;
@@ -89,6 +94,8 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
         {/* TOP SECTION */}
         <article className="w-full flex justify-between items-start border-b border-[#022A2A] pb-3">
           <TodoUpperLeftContent
+            id={todo._id}
+            lifecycle={todo?.lifecycle as todoLifecycle}
             title={todo.title}
             tags={todo.tags}
             priority={todo.priority}
@@ -104,13 +111,8 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             onToggle();
             dispatch(setActiveTodoId(todo._id));
           }}
-          className="
-            absolute h-[28px] w-[28px] 
-            bg-[#111711] rounded-full 
-            flex justify-center items-center
-            border border-[#022A2A]
-            -bottom-4 left-1/2 -translate-x-1/2
-          "
+          className=" absolute h-[28px] w-[28px] bg-[#111711] rounded-full flex justify-center items-center border border-[#022A2A]
+          -bottom-4 left-1/2 -translate-x-1/2 cursor-pointer"
         >
           <img
             src={triangleCircledSVG}

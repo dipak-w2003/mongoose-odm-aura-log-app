@@ -28,11 +28,15 @@ const userLoginSlice = createSlice({
     },
     setLoginStatus(state, action: PayloadAction<Status>) {
       state.status = action.payload
-    }
+    },
 
+    setLogout(state) {
+      state.user = null
+      localStorage.removeItem("userlogs")
+    }
   }
 })
-export const { setLoginStatus, setLoginUser } = userLoginSlice.actions
+export const { setLoginStatus, setLoginUser, setLogout } = userLoginSlice.actions
 export default userLoginSlice.reducer
 
 
@@ -51,6 +55,14 @@ export function userLogin(data: IUserLogin) {
         return;
       }
     }
+    dispatch(setLoginStatus(Status.ERROR))
+  }
+}
+
+
+export function userLogout() {
+  return async function userLogoutThunk(dispatch: AppDispatch) {
+    dispatch(setLogout())
     dispatch(setLoginStatus(Status.ERROR))
   }
 }
