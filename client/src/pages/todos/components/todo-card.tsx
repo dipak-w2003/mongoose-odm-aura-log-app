@@ -13,6 +13,7 @@ import type { ITodoSubtasks } from "@/lib/store/todos/todo-subtasks-slice";
 
 // ASSETS
 import { triangleCircledSVG } from "@/other/assets/svg/collectionSVG";
+import { normalPercentageProvider } from "@/utils/percentage-provider";
 // COMPONENTS
 const PieChart = lazy(
   () => import("@/components/most-use/circular-progress-bar-pie")
@@ -31,40 +32,20 @@ interface TodoCardProps {
 }
 
 const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
-  const SUBTASK_PROGRESS_Number = (): number => {
-    const FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO = subtasks.filter(
-      (_) => _.todoId == todo._id
-    );
+  const dispatch: AppDispatch = useDispatch();
 
-    const COMPLETED = FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO.filter(
+  const progressPercentage = (): number => {
+    const SPECIFIED_SUBTASK_LIST = subtasks.filter((_) => _.todoId == todo._id);
+    const COMPLETED = SPECIFIED_SUBTASK_LIST.filter(
       (st) => st.completionStatus
     ).length;
-
     // only total from same todoId
-    const TOTAL = FILTEROUT_CERTAIN_SUBTASK_LINKED_TO_SPECIFIC_TODO.length;
-
-    // Math-based percentage: (COMPLETED / TOTAL) * 100
-    let SUBTASK_PROGRESS: number;
-
-    if (TOTAL <= 0) {
-      SUBTASK_PROGRESS = 0;
-    } else {
-      SUBTASK_PROGRESS = Math.round((COMPLETED / TOTAL) * 100);
-
-      // Optional: ensure a tiny visible floor if any progress exists
-      if (SUBTASK_PROGRESS > 0 && SUBTASK_PROGRESS < 5) SUBTASK_PROGRESS = 5;
-    }
-
-    // Safety clamp
-    if (SUBTASK_PROGRESS < 0) SUBTASK_PROGRESS = 0;
-    if (SUBTASK_PROGRESS > 100) SUBTASK_PROGRESS = 100;
-
-    return SUBTASK_PROGRESS;
+    const TOTAL = SPECIFIED_SUBTASK_LIST.length;
+    return normalPercentageProvider({ total: TOTAL, perOf: COMPLETED });
   };
 
-  const dispatch: AppDispatch = useDispatch();
   return (
-    <div className="group w-full">
+    <div className="group w-full" id={`todo-${todo._id}`}>
       <motion.div
         className={`
         w-full rounded-lg border border-[#022A2A]
@@ -102,7 +83,7 @@ const TodoCard = ({ todo, isSelected, onToggle, subtasks }: TodoCardProps) => {
             date={DateStrToDateKTM(todo.dueDate).formatted}
           />
           {/* pie chart progress in the percent basis of subtask.completionStatus */}
-          <PieChart progress={SUBTASK_PROGRESS_Number()} label="" />
+          <PieChart progress={progressPercentage()} label="" />
         </article>
 
         {/* TOGGLE BUTTON */}

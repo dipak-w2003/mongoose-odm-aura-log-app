@@ -4,7 +4,7 @@ import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ITempTodoCollector } from "./temp-todos-collector-slice";
-import { deleteSubtasksLinkedToCertainTodoId } from "./todo-subtasks-slice";
+import { deleteSubtasksLinkedToCertainTodoId, setTodoSubtaskStatus } from "./todo-subtasks-slice";
 
 //  For Update and Delete Todos and Subtask 
 /**
@@ -18,6 +18,7 @@ import { deleteSubtasksLinkedToCertainTodoId } from "./todo-subtasks-slice";
  */
 const initialState: ITodoInitialState = {
   activeTodoId: "",
+  justCreatedTodoId: "",
   todo: [],
   status: Status.LOADING
 }
@@ -26,7 +27,13 @@ const TodoSlice = createSlice({
   name: "todos-slice",
   initialState: initialState,
   reducers: {
-
+    setJustCreatedTodoId(state, action: PayloadAction<{ id: string }>) {
+      state.justCreatedTodoId = action.payload.id
+    }, resetJustCreatedTodoId(state) {
+      state.justCreatedTodoId = null
+    },
+    // TODO : A error came
+    /** While this function called for a bottom-content from triangle-shape toggle. It call re-renders or calls fetchFunctions on the first click. */
     setActiveTodoId(state, action: PayloadAction<string>) {
       state.activeTodoId = action.payload
     },
@@ -73,76 +80,97 @@ const TodoSlice = createSlice({
     }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId, setTodoLifecyle } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId, setTodoLifecyle, setJustCreatedTodoId, resetJustCreatedTodoId } = TodoSlice.actions
 export default TodoSlice.reducer
 
 
 // Fetch Todos
 export function fetchTodos() {
   return async function (dispatch: AppDispatch) {
+    dispatch(resetJustCreatedTodoId())
     const todos_response = await APIWITHTOKEN.get("/user/todo")
-    const subtask_response = await APIWITHTOKEN.get("/user/todo/subtask")
     if (todos_response.status !== 200) {
       dispatch(setTodoStatus(Status.ERROR))
       return;
     }
-    // console.log("SUBTASKS : ", subtask_response.data.data);
-    console.log(subtask_response.status);
-
     let data: ITodo[] | null = null;
     data = todos_response.data?.data
     if (data && data.length !== 0) {
       dispatch(setTodoStatus(Status.SUCCESS))
-      // const _idTOid = data.map((_) => {
-      //   return { ..._, id: _._id }
-      // })
-
       dispatch(fetchTodo({ todos: data }))
+
     }
   }
 }
 
-// Add Todo
+// Add Todo : Main Todo & Subtasks
 export function addTodos(data: ITempTodoCollector) {
   return async function (dispatch: AppDispatch) {
+    try {
+      dispatch(setTodoStatus(Status.LOADING));
 
-    /**@FIRST_Response */
-    const [yyyy, mm, dd] = data.dueDate.split("-")
-    console.log([yyyy, mm, dd]);
-    const { description, priority, time, title, tags, dueDate } = data
-    const todo_reponse = await APIWITHTOKEN.post("/user/todo", { description, priority, time, title, tags, dueDate })
-    if (todo_reponse.status !== 201) {
-      dispatch(setTodoStatus(Status.ERROR))
-      return;
+      const { description, priority, time, title, tags, dueDate } = data;
+
+      /** FIRST: create todo */
+      const todoResponse = await APIWITHTOKEN.post("/user/todo", {
+        description,
+        priority,
+        time,
+        title,
+        tags,
+        dueDate,
+        lifecycle: "active",
+      });
+
+      if (todoResponse.status !== 201) {
+        dispatch(setTodoStatus(Status.ERROR));
+        return;
+      }
+
+      const createdTodo = todoResponse.data.todo;
+      const createdTodoId = createdTodo._id;
+
+      if (!createdTodoId) {
+        dispatch(setTodoStatus(Status.ERROR));
+        return;
+      }
+
+      // ✅ store real backend todo
+      dispatch(addTodo({ todo: createdTodo }));
+      dispatch(setJustCreatedTodoId({ id: createdTodoId }));
+
+      /** SECOND: create subtasks (if any) */
+      if (!data.subtask || data.subtask.length === 0) {
+        dispatch(setTodoStatus(Status.SUCCESS));
+        return;
+      }
+
+      const subtaskPayload = data.subtask.map((title, index) => ({
+        todoId: createdTodoId,
+        title,
+        position: index + 1,
+      }));
+
+      const subtaskResponse = await APIWITHTOKEN.post(
+        "/user/todo/subtask",
+        subtaskPayload
+      );
+
+      if (subtaskResponse.status !== 201) {
+        dispatch(setTodoSubtaskStatus(Status.ERROR));
+        dispatch(setTodoStatus(Status.ERROR));
+        return;
+      }
+
+      dispatch(setTodoStatus(Status.SUCCESS));
+      dispatch(setTodoSubtaskStatus(Status.SUCCESS));
+    } catch (err) {
+      dispatch(setTodoStatus(Status.ERROR));
+      dispatch(setTodoSubtaskStatus(Status.ERROR));
     }
-
-    dispatch(addTodo({ todo: data }))
-    // console.log("THUNK DATA : ", data);
-
-    /**@SECOND_Response */
-    const _justCreatedTodoId = todo_reponse.data._justCreatedTodoId || null
-    console.log("Todo.id : ", _justCreatedTodoId);
-
-    //  Map new Subtask =>  { todoId: xyz, title:abc, position: index + 1 }
-    const tempSubtask = data.subtask?.map((_, __) => {
-      return { todoId: _justCreatedTodoId, title: _, position: __ + 1 }
-    })
-
-
-    if (data.subtask && data.subtask?.length < 0) {
-      dispatch(setTodoStatus(Status.SUCCESS))
-      return
-    }
-
-    const todosubtask_reponse = await APIWITHTOKEN.post("/user/todo/subtask", tempSubtask)
-
-    if (todosubtask_reponse.status !== 201) {
-      dispatch(setTodoStatus(Status.ERROR))
-      return;
-    }
-
-  }
+  };
 }
+
 
 // Delete Todo
 export async function deleteTodos(id: string) {

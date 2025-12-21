@@ -107,11 +107,12 @@ export function fetchTodoSubtasks() {
     // console.log("SUBTASK LIST : ", _list);
 
     // if (_list.length < 0 && !_list) return;
+    dispatch(setTodoSubtaskStatus(Status.SUCCESS));
     dispatch(setTodoSubtasks(_list));
   };
 }
 
-
+// Function : Set TodoSubtasks Completion Status Single One
 export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1 }: { id: string, statusBoolean: boolean | 0 | 1 }) {
   return async function SetTodoSubtasksCompletionStatusSingleOneThunk(dispatch: AppDispatch) {
     if (!id && id.length > 0) {
@@ -128,7 +129,7 @@ export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1
   }
 }
 
-// Todo-Subtask-Completion-Status/Message
+// Function Todo-Subtask-Completion-Status/Message
 export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, completionMessage = "completion message !", todoId }: { id: string, completionMessage: string, todoId: string }) {
 
   return async function SetTodoSubtasksCompletionStatusAndMessageSingleOneThunk(dispatch: AppDispatch) {
@@ -145,7 +146,7 @@ export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, complet
   }
 }
 
-// Add Todo Subtask
+// Interface
 export interface addTodoSubtaskProps {
   certainSubtaskLength: number,
   data: {
@@ -153,6 +154,7 @@ export interface addTodoSubtaskProps {
     title: string;
   }
 }
+// Function : Add Todo Subtask
 export function addTodoSubtask({ certainSubtaskLength, data }: addTodoSubtaskProps) {
   return async function addTodoSubtaskThunk(dispatch: AppDispatch) {
     const finalized_data = { ...data, position: Number(certainSubtaskLength + 1) }
@@ -161,7 +163,7 @@ export function addTodoSubtask({ certainSubtaskLength, data }: addTodoSubtaskPro
       dispatch(setTodoSubtaskStatus("error"))
     }
     const received: ITodoSubtasks = response.data.data
-    console.log(received);
+    // console.log(received);
 
     dispatch(setTodoSubtaskStatus("success"))
     dispatch(addTodoSubtasks(received))

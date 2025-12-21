@@ -1,16 +1,18 @@
-import HomePage from "./pages/home/home-page";
 import {
   createBrowserRouter,
   Navigate,
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import { SidebarLayout } from "./components/other/sidebar/sidebar-layout";
-import PageNotFound404 from "./pages/error/page-not-found-page";
 import { lazy, type JSX } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./lib/store/store";
 import { userLogout } from "./lib/store/global/auth/login/user-login-slice";
+
+/**@Other Components */
+const HomePage = lazy(() => import("./pages/home/home-page"));
+import { SidebarLayout } from "./components/other/sidebar/sidebar-layout";
+const PageNotFound404 = lazy(() => import("./pages/error/page-not-found-page"));
 
 /**@Todos_IMPORT */
 const TodoMainPage = lazy(() => import("./pages/todos/todo-main-page"));
@@ -51,11 +53,12 @@ const AllBlogsMainPage = lazy(
   () => import("./pages/blogs/all-blogs/all-blogs-main-page")
 );
 
-/**@Else_IMPORT */
+/**@Else_IMPORT Components */
 const RegisterFormPage = lazy(
   () => import("./pages/global/auth/register/register-form-page")
 );
 const LoginPage = lazy(() => import("./pages/global/auth/login/login-page"));
+
 const Layout = () => (
   <main
     className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
@@ -73,6 +76,7 @@ const Layout = () => (
   </main>
 );
 
+// User Page
 const User = () => {
   const { status: userLoginStatus } = useSelector(
     (state: RootState) => state.userLogin
@@ -86,7 +90,7 @@ const User = () => {
   };
   return (
     <main
-      className={`flex h-screen max-h-screen overflow-hidden scrollbar-hidden
+      className={`flex h-screen  overflow-x-hidden scrollbar-hidden
 `}
     >
       <button
@@ -99,12 +103,14 @@ const User = () => {
   );
 };
 
+// Private routeer
 function PrivateRoute({ children }: { children: JSX.Element }) {
   const { user } = useSelector((state: RootState) => state.userLogin);
   const isLoggedIn = user && user?.token && user?.username ? true : false;
   return isLoggedIn ? children : <Navigate to="/login" />;
 }
 
+// Public Route
 function PublicRoute({ children }: { children: JSX.Element }) {
   const { user } = useSelector((state: RootState) => state.userLogin);
   const isLoggedIn = user && user?.token && user?.username ? true : false;

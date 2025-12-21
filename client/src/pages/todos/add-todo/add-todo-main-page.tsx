@@ -16,6 +16,7 @@ import {
 import { addTodos } from "@/lib/store/todos/todos-slice";
 import DateTimePicker from "../archived-todos/draft-idea";
 import { formatKathmanduISO, formatUTCISO } from "@/utils/luxon-module";
+import { useNavigate } from "react-router-dom";
 
 const AddTodoMainPage = () => {
   const handleDate = (d: Date) => {
@@ -28,7 +29,9 @@ const AddTodoMainPage = () => {
   const { _isNullificationExists, todo: tempTodos } = useSelector(
     (state: RootState) => state.tempTodoCollector
   );
-  const { status: todoStatus } = useSelector((state: RootState) => state.todos);
+  const { status: todoStatus, justCreatedTodoId } = useSelector(
+    (state: RootState) => state.todos
+  );
 
   // Fallback to ensure controlled inputs
   const tempTodosSafe = tempTodos || {
@@ -44,6 +47,7 @@ const AddTodoMainPage = () => {
     dispatch(setValidateTodoTempCollectionNullifification());
   }, [dispatch, tempTodos]);
 
+  const navigate = useNavigate();
   // Submit form
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +58,8 @@ const AddTodoMainPage = () => {
     dispatch(addTodos(tempTodosSafe));
     dispatch(resetTempTodoCollector());
     console.log("Todo added successfully");
+    // TODO : Make a slice with extra state like justCreatedTodoId so it will be trackable future todos after created
+    navigate(`/user/todos/all-todos#`);
   };
 
   // Motion variants
@@ -61,7 +67,9 @@ const AddTodoMainPage = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
   };
-
+  useEffect(() => {
+    if (!justCreatedTodoId) return;
+  }, [justCreatedTodoId, navigate, dispatch]);
   return (
     <motion.main
       className="p-3 overflow-hidden"

@@ -18,6 +18,7 @@ export interface ITodo {
 }
 export interface ITodoInitialState {
   activeTodoId: string;
+  justCreatedTodoId: string | null;
   todo: ITodo[],
   status: Status
 }
