@@ -45,15 +45,17 @@ const AllTodosMainPage = () => {
           {todoStatus === "loading" ? (
             <TodoCardSkeleton />
           ) : (
-            todosListState.map((todo) => (
-              <TodoCard
-                key={todo._id}
-                todo={todo}
-                isSelected={isSelected(todo._id)}
-                onToggle={() => handleSingleSelect(todo._id)}
-                subtasks={todoSubtasksListState}
-              />
-            ))
+            todosListState
+              .filter((_) => _.lifecycle == "active")
+              .map((todo) => (
+                <TodoCard
+                  key={todo._id}
+                  todo={todo}
+                  isSelected={isSelected(todo._id)}
+                  onToggle={() => handleSingleSelect(todo._id)}
+                  subtasks={todoSubtasksListState}
+                />
+              ))
           )}
         </section>
       </TodoPagesWrapperWithFilterPanel>

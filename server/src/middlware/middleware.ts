@@ -24,8 +24,8 @@ export const isLoggedIn = asyncErrorHandler(
             }); // ✅ return here too
           }
 
-          console.log("Middleware accessed");
-          console.log(successMessage);
+          // console.log("Middleware accessed");
+          // console.log(successMessage);
 
           const userData = (await UserModel.findById(successMessage?.id)) as IUser;
 

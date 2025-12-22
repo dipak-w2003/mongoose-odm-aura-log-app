@@ -219,12 +219,12 @@ export function deleteAnEntireTodo(id: string) {
 // Set Todo Life Cycle
 export function updateTodoLifecycle({ id, lifecycle }: { id: string, lifecycle: todoLifecycle }) {
   return async function updateTodoLifecycleThunk(dispatch: AppDispatch) {
-    dispatch(setTodoStatus(Status.LOADING))
     const response = await APIWITHTOKEN.patch(`/user/todo/${id}/todo-lifecycle`, { todoLifecycle: lifecycle })
     if (response.status !== 200) {
-      return dispatch(setTodoStatus(Status.ERROR))
+      dispatch(setTodoStatus(Status.ERROR))
+      return
     }
-    console.log(lifecycle);
+    // console.log(lifecycle);
 
     dispatch(setTodoStatus(Status.SUCCESS))
     dispatch(setTodoLifecyle({ id, lifecycle }))
