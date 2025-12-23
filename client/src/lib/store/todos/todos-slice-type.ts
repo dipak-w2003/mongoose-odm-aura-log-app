@@ -14,7 +14,8 @@ export interface ITodo {
   dueDate: string;
   time: string
   lifecycle?: todoLifecycle;
-
+  createdAt?: string;
+  updatedAt?: string;
 }
 export interface ITodoInitialState {
   activeTodoId: string;

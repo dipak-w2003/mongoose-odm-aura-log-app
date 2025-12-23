@@ -108,7 +108,7 @@ export const updateEntireSubTasks = async (req: IExtendedRequest, res: Response)
     await TodoSubtaskModel.deleteMany({ user: userId });
 
     // Insert new subtasks
-    const inserted = await TodoSubtaskModel.insertMany(validSubtasks);
+    const inserted = await TodoSubtaskModel.insertMany(validSubtasks,);
     res.status(200).json({
       message: `Replaced ${inserted.length} subtasks successfully`,
       subtasks: inserted,
@@ -144,7 +144,7 @@ export const setASubtaskCompletionStatus = async (req: IExtendedRequest, res: Re
         completionStatus: USER_A_DEFAULT_SUBTASK_COMPLETION_STATUS,
       },
       {
-        new: true
+        new: true, timestamps: true
       })
 
     if (!_todoSetSubtaskCompletionStatus) return res.status(404).json({
@@ -183,7 +183,7 @@ export const setSubtaskCompletionMessage = async (req: IExtendedRequest, res: Re
         completionStatus: true,
         completionMessage
       },
-      { new: true }
+      { new: true, timestamps: true }
     );
 
     if (!updatedSubtask)

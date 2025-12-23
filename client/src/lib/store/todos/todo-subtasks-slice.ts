@@ -88,10 +88,16 @@ const todoSubtasksSlice = createSlice({
       };
     },
 
-
+    updateSubtaskUpdatedAt(state, action: PayloadAction<{ id: string }>) {
+      const idx = state.subtasks.findIndex(_ => _._id == action.payload.id)
+      if (idx < 0) return;
+      const data = state.subtasks[idx]
+      const now = String(new Date())
+      state.subtasks[idx] = { ...data, updatedAt: now }
+    }
   }
 });
-export const { setTodoSubtasks, setTodoSubtaskStatus, deleteSubtasksLinkedToCertainTodoId, editWhatSubtaskSingleData, addTodoSubtasks } =
+export const { setTodoSubtasks, setTodoSubtaskStatus, deleteSubtasksLinkedToCertainTodoId, editWhatSubtaskSingleData, addTodoSubtasks, updateSubtaskUpdatedAt } =
   todoSubtasksSlice.actions;
 export default todoSubtasksSlice.reducer;
 
@@ -122,6 +128,7 @@ export function SetTodoSubtasksCompletionStatusSingleOne({ id, statusBoolean = 1
     const response = await APIWITHTOKEN.post("/user/todo/subtask/set-a-completion-status/" + id, { statusBoolean })
     if (response.status === 201) {
       dispatch(setTodoSubtaskStatus(Status.SUCCESS))
+      dispatch(updateSubtaskUpdatedAt({ id }))
       console.log("Sub task completion successfully ticked !");
     } else {
       dispatch(setTodoSubtaskStatus(Status.ERROR))
@@ -142,6 +149,7 @@ export function SetTodoSubtasksCompletionStatusAndMessageSingleOne({ id, complet
     dispatch(editWhatSubtaskSingleData({ key: "completionMessage", value: completionMessage, subtaskId: id }))
     dispatch(editWhatSubtaskSingleData({ key: "status", value: "completed", subtaskId: id }))
     dispatch(editWhatSubtaskSingleData({ key: "completionStatus", value: true, subtaskId: id }))
+    dispatch(updateSubtaskUpdatedAt({ id }))
     dispatch(setTodoSubtaskStatus(Status.SUCCESS))
   }
 }

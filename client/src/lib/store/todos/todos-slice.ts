@@ -68,7 +68,9 @@ const TodoSlice = createSlice({
 
 
     deleteTodo(state, action: PayloadAction<{ todoId: string }>) {
-      state.todo = state.todo.filter(todo => todo._id !== action.payload.todoId);
+      const idx = state.todo.findIndex(_ => _._id == action.payload.todoId)
+      if (idx < 0) return;
+      state.todo.splice(idx, 1)
     },
 
 
@@ -77,10 +79,17 @@ const TodoSlice = createSlice({
       const _index = state.todo.findIndex(t => t._id === action.payload.id);
       if (_index < 0) return; // not found
       state.todo[_index].lifecycle = action.payload.lifecycle;
+    },
+    updateTodoUpdateAt(state, action: PayloadAction<{ id: string }>) {
+      const idx = state.todo.findIndex(_ => _._id == action.payload.id)
+      if (idx < 0) return;
+      const data = state.todo[idx]
+      const now = String(new Date())
+      state.todo[idx] = { ...data, updatedAt: now }
     }
   }
 })
-export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId, setTodoLifecyle, setJustCreatedTodoId, resetJustCreatedTodoId } = TodoSlice.actions
+export const { addTodo, setTodoStatus, fetchTodo, deleteTodo, EditMainStateTodo, setActiveTodoId, setTodoLifecyle, setJustCreatedTodoId, resetJustCreatedTodoId, updateTodoUpdateAt } = TodoSlice.actions
 export default TodoSlice.reducer
 
 
@@ -177,9 +186,13 @@ export async function deleteTodos(id: string) {
   return async function (dispatch: AppDispatch) {
     if (!id) return;
     const response = await APIWITHTOKEN.delete("/user/todo/" + id)
-    if (response.status !== 200) return;
-    dispatch(fetchTodos());
-
+    if (response.status !== 200) {
+      dispatch(setTodoStatus(Status.ERROR))
+      return
+    };
+    dispatch(setActiveTodoId(""))
+    dispatch(deleteTodo({ todoId: id }))
+    dispatch(setTodoStatus(Status.SUCCESS))
   }
 }
 
@@ -227,6 +240,7 @@ export function updateTodoLifecycle({ id, lifecycle }: { id: string, lifecycle: 
     // console.log(lifecycle);
 
     dispatch(setTodoStatus(Status.SUCCESS))
+    dispatch(updateTodoUpdateAt({ id }))
     dispatch(setTodoLifecyle({ id, lifecycle }))
   }
 }

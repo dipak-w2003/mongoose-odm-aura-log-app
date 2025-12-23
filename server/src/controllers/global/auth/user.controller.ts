@@ -189,7 +189,10 @@ export const verifyUser = async (req: IExtendedRequest, res: Response) => {
     await UserModel.findOneAndUpdate(
       { _id: userId },
       { $set: { is_verified: true } },
-      { new: true }
+      {
+        new: true,
+        timestamps: true
+      },
       // return updated document
     );
     return res.status(201).json({
@@ -279,7 +282,8 @@ export const updateUser = async (req: IExtendedRequest, res: Response) => {
     // Update user
     const updatedUser = await UserModel.findByIdAndUpdate(id, updateData, {
       new: true,        // return the updated document
-      runValidators: true // validate against schema
+      runValidators: true, // validate against schema
+      timestamps: true
     });
 
     if (!updatedUser) {

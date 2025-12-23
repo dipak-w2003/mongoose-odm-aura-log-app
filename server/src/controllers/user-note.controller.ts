@@ -49,7 +49,7 @@ export const updateNote = async (req: IExtendedRequest, res: Response) => {
   const updatedNote = await NoteModel.findOneAndUpdate(
     { _id: noteId, user: userId },
     updateData,
-    { new: true }
+    { new: true, timestamps: true }
   );
 
   if (!updatedNote) return res.status(404).json({ message: "Note not found or not authorized!" });

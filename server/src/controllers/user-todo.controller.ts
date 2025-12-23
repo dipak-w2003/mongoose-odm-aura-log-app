@@ -73,7 +73,7 @@ export const updateTodo = async (req: IExtendedRequest, res: Response) => {
       // ownership check
       { _id: todoId, user: userId },
       updateData,
-      { new: true }
+      { new: true, timestamps: true }
       // return updated document
     );
 
@@ -144,7 +144,7 @@ export const setTodoLifecycle = async (req: IExtendedRequest, res: Response) => 
     const updatedTodo = await TodoModel.findOneAndUpdate(
       { _id: todoId, user: userId },
       { lifecycle: normalizedLifecycle },
-      { new: true }
+      { new: true, timestamps: true }
     );
 
     if (!updatedTodo) {
@@ -186,7 +186,7 @@ export const setTodoStatus = async (req: IExtendedRequest, res: Response) => {
       // ownership check
       { _id: todoId, user: userId },
       { status: todoStatus },
-      { new: true }
+      { new: true, timestamps: true }
       // return updated document
     );
     if (!_todoStatusUpdated) {
