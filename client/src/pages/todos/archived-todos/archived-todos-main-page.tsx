@@ -19,11 +19,11 @@ const ArchivedTodosMainPage = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (["error", "loading"].includes(todoStatus)) {
+    if (["error"].includes(todoStatus)) {
       dispatch(fetchTodos());
     }
 
-    if (["error", "loading"].includes(subtaskStatus)) {
+    if (["error"].includes(subtaskStatus)) {
       dispatch(fetchTodoSubtasks());
     }
   }, [todoStatus, subtaskStatus, dispatch]);

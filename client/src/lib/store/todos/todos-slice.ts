@@ -5,6 +5,7 @@ import type { AppDispatch } from "../store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ITempTodoCollector } from "./temp-todos-collector-slice";
 import { deleteSubtasksLinkedToCertainTodoId, setTodoSubtaskStatus } from "./todo-subtasks-slice";
+import { formatUTCISO } from "@/utils/luxon-module";
 
 //  For Update and Delete Todos and Subtask 
 /**
@@ -84,8 +85,11 @@ const TodoSlice = createSlice({
       const idx = state.todo.findIndex(_ => _._id == action.payload.id)
       if (idx < 0) return;
       const data = state.todo[idx]
-      const now = String(new Date())
-      state.todo[idx] = { ...data, updatedAt: now }
+      const now = String(formatUTCISO(new Date()))
+      console.log(now);
+
+      state.todo.splice(idx, 1, { ...data, updatedAt: now })
+
     }
   }
 })
@@ -113,6 +117,8 @@ export function fetchTodos() {
 }
 
 // Add Todo : Main Todo & Subtasks
+// TODO : ONLY todo is being created or hitting api
+// May be beacuse of Todo & other state status error
 export function addTodos(data: ITempTodoCollector) {
   return async function (dispatch: AppDispatch) {
     try {
@@ -204,7 +210,6 @@ export function deleteAnEntireTodo(id: string) {
       return;
     }
 
-    dispatch(setTodoStatus(Status.LOADING));
 
     try {
       const response = await APIWITHTOKEN.delete("/user/donot-touch/delete-an-entire-todo/" + id);

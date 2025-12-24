@@ -3,6 +3,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { APIWITHTOKEN } from "../http/API";
 import type { AppDispatch } from "../store";
 import { setPortalModalClose } from "../additionals/portal-modal/portal-modal-slice";
+import { formatUTCISO } from "@/utils/luxon-module";
 
 /**@Interface_Types */
 export type ITodoSubtasksStatus = "pending" | "completed";
@@ -92,7 +93,7 @@ const todoSubtasksSlice = createSlice({
       const idx = state.subtasks.findIndex(_ => _._id == action.payload.id)
       if (idx < 0) return;
       const data = state.subtasks[idx]
-      const now = String(new Date())
+      const now = String(formatUTCISO(new Date()))
       state.subtasks[idx] = { ...data, updatedAt: now }
     }
   }

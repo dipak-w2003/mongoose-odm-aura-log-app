@@ -23,11 +23,11 @@ const AllTodosMainPage = () => {
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (["error", "loading"].includes(todoStatus)) {
+    if (todoStatus === "error") {
       dispatch(fetchTodos());
     }
 
-    if (["error", "loading"].includes(subtaskStatus)) {
+    if (subtaskStatus === "error") {
       dispatch(fetchTodoSubtasks());
     }
   }, [todoStatus, subtaskStatus, dispatch]);
@@ -39,27 +39,25 @@ const AllTodosMainPage = () => {
   const isSelected = (id: string) => selectedTodos === id;
 
   return (
-    <Suspense fallback={<TodoCardSkeleton />}>
-      <TodoPagesWrapperWithFilterPanel>
-        <section className="flex flex-col w-full gap-8 pb-24 relative">
-          {todoStatus === "loading" ? (
-            <TodoCardSkeleton />
-          ) : (
-            todosListState
-              .filter((_) => _.lifecycle == "active")
-              .map((todo) => (
-                <TodoCard
-                  key={todo._id}
-                  todo={todo}
-                  isSelected={isSelected(todo._id)}
-                  onToggle={() => handleSingleSelect(todo._id)}
-                  subtasks={todoSubtasksListState}
-                />
-              ))
-          )}
-        </section>
-      </TodoPagesWrapperWithFilterPanel>
-    </Suspense>
+    <TodoPagesWrapperWithFilterPanel>
+      <section className="flex flex-col w-full gap-8 pb-24 relative">
+        {todoStatus === "error" ? (
+          <TodoCardSkeleton />
+        ) : (
+          todosListState
+            .filter((todo) => todo.lifecycle === "active")
+            .map((todo) => (
+              <TodoCard
+                key={todo._id}
+                todo={todo}
+                isSelected={isSelected(todo._id)}
+                onToggle={() => handleSingleSelect(todo._id)}
+                subtasks={todoSubtasksListState}
+              />
+            ))
+        )}
+      </section>
+    </TodoPagesWrapperWithFilterPanel>
   );
 };
 
